@@ -1,0 +1,100 @@
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #ffffff;
+  transition: all 0.3s;
+}
+
+.task-item:last-child {
+  margin-bottom: 0;
+}
+
+.task-item:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-item.completed {
+  background-color: #f0f0f0;
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.task-text {
+  flex: 1;
+  font-size: 1rem;
+  color: #000;
+  word-break: break-word;
+  margin-right: 15px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.complete-btn {
+  padding: 8px 15px;
+  background-color: #20b2aa;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+
+.complete-btn:hover {
+  background-color: #1a9b94;
+}
+
+.complete-btn:active {
+  background-color: #158a83;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s;
+  line-height: 1;
+}
+
+.delete-btn:hover {
+  transform: scale(1.1);
+}
+
+.delete-btn:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .task-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .task-text {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .task-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
