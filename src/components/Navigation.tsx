@@ -7,9 +7,6 @@ const Navigation = () => {
         <a href="#zadania" className="nav-link active">
           Zadania
         </a>
-        <a href="#o-autorze" className="nav-link">
-          O autorze
-        </a>
       </div>
     </nav>
   );
