@@ -14,14 +14,11 @@ export const mapTaskFromDb = (item: any): Task => {
 
 /**
  * Przygotowuje dane do zapisu w bazie danych
- * Próbuje użyć różnych nazw kolumn w zależności od schematu
  */
 export const prepareTaskForInsert = (text: string, completed: boolean = false) => {
-  // Najpierw próbuj z 'completed', potem z 'is_completed', na końcu bez kolumny statusu
   return {
     text,
     completed,
-    is_completed: completed,
     created_at: new Date().toISOString()
   };
 };
@@ -31,8 +28,7 @@ export const prepareTaskForInsert = (text: string, completed: boolean = false) =
  */
 export const prepareTaskForUpdate = (completed: boolean) => {
   return {
-    completed,
-    is_completed: completed
+    completed
   };
 };
 
