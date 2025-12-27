@@ -21,7 +21,8 @@ export const prepareTaskForInsert = (text: string, completed: boolean = false) =
   return {
     text,
     completed,
-    is_completed: completed
+    is_completed: completed,
+    created_at: new Date().toISOString()
   };
 };
 
