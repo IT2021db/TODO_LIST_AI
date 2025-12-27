@@ -8,7 +8,7 @@ type TaskItemProps = {
 };
 
 const TaskItem = ({ task, onToggle, onDelete }: TaskItemProps) => {
-  const completedLabel = task.completed ? 'Przywróć' : 'Zakończ';
+  const completedLabel = task.completed ? 'Przywróć' : 'Oznacz jako ukończone';
 
   return (
     <div className={`task-item ${task.completed ? 'completed' : ''}`}>
