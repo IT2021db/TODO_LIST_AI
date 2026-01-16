@@ -4,9 +4,11 @@ import './AddTask.css';
 type AddTaskProps = {
   onAddTask: (taskText: string) => void;
   onLoadExamples: () => void;
+  onRemoveExamples: () => void;
+  hasExampleTasks: boolean;
 };
 
-const AddTask = ({ onAddTask, onLoadExamples }: AddTaskProps) => {
+const AddTask = ({ onAddTask, onLoadExamples, onRemoveExamples, hasExampleTasks }: AddTaskProps) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -18,6 +20,14 @@ const AddTask = ({ onAddTask, onLoadExamples }: AddTaskProps) => {
     setInputValue('');
   };
 
+  const handleExampleButtonClick = () => {
+    if (hasExampleTasks) {
+      onRemoveExamples();
+    } else {
+      onLoadExamples();
+    }
+  };
+
   return (
     <div className="add-task-section">
       <div className="add-task-header">
@@ -25,9 +35,9 @@ const AddTask = ({ onAddTask, onLoadExamples }: AddTaskProps) => {
         <button
           type="button"
           className="load-examples-btn"
-          onClick={onLoadExamples}
+          onClick={handleExampleButtonClick}
         >
-          Pobierz przykładowe zadania
+          {hasExampleTasks ? 'Usuń przykładowe zadania' : 'Pobierz przykładowe zadania'}
         </button>
       </div>
       <form onSubmit={handleSubmit} className="add-task-form">

@@ -6,15 +6,28 @@ import { supabase } from './lib/supabase';
 import { mapTaskFromDb, prepareTaskForInsert, prepareTaskForUpdate } from './lib/taskMapper';
 import './App.css';
 
+const exampleTaskTexts = [
+  'Nauka React',
+  'Spotkanie z zespołem',
+  'Przygotować prezentację'
+];
+
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filterText, setFilterText] = useState('');
   const [loading, setLoading] = useState(true);
+  const [hasExampleTasks, setHasExampleTasks] = useState(false);
 
   // Pobierz zadania z Supabase przy starcie aplikacji
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  // Sprawdź czy przykładowe zadania są załadowane
+  useEffect(() => {
+    const hasExamples = tasks.some((task) => exampleTaskTexts.includes(task.text));
+    setHasExampleTasks(hasExamples);
+  }, [tasks]);
 
   const fetchTasks = async () => {
     try {
@@ -112,16 +125,8 @@ const App = () => {
   };
 
   const loadExampleTasks = async () => {
-    const exampleTasks = [
-      'Zrobić zakupy',
-      'Nauka React',
-      'Spotkanie z zespołem',
-      'Przygotować prezentację',
-      'Przeczytać książkę'
-    ];
-
     try {
-      const tasksToInsert = exampleTasks.map((text) => prepareTaskForInsert(text, false));
+      const tasksToInsert = exampleTaskTexts.map((text) => prepareTaskForInsert(text, false));
       const { data, error } = await supabase
         .from('tasks')
         .insert(tasksToInsert)
@@ -135,9 +140,44 @@ const App = () => {
       if (data) {
         const mappedTasks = data.map(mapTaskFromDb);
         setTasks((current) => [...mappedTasks, ...current]);
+        setHasExampleTasks(true);
       }
     } catch (error) {
       console.error('Błąd podczas dodawania przykładowych zadań:', error);
+    }
+  };
+
+  const removeExampleTasks = async () => {
+    try {
+      // Znajdź zadania, które są przykładowymi zadaniami
+      const exampleTasks = tasks.filter((task) =>
+        exampleTaskTexts.includes(task.text)
+      );
+
+      if (exampleTasks.length === 0) {
+        setHasExampleTasks(false);
+        return;
+      }
+
+      // Usuń wszystkie przykładowe zadania z bazy danych
+      const idsToDelete = exampleTasks.map((task) => task.id);
+      const { error } = await supabase
+        .from('tasks')
+        .delete()
+        .in('id', idsToDelete);
+
+      if (error) {
+        console.error('Błąd podczas usuwania przykładowych zadań:', error);
+        return;
+      }
+
+      // Zaktualizuj stan
+      setTasks((current) =>
+        current.filter((task) => !idsToDelete.includes(task.id))
+      );
+      setHasExampleTasks(false);
+    } catch (error) {
+      console.error('Błąd podczas usuwania przykładowych zadań:', error);
     }
   };
 
@@ -161,6 +201,8 @@ const App = () => {
             onToggleTask={toggleTask}
             onDeleteTask={deleteTask}
             onLoadExamples={loadExampleTasks}
+            onRemoveExamples={removeExampleTasks}
+            hasExampleTasks={hasExampleTasks}
             filterText={filterText}
             onFilterChange={setFilterText}
           />

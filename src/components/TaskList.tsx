@@ -10,6 +10,8 @@ type TaskListProps = {
   onToggleTask: (id: number) => void;
   onDeleteTask: (id: number) => void;
   onLoadExamples: () => void;
+  onRemoveExamples: () => void;
+  hasExampleTasks: boolean;
   filterText: string;
   onFilterChange: (value: string) => void;
 };
@@ -20,12 +22,19 @@ const TaskList = ({
   onToggleTask,
   onDeleteTask,
   onLoadExamples,
+  onRemoveExamples,
+  hasExampleTasks,
   filterText,
   onFilterChange
 }: TaskListProps) => {
   return (
     <div className="task-list-container">
-      <AddTask onAddTask={onAddTask} onLoadExamples={onLoadExamples} />
+      <AddTask
+        onAddTask={onAddTask}
+        onLoadExamples={onLoadExamples}
+        onRemoveExamples={onRemoveExamples}
+        hasExampleTasks={hasExampleTasks}
+      />
 
       <SearchFilter filterText={filterText} onFilterChange={onFilterChange} />
 
