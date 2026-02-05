@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export type GetTasksReturn = {
+export type TasksService = {
   tasks: Task[];
   loading: boolean;
   error: string | null;

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import getTasks from "./getTasks";
-import "./App.css";
+import useTasks from "./useTasks";
+//import "./App.css";
 
 export default function Tasks() {
   const { tasks, error, addTask, toggleTask, deleteTask, completeAllTasks } =
-    getTasks();
+    useTasks();
   const [filter, setFilter] = useState<"all" | "completed">("all");
   const [newTask, setNewTask] = useState("");
   const [hideCompleted, setHideCompleted] = useState(false);

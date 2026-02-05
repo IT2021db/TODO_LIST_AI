@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "./lib/supabase";
-import { Task, tasksSchema, GetTasksReturn } from "./utils";
+import { Task, tasksSchema, TasksService } from "./utils";
 
-export default function getTasks(): GetTasksReturn {
+export default function useTasks(): TasksService {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -88,6 +88,7 @@ export default function getTasks(): GetTasksReturn {
       setError(error.message);
       return;
     }
+    await fetchTasks(); // list refreshing
   };
 
   console.log(tasks);
