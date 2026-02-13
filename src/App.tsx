@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useTasks from "./useTasks";
-//import "./App.css";
+import "./index.css";
 
 export default function Tasks() {
   const { tasks, error, addTask, toggleTask, deleteTask, completeAllTasks } =
@@ -26,81 +26,82 @@ export default function Tasks() {
 
   return (
     <div>
-      <h2>Tasks</h2>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Co jest do zrobienia?"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-        />
-        <button type="submit">Dodaj zadanie</button>
-      </form>
-
-      <br />
-      <button onClick={() => setHideCompleted((prev) => !prev)}>
-        {hideCompleted ? "Pokaż ukończone" : "Ukryj ukończone"}
-      </button>
-      <button
-        onClick={completeAllTasks}
-        style={{
-          margin: "10px 0",
-          padding: "8px 14px",
-          backgroundColor: "#46d074",
-          color: "white",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-        }}
-      >
-        Ukończ wszystkie
-      </button>
-
-      <ul>
-        {visibleTasks.map((task) => (
-          <li
-            key={task.id}
-            style={{
-              margin: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {task.text}
+      <h1 className="bg-teal-500 text-white p-8 w-full h-24" />
+      <main className="grid grid-cols-[1fr_auto] mx-auto p-5 max-w-4xl gap-5 p-5 max-[767px]:grid-cols-1">
+        <h2 className="text-4xl font-bold">Lista zadań</h2>
+        <div className="bg-gray-50 mb-2.5">
+          <h2 className="text-2xl font-bold border-b border-gray-300 p-5">
+            Dodaj nowe zadanie
+          </h2>
+          <form onSubmit={handleSubmit} className="flex gap-5 p-5">
+            <input
+              type="text"
+              placeholder="Co jest do zrobienia?"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              className=" bg-gray-50 flex-1 border border-gray-300"
+            />
             <button
-              onClick={() => toggleTask(task.id, !task.completed)}
-              style={{
-                marginLeft: "10px",
-                height: "25px",
-                width: "25px",
-                padding: "4px 8px",
-                border: "none",
-                cursor: "pointer",
-                backgroundColor: "green",
-                color: "white",
-              }}
+              type="submit"
+              className="
+          px-2.5 py-2 bg-teal-500 text-white border-0 cursor-pointer
+          transform transition duration-1000 hover:brightness-110 hover:scale-110
+          active:brightness-150
+        "
             >
-              {task.completed ? "✔" : ""}
+              Dodaj zadanie
             </button>
-            <button
-              onClick={() => deleteTask(task.id)}
-              style={{
-                marginLeft: "10px",
-                height: "25px",
-                width: "25px",
-                padding: "4px 8px",
-                border: "none",
-                cursor: "pointer",
-                backgroundColor: "red",
-                color: "black",
-              }}
-            >
-              🗑
-            </button>
-          </li>
-        ))}
-      </ul>
+          </form>
+        </div>
+
+        <div className="bg-gray-50 mb-2.5 ">
+          <div className="grid gap-5 grid-cols-2 px-5 py-0  border-b border-gray-300 items-center ">
+            <h2 className="text-2xl font-bold">Lista zadań</h2>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setHideCompleted((prev) => !prev)}
+                className="px-3 py-2 text-blue-400 rounded bg-transparent  cursor-pointer"
+              >
+                {hideCompleted ? "Pokaż ukończone" : "Ukryj ukończone"}
+              </button>
+              <button
+                onClick={completeAllTasks}
+                className=" py-2 mr-3 bg-transparent text-blue-400  cursor-pointer"
+              >
+                Ukończ wszystkie
+              </button>
+            </div>
+          </div>
+
+          <ul className="m-0 pl-3 px-3 pb-3 break-all  ">
+            {visibleTasks.map((task) => (
+              <li
+                key={task.id}
+                className="flex items-center justify-between  py-3 px-5  border-b border-gray-300"
+              >
+                <div className="flex gap-5 flex-start">
+                  <button
+                    onClick={() => toggleTask(task.id, !task.completed)}
+                    className="
+                    cursor-pointer w-7 h-7  flex items-center justify-center
+                    bg-teal-500 text-white
+                    hover:brightness-110 transition"
+                  >
+                    {task.completed ? "✔" : ""}
+                  </button>
+                  {task.text}
+                </div>
+                <button
+                  onClick={() => deleteTask(task.id)}
+                  className="cursor-pointer bg-red-400 ml-3 w-7 h-7 text-white flex items-center justify-center hover:brightness-110 transition"
+                >
+                  🗑
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </main>
     </div>
   );
 }
