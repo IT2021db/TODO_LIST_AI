@@ -23,7 +23,10 @@ export default function Tasks() {
     await addTask(newTask);
     setNewTask("");
   };
+  const allCompleted =
+    tasks.length > 0 && tasks.every((task) => task.completed);
 
+  const hasUncompleted = tasks.some((task) => !task.completed);
 
   return (
     <div>
@@ -67,9 +70,16 @@ export default function Tasks() {
               </button>
               <button
                 onClick={completeAllTasks}
-                className=" py-2 mr-3 bg-transparent text-teal-500  cursor-pointer"
+                disabled={!hasUncompleted}
+                className={`
+    py-2 px-3 mr-3 rounded transition  bg-transparent duration-300
+
+    ${allCompleted ? " text-gray-400" : " text-teal-500 "}
+
+    ${!hasUncompleted ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+  `}
               >
-                Ukończ wszystkie
+                {allCompleted ? "Wszystkie ukończone ✓" : "Ukończ wszystkie"}
               </button>
             </div>
           </div>
