@@ -40,7 +40,7 @@ export default function Tasks() {
           <form onSubmit={handleSubmit} className="flex gap-5 p-5">
             <input
               type="text"
-              placeholder="Co jest do zrobienia?"
+              placeholder=" Co jest do zrobienia?"
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
               className=" bg-gray-50 flex-1 border border-gray-300"
