@@ -24,10 +24,11 @@ export default function Tasks() {
     setNewTask("");
   };
 
+
   return (
     <div>
       <h1 className="bg-teal-500 text-white p-8 w-full h-24" />
-      <main className="grid grid-cols-[1fr_auto] mx-auto p-5 max-w-4xl gap-5 p-5 max-[767px]:grid-cols-1">
+      <main className="grid grid-cols-1 mx-auto p-5 max-w-4xl gap-5 p-5 max-[767px]:grid-cols-1">
         <h2 className="text-4xl font-bold">Lista zadań</h2>
         <div className="bg-gray-50 mb-2.5">
           <h2 className="text-2xl font-bold border-b border-gray-300 p-5">
@@ -60,13 +61,13 @@ export default function Tasks() {
             <div className="flex justify-end">
               <button
                 onClick={() => setHideCompleted((prev) => !prev)}
-                className="px-3 py-2 text-blue-400 rounded bg-transparent  cursor-pointer"
+                className="px-3 py-2 text-teal-500 rounded bg-transparent  cursor-pointer"
               >
                 {hideCompleted ? "Pokaż ukończone" : "Ukryj ukończone"}
               </button>
               <button
                 onClick={completeAllTasks}
-                className=" py-2 mr-3 bg-transparent text-blue-400  cursor-pointer"
+                className=" py-2 mr-3 bg-transparent text-teal-500  cursor-pointer"
               >
                 Ukończ wszystkie
               </button>
@@ -77,7 +78,8 @@ export default function Tasks() {
             {visibleTasks.map((task) => (
               <li
                 key={task.id}
-                className="flex items-center justify-between  py-3 px-5  border-b border-gray-300"
+                className="flex items-center justify-between
+                   text-blue-800 py-3 px-5  border-b border-gray-300"
               >
                 <div className="flex gap-5 flex-start">
                   <button
@@ -89,7 +91,9 @@ export default function Tasks() {
                   >
                     {task.completed ? "✔" : ""}
                   </button>
-                  {task.text}
+                  <div className={`${task.completed ? "line-through" : ""}`}>
+                    {task.text}
+                  </div>
                 </div>
                 <button
                   onClick={() => deleteTask(task.id)}
