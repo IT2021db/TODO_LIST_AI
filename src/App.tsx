@@ -1,6 +1,12 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import useTasks from "./useTasks";
 import "./index.css";
+
+//form
+type FormFields = {
+  task: string;
+};
 
 export default function Tasks() {
   const { tasks, error, addTask, toggleTask, deleteTask, completeAllTasks } =
@@ -9,20 +15,25 @@ export default function Tasks() {
   const [newTask, setNewTask] = useState("");
   const [hideCompleted, setHideCompleted] = useState(false);
 
+  //form
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormFields>();
+
+  const onSubmit = async (data: FormFields) => {
+    await addTask(data.task);
+    reset(); // clean input
+  };
+
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   const visibleTasks = hideCompleted
     ? tasks.filter((task) => !task.completed) //uncomplited only
     : tasks; //all tasks
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!newTask.trim()) return;
-
-    await addTask(newTask);
-    setNewTask("");
-  };
   const allCompleted =
     tasks.length > 0 && tasks.every((task) => task.completed);
 
@@ -31,33 +42,41 @@ export default function Tasks() {
   return (
     <div>
       <h1 className="bg-teal-500 text-white p-8 w-full h-24" />
-      <main className="grid grid-cols-1 mx-auto p-5 max-w-4xl gap-5 p-5 max-[767px]:grid-cols-1">
+      <main className="grid grid-cols-1 mx-auto p-5 max-w-4xl gap-5 max-[767px]:grid-cols-1">
         <h2 className="text-4xl font-bold">Lista zadań</h2>
         <div className="bg-gray-50 mb-2.5">
           <h2 className="text-2xl font-bold border-b border-gray-300 p-5">
             Dodaj nowe zadanie
           </h2>
-          <form onSubmit={handleSubmit} className="flex gap-5 p-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex gap-5 p-5">
             <input
               type="text"
-              placeholder=" Co jest do zrobienia?"
-              value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              className=" bg-gray-50 flex-1 border border-gray-300"
+              placeholder="Co jest do zrobienia?"
+              className="bg-gray-50 flex-1 border border-gray-300 pl-2.5"
+              {...register("task", {
+                required: "Pole nie może być puste",
+                minLength: {
+                  value: 2,
+                  message: "Minimum 2 znaki",
+                },
+              })}
             />
             <button
               type="submit"
               className="
           px-2.5 py-2 bg-teal-500 text-white border-0 cursor-pointer
           transform transition duration-1000 hover:brightness-110 hover:scale-110
-          active:brightness-150
-        "
+          active:brightness-150"
             >
               Dodaj zadanie
             </button>
           </form>
+          {errors.task && (
+            <span className="text-red-500 mt-1 text-sm">
+              {errors.task?.message}
+            </span>
+          )}
         </div>
-
         <div className="bg-gray-50 mb-2.5 ">
           <div className="grid gap-5 grid-cols-2 px-5 py-0  border-b border-gray-300 items-center ">
             <h2 className="text-2xl font-bold">Lista zadań</h2>
