@@ -25,6 +25,7 @@ export default function Tasks() {
 
   const onSubmit = async (data: FormFields) => {
     await addTask(data.task);
+    console.log("nowe zadanie z formularza: ", data.task);
     reset(); // clean input
   };
 
@@ -50,9 +51,10 @@ export default function Tasks() {
           </h2>
           <form onSubmit={handleSubmit(onSubmit)} className="flex gap-5 p-5">
             <input
+              autoFocus
               type="text"
               placeholder="Co jest do zrobienia?"
-              className="bg-gray-50 flex-1 border border-gray-300 pl-2.5"
+              className="bg-gray-50 flex-1 border outline-none border-gray-300 pl-2.5"
               {...register("task", {
                 required: "Pole nie może być puste",
                 minLength: {
