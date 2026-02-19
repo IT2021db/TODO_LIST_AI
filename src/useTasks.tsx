@@ -19,16 +19,16 @@ export default function useTasks(): TasksService {
       return;
     }
 
-    const parsed = tasksSchema.safeParse(data);
+    const result = tasksSchema.safeParse(data);
 
-    if (!parsed.success) {
-      console.error(parsed.error);
+    if (!result.success) {
+      console.error(result.error);
       setError("Wrong data format from supabase");
       setLoading(false);
       return;
     }
 
-    setTasks(parsed.data);
+    setTasks(result.data);
     setLoading(false);
   };
 
