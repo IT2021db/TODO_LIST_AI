@@ -10,7 +10,8 @@ export default function useTasks(): TasksService {
   const fetchTasks = async () => {
     const { data, error: supabaseError } = await supabase
       .from("tasks")
-      .select("id, text, completed");
+      .select("id, text, completed")
+      .order("created_at", { ascending: true }); // <- new task on the end of the list
 
     if (supabaseError) {
       setError(supabaseError.message);
@@ -19,8 +20,8 @@ export default function useTasks(): TasksService {
       return;
     }
 
-    const result = tasksSchema.safeParse(data);
-
+    const result = tasksSchema.safeParse(data); //<- tasks taken from supabase
+    console.log("result", result);
     if (!result.success) {
       console.error(result.error);
       setError("Wrong data format from supabase");
@@ -36,14 +37,16 @@ export default function useTasks(): TasksService {
     fetchTasks();
   }, []);
 
-  const addTask = async (text: string) => {
+  const addTask = async (task: string) => {
     const { error } = await supabase.from("tasks").insert([
       {
-        text,
+        text: task,
         completed: false,
         created_at: new Date().toISOString(),
       },
     ]);
+
+    console.log("text as task: ", task); // <- task from input (data.task in props) converted to text for supabase connection
 
     if (error) {
       setError(error.message);
@@ -91,7 +94,8 @@ export default function useTasks(): TasksService {
     await fetchTasks(); // list refreshing
   };
 
-  console.log(tasks);
+  console.log("tasks",tasks);   //<- tasks from supabase
+  console.log("loading",loading)
 
   return {
     tasks,
