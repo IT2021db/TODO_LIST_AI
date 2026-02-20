@@ -1,12 +1,9 @@
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import useTasks from "./useTasks";
 import "./index.css";
-
-//form
-type FormFields = {
-  task: string;
-};
+import { taskFormSchema, TaskFormData } from "./utils";
 
 export default function Tasks() {
   const { tasks, error, addTask, toggleTask, deleteTask, completeAllTasks } =
@@ -15,18 +12,20 @@ export default function Tasks() {
   const [newTask, setNewTask] = useState("");
   const [hideCompleted, setHideCompleted] = useState(false);
 
-  //form
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormFields>();
+    clearErrors,
+  } = useForm({
+    resolver: zodResolver(taskFormSchema),
+  });
 
-  const onSubmit = async (data: FormFields) => {
+  const onSubmit = async (data: TaskFormData) => {
     await addTask(data.task);
     console.log("nowe zadanie z formularza: ", data.task);
-    reset(); // clean input
+    reset(); // clean input -rhf
   };
 
   if (error) return <p style={{ color: "red" }}>{error}</p>;
@@ -54,19 +53,13 @@ export default function Tasks() {
               autoFocus
               type="text"
               placeholder="Co jest do zrobienia?"
-              className="bg-gray-50 flex-1 border outline-none border-gray-300 pl-2.5"
-              {...register("task", {
-                required: "Pole nie może być puste",
-                minLength: {
-                  value: 2,
-                  message: "Minimum 2 znaki",
-                },
-              })}
+              className="bg-gray-50 flex-1 border outline-none rounded-sm border-gray-300 pl-2.5"
+              {...register("task")}
             />
             <button
               type="submit"
               className="
-          px-2.5 py-2 bg-teal-500 text-white border-0 cursor-pointer
+          px-2.5 py-2 bg-teal-500 text-white border-0 cursor-pointer rounded-sm
           transform transition duration-1000 hover:brightness-110 hover:scale-110
           active:brightness-150"
             >
@@ -97,7 +90,7 @@ export default function Tasks() {
 
     ${allCompleted ? " text-gray-400" : " text-teal-500 "}
 
-    ${!hasUncompleted ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+    ${!hasUncompleted ? "opacity-50 text-gray-700 cursor-not-allowed" : "cursor-pointer"}
   `}
               >
                 {allCompleted ? "Wszystkie ukończone ✓" : "Ukończ wszystkie"}
@@ -117,10 +110,10 @@ export default function Tasks() {
                     onClick={() => toggleTask(task.id, !task.completed)}
                     className="
                     cursor-pointer w-7 h-7  flex items-center justify-center
-                    bg-teal-500 text-white
+                    bg-teal-500 text-white font-bold rounded-sm
                     hover:brightness-110 transition"
                   >
-                    {task.completed ? "✔" : ""}
+                    {task.completed ? "✓" : ""}
                   </button>
                   <div className={`${task.completed ? "line-through" : ""}`}>
                     {task.text}
@@ -128,7 +121,7 @@ export default function Tasks() {
                 </div>
                 <button
                   onClick={() => deleteTask(task.id)}
-                  className="cursor-pointer bg-red-400 ml-3 w-7 h-7 text-white flex items-center justify-center hover:brightness-110 transition"
+                  className="rounded-sm cursor-pointer bg-red-400 ml-3 w-7 h-7 text-white flex items-center justify-center hover:brightness-110 transition"
                 >
                   🗑
                 </button>
