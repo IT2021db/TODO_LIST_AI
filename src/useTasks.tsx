@@ -8,29 +8,32 @@ export default function useTasks(): TasksService {
   const [error, setError] = useState<string | null>(null);
 
   const fetchTasks = async () => {
-    const { data, error: supabaseError } = await supabase
-      .from("tasks")
-      .select("id, text, completed")
-      .order("created_at", { ascending: true }); // <- new task on the end of the list
+    setLoading(true);
+    setError(null);
 
-    if (supabaseError) {
-      setError(supabaseError.message);
+    const timeout = setTimeout(() => {
+      setError("Nie udało się pobrać zadań - timeout 20s");
+    }, 20000); // <- if the query takes too long
+
+    try {
+      const { data, error: supabaseError } = await supabase
+        .from("tasks")
+        .select("id, text, completed")
+        .order("created_at", { ascending: true }); // <- new task on the end of the list
+
+      if (supabaseError) throw supabaseError;
+
+      const result = tasksSchema.safeParse(data); //<- tasks taken from supabase
+      if (!result.success) throw new Error("Wrong data format from Supabase");
+
+      setTasks(result.data);
+      console.log("result", result);
+    } catch (err: any) {
+      setError(err.message || "Nieznany błąd przy pobieraniu zadań");
+    } finally {
+      clearTimeout(timeout);
       setLoading(false);
-      console.log("Nie udało się pobrać danych z supabase");
-      return;
     }
-
-    const result = tasksSchema.safeParse(data); //<- tasks taken from supabase
-    console.log("result", result);
-    if (!result.success) {
-      console.error(result.error);
-      setError("Wrong data format from supabase");
-      setLoading(false);
-      return;
-    }
-
-    setTasks(result.data);
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -38,22 +41,24 @@ export default function useTasks(): TasksService {
   }, []);
 
   const addTask = async (task: string) => {
-    const { error } = await supabase.from("tasks").insert([
-      {
-        text: task,
-        completed: false,
-        created_at: new Date().toISOString(),
-      },
-    ]);
+    setLoading(true);
+    setError(null);
+    try {
+      const { error } = await supabase.from("tasks").insert([
+        {
+          text: task,
+          completed: false,
+          created_at: new Date().toISOString(),
+        },
+      ]);
+      if (error) throw error;
 
-    console.log("text as task: ", task); // <- task from input (data.task in props) converted to text for supabase connection
-
-    if (error) {
-      setError(error.message);
-      return;
+      await fetchTasks();
+    } catch (err: any) {
+      setError(err.message || "Nie udało się dodać zadania");
+    } finally {
+      setLoading(false);
     }
-
-    await fetchTasks(); // list refreshing
   };
 
   const toggleTask = async (id: number, completed: boolean) => {
@@ -94,8 +99,7 @@ export default function useTasks(): TasksService {
     await fetchTasks(); // list refreshing
   };
 
-  console.log("tasks",tasks);   //<- tasks from supabase
-  console.log("loading",loading)
+  console.log("tasks", tasks); //<- tasks from supabase
 
   return {
     tasks,
