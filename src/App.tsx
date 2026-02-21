@@ -4,12 +4,18 @@ import { useForm } from "react-hook-form";
 import useTasks from "./useTasks";
 import "./index.css";
 import { taskFormSchema, TaskFormData } from "./utils";
-
+import spinner from "./assets/spinner.gif";
 export default function Tasks() {
-  const { tasks, error, addTask, toggleTask, deleteTask, completeAllTasks } =
-    useTasks();
+  const {
+    tasks,
+    error,
+    loading,
+    addTask,
+    toggleTask,
+    deleteTask,
+    completeAllTasks,
+  } = useTasks();
   const [filter, setFilter] = useState<"all" | "completed">("all");
-  const [newTask, setNewTask] = useState("");
   const [hideCompleted, setHideCompleted] = useState(false);
 
   const {
@@ -38,6 +44,20 @@ export default function Tasks() {
     tasks.length > 0 && tasks.every((task) => task.completed);
 
   const hasUncompleted = tasks.some((task) => !task.completed);
+
+  // 👇 data loading error handling
+  if (loading) {
+    return (
+      <div className="caret-transparent flex flex-col items-center justify-center min-h-screen">
+        <img src={spinner} alt="Loading..." className="w-80 h-80 mb-4" />
+        <p className="text-xl">Trwa ładowanie danych...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="text-red-500 text-2xl">{error}</p>;
+  }
 
   return (
     <div>
