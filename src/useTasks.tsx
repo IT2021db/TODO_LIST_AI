@@ -1,37 +1,29 @@
+// useTasks.ts
 import { useState, useEffect } from "react";
-import { supabase } from "./lib/supabase";
-import { Task, tasksSchema, TasksService } from "./utils";
+import { Task } from "./utils";
+import {
+  fetchTasksFromSupabase,
+  addTaskToSupabase,
+  toggleTaskInSupabase,
+  completeAllTasksInSupabase,
+  deleteTaskFromSupabase,
+} from "./tasksService";
 
-export default function useTasks(): TasksService {
+export default function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchTasks = async () => {
     setLoading(true);
     setError(null);
-
-    const timeout = setTimeout(() => {
-      setError("Nie udało się pobrać zadań - timeout 20s");
-    }, 20000); // <- if the query takes too long
-
     try {
-      const { data, error: supabaseError } = await supabase
-        .from("tasks")
-        .select("id, text, completed")
-        .order("created_at", { ascending: true }); // <- new task on the end of the list
-
-      if (supabaseError) throw supabaseError;
-
-      const result = tasksSchema.safeParse(data); //<- tasks taken from supabase
-      if (!result.success) throw new Error("Wrong data format from Supabase");
-
-      setTasks(result.data);
-      console.log("result", result);
+      const data = await fetchTasksFromSupabase();
+      setTasks(data);
+      console.log("data w useTasks - zadania przekazane z tasksService", data);
     } catch (err: any) {
-      setError(err.message || "Nieznany błąd przy pobieraniu zadań");
+      setError(err.message || "Błąd przy pobieraniu zadań");
     } finally {
-      clearTimeout(timeout);
       setLoading(false);
     }
   };
@@ -44,62 +36,49 @@ export default function useTasks(): TasksService {
     setLoading(true);
     setError(null);
     try {
-      const { error } = await supabase.from("tasks").insert([
-        {
-          text: task,
-          completed: false,
-          created_at: new Date().toISOString(),
-        },
-      ]);
-      if (error) throw error;
-
+      await addTaskToSupabase(task);
+      console.log("dodany task w useTasks:", task);
       await fetchTasks();
     } catch (err: any) {
-      setError(err.message || "Nie udało się dodać zadania");
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   const toggleTask = async (id: number, completed: boolean) => {
-    const { error } = await supabase
-      .from("tasks")
-      .update({ completed })
-      .eq("id", id);
-
-    if (error) {
-      setError(error.message);
-      return;
+    setError(null);
+    try {
+      await toggleTaskInSupabase(id, completed);
+      console.log("toggle task - id, completed", id, completed);
+      setTasks((prev) =>
+        prev.map((t) => (t.id === id ? { ...t, completed } : t)),
+      );
+    } catch (err: any) {
+      setError(err.message);
     }
-    setTasks((prev) =>
-      prev.map((task) => (task.id === id ? { ...task, completed } : task)),
-    );
   };
 
-  const completeAllTasks = async (): Promise<void> => {
-    const { error } = await supabase
-      .from("tasks")
-      .update({ completed: true })
-      .eq("completed", false);
-
-    if (error) {
-      setError(error.message);
-      return;
+  const completeAllTasks = async () => {
+    setError(null);
+    try {
+      await completeAllTasksInSupabase();
+      setTasks((prev) => prev.map((t) => ({ ...t, completed: true })));
+    } catch (err: any) {
+      setError(err.message);
     }
-    setTasks((prev) => prev.map((task) => ({ ...task, completed: true })));
   };
 
   const deleteTask = async (id: number) => {
-    const { error } = await supabase.from("tasks").delete().eq("id", id);
-
-    if (error) {
-      setError(error.message);
-      return;
+    setError(null);
+    try {
+      await deleteTaskFromSupabase(id);
+      console.log("delated task id:", id);
+      await fetchTasks();
+    } catch (err: any) {
+      setError(err.message);
     }
-    await fetchTasks(); // list refreshing
   };
-
-  console.log("tasks", tasks); //<- tasks from supabase
 
   return {
     tasks,
@@ -107,7 +86,7 @@ export default function useTasks(): TasksService {
     error,
     addTask,
     toggleTask,
-    deleteTask,
     completeAllTasks,
+    deleteTask,
   };
 }
