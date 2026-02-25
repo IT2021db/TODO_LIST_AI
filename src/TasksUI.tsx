@@ -1,8 +1,11 @@
 // TasksUI.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Task } from "./utils";
 import spinner from "./assets/spinner.gif";
 import AddTaskForm from "./reactComponents/AddTaskForm";
+import { FormattedMessage } from "react-intl";
+import LanguageSwitcher from "./reactComponents/LanguageSwitcher";
+import { Locale } from "./i18n/messages";
 
 interface TasksUIProps {
   tasks: Task[];
@@ -12,6 +15,8 @@ interface TasksUIProps {
   onTodoToggle: (id: number, completed: boolean) => void;
   onTodoDelete: (id: number) => void;
   onCompleteAll: () => void;
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
 }
 
 export default function TasksUI({
@@ -22,6 +27,8 @@ export default function TasksUI({
   onTodoToggle,
   onTodoDelete,
   onCompleteAll,
+  locale: Locale,
+  setLocale, // <-- destrukturing
 }: TasksUIProps) {
   const [hideCompleted, setHideCompleted] = useState(false);
 
@@ -29,7 +36,10 @@ export default function TasksUI({
     return (
       <div className="caret-transparent flex flex-col items-center justify-center min-h-screen">
         <img src={spinner} alt="Loading..." className="w-80 h-80 mb-4" />
-        <p className="text-xl">Trwa ładowanie danych...</p>
+        <p className="text-xl">
+          {" "}
+          <FormattedMessage id="loading" />
+        </p>
       </div>
     );
   }
@@ -46,23 +56,29 @@ export default function TasksUI({
 
   return (
     <div>
-      <h1 className="bg-teal-500 text-white p-8 w-full h-24" />
+      <h1 className="bg-teal-500 text-white p-8 w-full h-24">
+        <LanguageSwitcher locale={Locale} setLocale={setLocale} />
+      </h1>
       <main className="grid grid-cols-1 mx-auto p-5 max-w-4xl gap-5 max-[767px]:grid-cols-1">
-        <h2 className="text-4xl font-bold">Lista zadań</h2>
-
-        {/* Formularz dodawania */}
+        <h2 className="text-4xl font-bold">
+          <FormattedMessage id="title" />
+        </h2>
         <AddTaskForm onAdd={onTodoAdd} />
-
-        {/* Lista zadań */}
         <div className="bg-gray-50 mb-2.5 ">
           <div className="grid gap-5 grid-cols-2 px-5 py-0 border-b border-gray-300 items-center ">
-            <h2 className="text-2xl font-bold p-5">Lista zadań</h2>
+            <h2 className="text-2xl font-bold p-5">
+              <FormattedMessage id="title" />
+            </h2>
             <div className="flex justify-end">
               <button
                 onClick={() => setHideCompleted((prev) => !prev)}
                 className="px-3 py-2 text-teal-500 rounded bg-transparent cursor-pointer"
               >
-                {hideCompleted ? "Pokaż ukończone" : "Ukryj ukończone"}
+                {hideCompleted ? (
+                  <FormattedMessage id="showCompleted" />
+                ) : (
+                  <FormattedMessage id="hideCompleted" />
+                )}
               </button>
               <button
                 onClick={onCompleteAll}
@@ -71,11 +87,14 @@ export default function TasksUI({
                   ${allCompleted ? "text-gray-400" : "text-teal-500"}
                   ${!hasUncompleted ? "opacity-50 text-gray-700 cursor-not-allowed" : "cursor-pointer"}`}
               >
-                {allCompleted ? "Wszystkie ukończone ✓" : "Ukończ wszystkie"}
+                {allCompleted ? (
+                  <FormattedMessage id="allCompleted" />
+                ) : (
+                  <FormattedMessage id="completeAll" />
+                )}
               </button>
             </div>
           </div>
-
           <ul className="m-0 pl-3 px-3 pb-3 break-all">
             {visibleTasks.map((task) => (
               <li

@@ -1,14 +1,15 @@
 // AddTaskForm.tsx
-import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { taskFormSchema, TaskFormData } from "../utils";
+import { useIntl, FormattedMessage } from "react-intl";
 
 interface AddTaskFormProps {
   onAdd: (task: string) => void;
 }
 
 export default function AddTaskForm({ onAdd }: AddTaskFormProps) {
+  const intl = useIntl(); // <-- hook do pobierania tłumaczeń
   const {
     register,
     handleSubmit,
@@ -27,13 +28,13 @@ export default function AddTaskForm({ onAdd }: AddTaskFormProps) {
   return (
     <div className="bg-gray-50 mb-2.5">
       <h2 className="text-2xl font-bold border-b border-gray-300 p-5">
-        Dodaj nowe zadanie
+        <FormattedMessage id="addTask" />
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="flex gap-5 p-5">
         <input
           autoFocus
           type="text"
-          placeholder="Co jest do zrobienia?"
+          placeholder={intl.formatMessage({ id: "placeholder" })}
           className="bg-gray-50 flex-1 border outline-none rounded-sm border-gray-300 pl-2.5"
           {...register("task")}
         />
@@ -43,7 +44,7 @@ export default function AddTaskForm({ onAdd }: AddTaskFormProps) {
             transform transition duration-1000 hover:brightness-110 hover:scale-110
             active:brightness-150"
         >
-          Dodaj zadanie
+          <FormattedMessage id="writeTask" />
         </button>
       </form>
       {errors.task && (
