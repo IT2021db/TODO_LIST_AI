@@ -9,22 +9,28 @@ import {
   deleteTaskFromSupabase,
 } from "./tasksService";
 
+type TasksState =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "success"; data: Task[] }
+  | { status: "error"; error: string };
+
 export default function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [state, setState] = useState<TasksState>({ status: "idle" });
 
   const fetchTasks = async () => {
-    setLoading(true);
-    setError(null);
+    setState({ status: "loading" });
+
     try {
       const data = await fetchTasksFromSupabase();
-      setTasks(data);
-      console.log("data w useTasks - zadania przekazane z tasksService", data);
+      setState({ status: "success", data });
+      console.log("data w useTasks - zadania przekazane z tasksService", data, state);
     } catch (err: any) {
-      setError(err.message || "Błąd przy pobieraniu zadań");
-    } finally {
-      setLoading(false);
+      setState({
+        status: "error",
+        error: err.message || "Błąd przy pobieraniu zadań",
+      });
+      // setError(err.message || "Błąd przy pobieraniu zadań");
     }
   };
 
@@ -33,57 +39,63 @@ export default function useTasks() {
   }, []);
 
   const addTask = async (task: string) => {
-    setLoading(true);
-    setError(null);
+    setState({ status: "loading" });
+ 
     try {
       await addTaskToSupabase(task);
       console.log("dodany task w useTasks:", task);
       await fetchTasks();
     } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      setState({ status: "error", error: err.message });
     }
   };
 
   const toggleTask = async (id: number, completed: boolean) => {
-    setError(null);
+    if (state.status !== "success") return;
+
     try {
       await toggleTaskInSupabase(id, completed);
       console.log("toggle task - id, completed", id, completed);
-      setTasks((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, completed } : t)),
-      );
+      setState({
+        status: "success",
+        data: state.data.map((t) => (t.id === id ? { ...t, completed } : t)),
+      });
     } catch (err: any) {
-      setError(err.message);
+      setState({ status: "error", error: err.message });
     }
   };
 
   const completeAllTasks = async () => {
-    setError(null);
+    if (state.status !== "success") return;
+
     try {
       await completeAllTasksInSupabase();
-      setTasks((prev) => prev.map((t) => ({ ...t, completed: true })));
+      setState({
+        status: "success",
+        data: state.data.map((t) => ({ ...t, completed: true })),
+      });
     } catch (err: any) {
-      setError(err.message);
+      setState({ status: "error", error: err.message });
     }
   };
 
   const deleteTask = async (id: number) => {
-    setError(null);
+    if (state.status !== "success") return;
+
     try {
       await deleteTaskFromSupabase(id);
       console.log("delated task id:", id);
       await fetchTasks();
     } catch (err: any) {
-      setError(err.message);
+      setState({ status: "error", error: err.message });
     }
   };
 
   return {
-    tasks,
-    loading,
-    error,
+    state,
+    tasks: state.status === "success" ? state.data : [],
+    loading: state.status === "loading",
+    error: state.status === "error" ? state.error : null,
     addTask,
     toggleTask,
     completeAllTasks,
