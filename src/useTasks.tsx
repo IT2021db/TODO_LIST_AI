@@ -1,6 +1,8 @@
 // useTasks.ts
 import { useState, useEffect } from "react";
 import { Task } from "./utils";
+import { useIntl } from "react-intl";
+
 import {
   fetchTasksFromSupabase,
   addTaskToSupabase,
@@ -16,6 +18,7 @@ type TasksState =
   | { status: "error"; error: string };
 
 export default function useTasks() {
+  const intl = useIntl();
   const [state, setState] = useState<TasksState>({ status: "idle" });
 
   const fetchTasks = async () => {
@@ -28,9 +31,8 @@ export default function useTasks() {
     } catch (err: any) {
       setState({
         status: "error",
-        error: err.message || "Błąd przy pobieraniu zadań",
+        error: err.message || intl.formatMessage({ id: "tasksFetchError" }),
       });
-      // setError(err.message || "Błąd przy pobieraniu zadań");
     }
   };
 
@@ -40,7 +42,7 @@ export default function useTasks() {
 
   const addTask = async (task: string) => {
     setState({ status: "loading" });
- 
+
     try {
       await addTaskToSupabase(task);
       console.log("dodany task w useTasks:", task);

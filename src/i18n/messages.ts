@@ -10,6 +10,7 @@ export const messages = {
     completeAll: "Complete all",
     allCompleted: "All completed ✓",
     taskRequired: "Enter a task",
+    tasksFetchError: "Error fetching tasks",
   },
 
   pl: {
@@ -23,6 +24,7 @@ export const messages = {
     completeAll: "Ukończ wszystkie",
     allCompleted: "Wszystkie ukończone ✓",
     taskRequired: "Wpisz treść zadania",
+    tasksFetchError: "Błąd przy pobieraniu zadań",
   },
 
   es: {
@@ -36,6 +38,7 @@ export const messages = {
     completeAll: "Completar todas",
     allCompleted: "Todas completadas ✓",
     taskRequired: "Escribe una tarea",
+    tasksFetchError: "Error al obtener tareas",
   },
 };
 
