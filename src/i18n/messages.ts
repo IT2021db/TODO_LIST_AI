@@ -9,8 +9,8 @@ export const messages = {
     hideCompleted: "Hide completed",
     completeAll: "Complete all",
     allCompleted: "All completed ✓",
+    taskRequired: "Enter a task",
   },
-  
 
   pl: {
     title: "Lista zadań",
@@ -22,6 +22,7 @@ export const messages = {
     hideCompleted: "Ukryj ukończone",
     completeAll: "Ukończ wszystkie",
     allCompleted: "Wszystkie ukończone ✓",
+    taskRequired: "Wpisz treść zadania",
   },
 
   es: {
@@ -34,6 +35,7 @@ export const messages = {
     hideCompleted: "Ocultar completadas",
     completeAll: "Completar todas",
     allCompleted: "Todas completadas ✓",
+    taskRequired: "Escribe una tarea",
   },
 };
 
