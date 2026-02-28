@@ -1,12 +1,13 @@
-import useTasks from "./useTasks";
 import TasksUI from "./TasksUI";
 import type { Locale } from "./i18n/messages";
+import useTasksQuery from "./useTaskQuery";
 
 // type of available languages
 type Props = {
   locale: Locale; // <-- define prop - locale
   setLocale: (locale: Locale) => void; // <--  prop - setLocale
 };
+
 export default function App({ locale, setLocale }: Props) {
   const {
     tasks,
@@ -16,7 +17,7 @@ export default function App({ locale, setLocale }: Props) {
     toggleTask,
     deleteTask,
     completeAllTasks,
-  } = useTasks();
+  } = useTasksQuery();
 
   return (
     <div>
