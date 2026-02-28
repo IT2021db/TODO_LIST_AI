@@ -1,5 +1,5 @@
 // TasksUI.tsx
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Task } from "./utils";
 import spinner from "./assets/spinner.gif";
 import AddTaskForm from "./reactComponents/AddTaskForm";
@@ -33,6 +33,9 @@ export default function TasksUI({
   const [hideCompleted, setHideCompleted] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [Locale]);
 
   if (loading) {
     return (
