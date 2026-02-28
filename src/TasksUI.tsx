@@ -50,9 +50,7 @@ export default function TasksUI({
     ? tasks.filter((t) => !t.completed)
     : tasks;
   const allCompleted = tasks.length > 0 && tasks.every((t) => t.completed);
-  console.log("allCompleted", allCompleted);
   const hasUncompleted = tasks.some((t) => !t.completed);
-  console.log("hasUncompleted", hasUncompleted);
 
   return (
     <div>

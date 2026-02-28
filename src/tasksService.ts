@@ -13,7 +13,7 @@ export async function fetchTasksFromSupabase(): Promise<Task[]> {
 
   const result = tasksSchema.safeParse(data);
   console.log(
-    "result w TaskService, a w nim zadania pobrane z supabase",
+    "result w TaskService, a w nim zadania pobrane z supabase: ",
     result,
   );
   if (!result.success) throw new Error("Wrong data format from Supabase");
@@ -28,7 +28,7 @@ export async function addTaskToSupabase(task: string) {
     .insert([
       { text: task, completed: false, created_at: new Date().toISOString() },
     ]);
-  console.log("dodany task w tasksService", task);
+  console.log("dodany task w tasksService/addTask : ", task);
   if (error) throw new Error(error.message);
 }
 

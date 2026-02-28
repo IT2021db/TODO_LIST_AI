@@ -11,10 +11,7 @@ export default function LanguageSwitcher({ locale, setLocale }: Props) {
     <div className="flex gap-2 mb-4">
       {languages.map((lang) => {
         const isActive = locale === lang; // current language checking
-        console.log("isActive", isActive);
-        console.log(typeof isActive);
-        console.log(typeof locale);
-        console.log(typeof lang);
+
         return (
           <button
             key={lang}

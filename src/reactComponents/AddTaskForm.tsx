@@ -28,7 +28,7 @@ export default function AddTaskForm({ onAdd }: AddTaskFormProps) {
 
   const onSubmit = (data: TaskFormData) => {
     onAdd(data.task);
-    console.log("dodany task w form", data.task);
+    console.log("dodany task w form: ", data.task);
     reset();
   };
 
