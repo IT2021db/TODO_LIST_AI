@@ -1,5 +1,5 @@
 // TasksUI.tsx
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Task } from "./utils";
 import spinner from "./assets/spinner.gif";
 import AddTaskForm from "./reactComponents/AddTaskForm";
@@ -32,6 +32,8 @@ export default function TasksUI({
 }: TasksUIProps) {
   const [hideCompleted, setHideCompleted] = useState(false);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   if (loading) {
     return (
       <div className="caret-transparent flex flex-col items-center justify-center min-h-screen">
@@ -51,6 +53,7 @@ export default function TasksUI({
     : tasks;
   const allCompleted = tasks.length > 0 && tasks.every((t) => t.completed);
   const hasUncompleted = tasks.some((t) => !t.completed);
+  console.log("hasUncompleted", hasUncompleted);
 
   return (
     <div>
@@ -61,7 +64,7 @@ export default function TasksUI({
         <h2 className="text-4xl font-bold">
           <FormattedMessage id="title" />
         </h2>
-        <AddTaskForm onAdd={onTodoAdd} />
+        <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} />
         <div className="bg-gray-50 mb-2.5 ">
           <div className="grid gap-5 grid-cols-2 px-5 py-0 border-b border-gray-300 items-center ">
             <h2 className="text-2xl font-bold p-5">
@@ -69,7 +72,10 @@ export default function TasksUI({
             </h2>
             <div className="flex justify-end">
               <button
-                onClick={() => setHideCompleted((prev) => !prev)}
+                onClick={() => {
+                  setHideCompleted((prev) => !prev);
+                  inputRef.current?.focus(); //focus on input
+                }}
                 className="px-3 py-2 text-teal-500 rounded bg-transparent cursor-pointer"
               >
                 {hideCompleted ? (
@@ -79,7 +85,10 @@ export default function TasksUI({
                 )}
               </button>
               <button
-                onClick={onCompleteAll}
+                onClick={() => {
+                  onCompleteAll(); // wykonaj akcję complete all
+                  inputRef.current?.focus(); // focus do inputa
+                }}
                 disabled={!hasUncompleted}
                 className={`py-2 px-3 mr-3 rounded transition bg-transparent duration-300
                   ${allCompleted ? "text-gray-400" : "text-teal-500"}
@@ -101,7 +110,10 @@ export default function TasksUI({
               >
                 <div className="flex gap-5 flex-start">
                   <button
-                    onClick={() => onTodoToggle(task.id, !task.completed)}
+                    onClick={() => {
+                      onTodoToggle(task.id, !task.completed);
+                      inputRef.current?.focus();
+                    }}
                     className="cursor-pointer w-7 h-7 flex items-center justify-center
                       bg-teal-500 text-white font-bold rounded-sm hover:brightness-110 transition"
                   >
@@ -112,7 +124,9 @@ export default function TasksUI({
                   </div>
                 </div>
                 <button
-                  onClick={() => onTodoDelete(task.id)}
+                  onClick={() => {
+                    (onTodoDelete(task.id), inputRef.current?.focus());
+                  }}
                   className="rounded-sm cursor-pointer bg-red-400 ml-3 w-7 h-7 text-white flex items-center justify-center hover:brightness-110 transition"
                 >
                   🗑

@@ -4,13 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { taskFormSchema, TaskFormData } from "../utils";
 import { useIntl, FormattedMessage } from "react-intl";
 import { Tooltip } from "react-tooltip";
+import { RefObject } from "react";
 
 interface AddTaskFormProps {
   onAdd: (task: string) => void;
+  inputRef: RefObject<HTMLInputElement>; // <-- forward ref from parent
 }
 
-export default function AddTaskForm({ onAdd }: AddTaskFormProps) {
-  const intl = useIntl(); // <-- hook do pobierania tłumaczeń
+export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
+  const intl = useIntl(); // <-- hook for loading translations
 
   const {
     register,
@@ -26,10 +28,14 @@ export default function AddTaskForm({ onAdd }: AddTaskFormProps) {
 
   const isDisabled = !isDirty || isSubmitting;
 
+  // -fix conflict ref - react-hook-form
+  const { ref: registerRef, ...rest } = register("task");
+
   const onSubmit = (data: TaskFormData) => {
     onAdd(data.task);
     console.log("dodany task w form: ", data.task);
     reset();
+    inputRef.current?.focus();
   };
 
   return (
@@ -39,11 +45,15 @@ export default function AddTaskForm({ onAdd }: AddTaskFormProps) {
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="flex gap-5 p-5">
         <input
+          {...rest} // rest of register props
+          ref={(el) => {
+            registerRef(el); // hook form works
+            inputRef.current = el; // my focus
+          }}
           autoFocus
           type="text"
           placeholder={intl.formatMessage({ id: "placeholder" })}
           className="bg-gray-50 flex-1 border outline-none rounded-sm caret-teal-600 border-gray-300 pl-2.5"
-          {...register("task")}
         />
         <div>
           {/* Tooltip */}
