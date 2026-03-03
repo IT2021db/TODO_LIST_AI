@@ -12,7 +12,7 @@ interface TasksUIProps {
   loading?: boolean;
   error?: string | null;
   onTodoAdd: (task: string) => void;
-  onTodoToggle: (id: number, completed: boolean) => void;
+  onTodoToggle: (id: number, isCompleted: boolean) => void;
   onTodoDelete: (id: number) => void;
   onCompleteAll: () => void;
   locale: Locale;

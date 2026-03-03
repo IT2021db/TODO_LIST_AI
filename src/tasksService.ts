@@ -1,12 +1,12 @@
 // tasksService.ts
 import { supabase } from "./lib/supabase";
-import { Task, tasksSchema } from "./utils";
+import { AddTaskFormData, Task, tasksSchema } from "./utils";
 
 // Fetch all tasks
 export async function fetchTasksFromSupabase(): Promise<Task[]> {
   const { data, error } = await supabase
     .from("tasks")
-    .select("id, text, completed")
+    .select("id, text,completed")
     .order("created_at", { ascending: true });
 
   if (error) throw new Error(error.message);
@@ -22,18 +22,18 @@ export async function fetchTasksFromSupabase(): Promise<Task[]> {
 }
 
 // Add new task
-export async function addTaskToSupabase(task: string) {
+export async function addTaskToSupabase(text: AddTaskFormData) {
   const { error } = await supabase
     .from("tasks")
     .insert([
-      { text: task, completed: false, created_at: new Date().toISOString() },
+      { text: text, completed: false, created_at: new Date().toISOString() },
     ]);
-  console.log("dodany task w tasksService/addTask : ", task);
+  console.log("dodany task w tasksService/addTask : ", text);
   if (error) throw new Error(error.message);
 }
 
 // Toggle task
-export async function toggleTaskInSupabase(id: number, completed: boolean) {
+export async function toggleTaskInSupabase(id: [Task], completed: [Task]) {
   const { error } = await supabase
     .from("tasks")
     .update({ completed })
@@ -53,7 +53,7 @@ export async function completeAllTasksInSupabase() {
 }
 
 // Delete task
-export async function deleteTaskFromSupabase(id: number) {
+export async function deleteTaskFromSupabase(id: [Task]) {
   const { error } = await supabase.from("tasks").delete().eq("id", id);
   if (error) throw new Error(error.message);
 }

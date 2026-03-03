@@ -1,13 +1,13 @@
 // AddTaskForm.tsx
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { taskFormSchema, TaskFormData } from "../utils";
+import { taskFormSchema, AddTaskFormData } from "../utils";
 import { useIntl, FormattedMessage } from "react-intl";
 import { Tooltip } from "react-tooltip";
 import { RefObject } from "react";
 
 interface AddTaskFormProps {
-  onAdd: (task: string) => void;
+  onAdd: (text: AddTaskFormData) => void;
   inputRef: RefObject<HTMLInputElement>; // <-- forward ref from parent
 }
 
@@ -22,18 +22,18 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
   } = useForm({
     resolver: zodResolver(taskFormSchema),
     defaultValues: {
-      task: "",
+      text: "",
     },
   });
 
   const isDisabled = !isDirty || isSubmitting;
 
   // -fix conflict ref - react-hook-form
-  const { ref: registerRef, ...rest } = register("task");
+  const { ref: registerRef, ...rest } = register("text");
 
-  const onSubmit = (data: TaskFormData) => {
-    onAdd(data.task);
-    console.log("dodany task w form: ", data.task);
+  const onSubmit = (data: AddTaskFormData) => {
+    onAdd(data.text);
+    console.log("dodany text w form: ", data.text);
     reset();
     inputRef.current?.focus();
   };
@@ -84,9 +84,9 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
           )}
         </div>
       </form>
-      {errors.task && (
+      {errors.text && (
         <span className="text-red-500 mt-1 text-sm">
-          {errors.task?.message}
+          {errors.text?.message}
         </span>
       )}
     </div>

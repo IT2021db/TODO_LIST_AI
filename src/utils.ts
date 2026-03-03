@@ -9,18 +9,25 @@ export const taskSchema = z.object({
   completed: z.coerce.boolean(),
 });
 
-export const tasksSchema = z.array(taskSchema); //table of tasks
+export const tasksSchema = z.array(taskSchema); //table of tasks Task[]
 
 export type Task = z.infer<typeof taskSchema>; //type of TypeScript generated from Zod
+// TypeScript automatomatically create type:
+// type Task = {
+//   id: string;
+//   text: string;
+//   completed: boolean;
+// };
 
 //2. FORM SCHEMA - TEXT WRITTEN IN INPUT
 
 //TaskFormSchema - scheme for addNewTask form
 export const taskFormSchema = z.object({
-  task: z.coerce.string().min(1, "Pole nie może być puste"),
+  text: z.coerce.string(),
 });
 
-export type TaskFormData = z.infer<typeof taskFormSchema>; //type TS for form
+export type AddTaskFormData = z.infer<typeof taskFormSchema>; //type TS for form
+//TS creates:type AddTaskFormData = {  text: string;}
 
 //3. TYPE FOR TaskService
 export type TasksService = {
@@ -28,7 +35,7 @@ export type TasksService = {
   loading: boolean;
   error: string | null;
   addTask: (text: string) => Promise<void>;
-  toggleTask: (id: number, completed: boolean) => Promise<void>;
+  toggleTask: (id: number, isCompleted: boolean) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;
   completeAllTasks: () => Promise<void>;
 };

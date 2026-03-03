@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Task } from "./utils";
+import { Task, AddTaskFormData } from "./utils";
 import {
   fetchTasksFromSupabase,
   addTaskToSupabase,
@@ -31,8 +31,8 @@ export default function useTasksQuery() {
 
   // TOGGLE
   const toggleTaskMutation = useMutation({
-    mutationFn: ({ id, completed }: { id: number; completed: boolean }) =>
-      toggleTaskInSupabase(id, completed),
+    mutationFn: ({ id, isCompleted }: { id: [Task]; isCompleted: [Task] }) =>
+      toggleTaskInSupabase(id, isCompleted),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
@@ -59,9 +59,10 @@ export default function useTasksQuery() {
     tasks,
     loading: isLoading,
     error: error?.message || null,
-    addTask: (text: string) => addTaskMutation.mutate(text),
-    toggleTask: (id: number, completed: boolean) => toggleTaskMutation.mutate({ id, completed }),
+    addTask: (text: AddTaskFormData) => addTaskMutation.mutate(text),
+    toggleTask: (id: [Task], isCompleted: [Task]) =>
+      toggleTaskMutation.mutate({ id, isCompleted }),
     completeAllTasks: () => completeAllMutation.mutate(),
-    deleteTask: (id: number) => deleteTaskMutation.mutate(id),
+    deleteTask: (id: [Task]) => deleteTaskMutation.mutate(id),
   };
 }
