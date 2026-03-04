@@ -28,7 +28,7 @@ export default function TasksUI({
   onTodoDelete,
   onCompleteAll,
   locale: Locale,
-  onLocaleChange, // <-- destrukturing
+  onLocaleChange, 
 }: TasksUIProps) {
   
   const [hideCompleted, setHideCompleted] = useState(false);
