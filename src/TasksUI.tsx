@@ -30,6 +30,7 @@ export default function TasksUI({
   locale: Locale,
   onLocaleChange, // <-- destrukturing
 }: TasksUIProps) {
+  
   const [hideCompleted, setHideCompleted] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);

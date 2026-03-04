@@ -30,7 +30,7 @@ export default function App({ locale, onLocaleChange }: Props) {
         onTodoDelete={deleteTask}
         onCompleteAll={completeAllTasks}
         locale={locale} // forward current language
-        onLocaleChange={onLocaleChange} // forward callback (onLocaleChange)
+        onLocaleChange={onLocaleChange} // forward callback 
       />
     </div>
   );

@@ -14,7 +14,6 @@ function Root() {
   const savedLocale = (localStorage.getItem("locale") as Locale) || "pl";
 
   const [locale, setLocale] = useState<Locale>(savedLocale); 
-
   // 2.writing to localStorage after changing locale
   useEffect(() => {
     localStorage.setItem("locale", locale);
@@ -24,7 +23,7 @@ function Root() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <IntlProvider locale={locale} messages={messages[locale]}>
-        <App locale={locale} onLocaleChange={setLocale} />{" "}
+        <App locale={locale} onLocaleChange={setLocale} />{" "}  
       </IntlProvider>
     </QueryClientProvider>
   );
