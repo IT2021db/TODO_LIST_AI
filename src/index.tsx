@@ -13,7 +13,7 @@ function Root() {
   // 1. reading language from localStorage or fallback to "pl"
   const savedLocale = (localStorage.getItem("locale") as Locale) || "pl";
 
-  const [locale, setLocale] = useState<Locale>(savedLocale); // Type Locale i default 'pl'
+  const [locale, setLocale] = useState<Locale>(savedLocale); 
 
   // 2.writing to localStorage after changing locale
   useEffect(() => {
@@ -24,7 +24,7 @@ function Root() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <IntlProvider locale={locale} messages={messages[locale]}>
-        <App locale={locale} setLocale={setLocale} />{" "}
+        <App locale={locale} onLocaleChange={setLocale} />{" "}
       </IntlProvider>
     </QueryClientProvider>
   );

@@ -52,6 +52,7 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
           }}
           autoFocus
           type="text"
+          name="addNewTask"
           placeholder={intl.formatMessage({ id: "placeholder" })}
           className="bg-gray-50 flex-1 border outline-none rounded-sm caret-teal-600 border-gray-300 pl-2.5"
         />

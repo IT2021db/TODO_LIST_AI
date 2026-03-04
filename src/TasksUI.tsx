@@ -16,7 +16,7 @@ interface TasksUIProps {
   onTodoDelete: (id: number) => void;
   onCompleteAll: () => void;
   locale: Locale;
-  setLocale: (locale: Locale) => void;
+  onLocaleChange: (locale: Locale) => void;
 }
 
 export default function TasksUI({
@@ -28,7 +28,7 @@ export default function TasksUI({
   onTodoDelete,
   onCompleteAll,
   locale: Locale,
-  setLocale, // <-- destrukturing
+  onLocaleChange, // <-- destrukturing
 }: TasksUIProps) {
   const [hideCompleted, setHideCompleted] = useState(false);
 
@@ -61,7 +61,7 @@ export default function TasksUI({
   return (
     <div>
       <h1 className="bg-teal-500 text-white p-8 w-full h-24">
-        <LanguageSwitcher locale={Locale} setLocale={setLocale} />
+        <LanguageSwitcher locale={Locale} onLocaleChange={onLocaleChange} />
       </h1>
       <main className="grid grid-cols-1 mx-auto p-5 max-w-4xl gap-5 max-[767px]:grid-cols-1 caret-transparent">
         <h2 className="text-4xl font-bold">

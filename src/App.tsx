@@ -5,10 +5,10 @@ import useTasksQuery from "./useTaskQuery";
 // type of available languages
 type Props = {
   locale: Locale; // <-- define prop - locale
-  setLocale: (locale: Locale) => void; // <--  prop - setLocale
+  onLocaleChange: (locale: Locale) => void; // <--  prop - setLocale
 };
 
-export default function App({ locale, setLocale }: Props) {
+export default function App({ locale, onLocaleChange }: Props) {
   const {
     tasks,
     loading,
@@ -29,8 +29,8 @@ export default function App({ locale, setLocale }: Props) {
         onTodoToggle={toggleTask}
         onTodoDelete={deleteTask}
         onCompleteAll={completeAllTasks}
-        locale={locale} // forwarding locale
-        setLocale={setLocale} // forwarding setLocale
+        locale={locale} // forward current language
+        onLocaleChange={onLocaleChange} // forward callback (onLocaleChange)
       />
     </div>
   );
