@@ -41,7 +41,9 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
   return (
     <div className="bg-gray-50 mb-2.5">
       <h2 className="text-2xl font-bold border-b border-gray-300 p-5">
-        <FormattedMessage id="addTask" />
+        <label htmlFor="taskInput">
+          <FormattedMessage id="addTask" />
+        </label>
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="flex gap-5 p-5">
         <input
@@ -50,9 +52,9 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
             registerRef(el); // hook form works
             inputRef.current = el; // my focus
           }}
+          id="taskInput" // <--joint with label
           autoFocus
           type="text"
-          name="addNewTask"
           placeholder={intl.formatMessage({ id: "placeholder" })}
           className="bg-gray-50 flex-1 border outline-none rounded-sm caret-teal-600 border-gray-300 pl-2.5"
         />
