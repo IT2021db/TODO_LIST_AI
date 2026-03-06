@@ -1,6 +1,6 @@
 // tasksService.ts
 import { supabase } from "./lib/supabase";
-import { AddTaskFormData, Task, tasksSchema } from "./utils";
+import { AddTaskFormData, Task, tasksSchema } from "./types";
 
 // Fetch all tasks
 export async function fetchTasksFromSupabase(): Promise<Task[]> {

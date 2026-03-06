@@ -1,7 +1,7 @@
 // AddTaskForm.tsx
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { taskFormSchema, AddTaskFormData } from "../utils";
+import { taskFormSchema, AddTaskFormData } from "../types";
 import { useIntl, FormattedMessage } from "react-intl";
 import { Tooltip } from "react-tooltip";
 import { RefObject } from "react";

@@ -1,6 +1,6 @@
 // useTasks.ts
 import { useState, useEffect } from "react";
-import { Task } from "./utils";
+import { Task, AddTaskFormData } from "./types";
 import { useIntl } from "react-intl";
 
 import {
@@ -44,7 +44,7 @@ export default function useTasks() {
     fetchTasks();
   }, []);
 
-  const addTask = async (task: string) => {
+  const addTask = async (task: AddTaskFormData) => {
     setState({ status: "loading" });
 
     try {

@@ -14,7 +14,7 @@ export const tasksSchema = z.array(taskSchema); //table of tasks Task[]
 export type Task = z.infer<typeof taskSchema>; //type of TypeScript generated from Zod
 // TypeScript automatomatically create type:
 // type Task = {
-//   id: string;
+//   id: number;
 //   text: string;
 //   completed: boolean;
 // };
@@ -34,7 +34,7 @@ export type TasksService = {
   tasks: Task[];
   loading: boolean;
   error: string | null;
-  addTask: (text: string) => Promise<void>;
+  addTask: (text: AddTaskFormData) => Promise<void>;
   toggleTask: (id: number, isCompleted: boolean) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;
   completeAllTasks: () => Promise<void>;
