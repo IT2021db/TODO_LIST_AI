@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Task, AddTaskFormData } from "./utils";
+import { Task, AddTaskFormData, TasksService } from "./types";
 import {
   fetchTasksFromSupabase,
   addTaskToSupabase,
@@ -8,7 +8,7 @@ import {
   deleteTaskFromSupabase,
 } from "./tasksService";
 
-export default function useTasksQuery() {
+export default function useTasksQuery(): TasksService {
   const queryClient = useQueryClient();
 
   // FETCH
@@ -20,13 +20,13 @@ export default function useTasksQuery() {
     queryKey: ["tasks"],
     queryFn: fetchTasksFromSupabase,
   });
+  const invalidate = () =>
+    queryClient.invalidateQueries({ queryKey: ["tasks"] });
 
   // ADD
   const addTaskMutation = useMutation({
     mutationFn: addTaskToSupabase,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
+    onSuccess: invalidate,
   });
 
   // TOGGLE
@@ -34,25 +34,19 @@ export default function useTasksQuery() {
     mutationFn: ({ id, isCompleted }: { id: [Task]; isCompleted: [Task] }) =>
       toggleTaskInSupabase(id, isCompleted),
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
+    onSuccess: invalidate,
   });
 
   // COMPLETE ALL
   const completeAllMutation = useMutation({
     mutationFn: completeAllTasksInSupabase,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
+    onSuccess: invalidate,
   });
 
   // DELETE
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTaskFromSupabase,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
+    onSuccess: invalidate,
   });
 
   return {
