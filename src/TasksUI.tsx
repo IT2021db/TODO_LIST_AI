@@ -1,6 +1,6 @@
 // TasksUI.tsx
 import { useState, useRef, useEffect } from "react";
-import { Task } from "./utils";
+import { AddTaskFormData, Task, TasksService } from "./types";
 import spinner from "./assets/spinner.gif";
 import AddTaskForm from "./reactComponents/AddTaskForm";
 import { FormattedMessage } from "react-intl";
@@ -11,10 +11,10 @@ interface TasksUIProps {
   tasks: Task[];
   loading?: boolean;
   error?: string | null;
-  onTodoAdd: (task: string) => void;
-  onTodoToggle: (id: number, isCompleted: boolean) => void;
-  onTodoDelete: (id: number) => void;
-  onCompleteAll: () => void;
+  onTodoAdd: (text: AddTaskFormData) => void;
+  onTodoToggle: TasksService["toggleTask"];
+  onTodoDelete: TasksService["deleteTask"];
+  onCompleteAll: TasksService["completeAllTasks"];
   locale: Locale;
   onLocaleChange: (locale: Locale) => void;
 }
@@ -27,16 +27,15 @@ export default function TasksUI({
   onTodoToggle,
   onTodoDelete,
   onCompleteAll,
-  locale: Locale,
-  onLocaleChange, 
+  locale,
+  onLocaleChange,
 }: TasksUIProps) {
-  
   const [hideCompleted, setHideCompleted] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     inputRef.current?.focus();
-  }, [Locale]);
+  }, [locale]);
 
   if (loading) {
     return (
@@ -62,7 +61,7 @@ export default function TasksUI({
   return (
     <div>
       <h1 className="bg-teal-500 text-white p-8 w-full h-24">
-        <LanguageSwitcher locale={Locale} onLocaleChange={onLocaleChange} />
+        <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
       </h1>
       <main className="grid grid-cols-1 mx-auto p-5 max-w-4xl gap-5 max-[767px]:grid-cols-1 caret-transparent">
         <h2 className="text-4xl font-bold">
