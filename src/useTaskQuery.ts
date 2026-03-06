@@ -6,7 +6,7 @@ import {
   toggleTaskInSupabase,
   completeAllTasksInSupabase,
   deleteTaskFromSupabase,
-} from "./tasksService";
+} from "./ApiTasksService";
 
 export default function useTasksQuery(): TasksService {
   const queryClient = useQueryClient();

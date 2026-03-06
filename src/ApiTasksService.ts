@@ -1,4 +1,3 @@
-// tasksService.ts
 import { supabase } from "./lib/supabase";
 import { AddTaskFormData, Task, tasksSchema } from "./types";
 

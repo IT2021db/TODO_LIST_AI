@@ -9,7 +9,7 @@ import {
   toggleTaskInSupabase,
   completeAllTasksInSupabase,
   deleteTaskFromSupabase,
-} from "./tasksService";
+} from "./ApiTasksService";
 
 type TasksState =
   | { status: "idle" }
@@ -28,7 +28,7 @@ export default function useTasks() {
       const data = await fetchTasksFromSupabase();
       setState({ status: "success", data });
       console.log(
-        "data w useTasks - zadania przekazane z tasksService",
+        "data w useTasks - zadania przekazane z ApiTasksService",
         data,
         state,
       );
