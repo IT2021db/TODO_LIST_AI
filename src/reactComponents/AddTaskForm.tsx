@@ -33,7 +33,7 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
 
   const onSubmit = (data: AddTaskFormData) => {
     onAdd(data);
-    console.log("dodany text w form: ", data);
+    console.log("dodany text w form: ", data.text);
     reset();
     inputRef.current?.focus();
   };
