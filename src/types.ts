@@ -1,17 +1,15 @@
 import { z } from "zod";
 
-//1. DATA SCHEMA FROM SUPABASE
-
-//taskSchema describing structure of a single task in database
+//1- ZOD SCHEMA FOR TASK
 export const taskSchema = z.object({
-  id: z.coerce.number(),
-  text: z.coerce.string(),
-  completed: z.coerce.boolean(),
+  id: z.number(),
+  text: z.string(),
+  completed: z.boolean(),
 });
 
-export const tasksSchema = z.array(taskSchema); //table of tasks Task[]
+export const tasksSchema = z.array(taskSchema); //table of tasks -> Task[]
 
-export type Task = z.infer<typeof taskSchema>; //type of TypeScript generated from Zod
+export type Task = z.infer<typeof taskSchema>;
 // TypeScript automatomatically create type:
 // type Task = {
 //   id: number;
@@ -19,17 +17,34 @@ export type Task = z.infer<typeof taskSchema>; //type of TypeScript generated fr
 //   completed: boolean;
 // };
 
-//2. FORM SCHEMA - TEXT WRITTEN IN INPUT
-
-//TaskFormSchema - scheme for addNewTask form
-export const taskFormSchema = z.object({
-  text: z.coerce.string(),
+//2- ZOD SCHEMA FOR FORM
+export const taskFormSchema = taskSchema.pick({
+  text: true,
 });
 
-export type AddTaskFormData = z.infer<typeof taskFormSchema>; //type TS for form
-//TS creates:type AddTaskFormData = {  text: string;}
+export type AddTaskFormData = z.infer<typeof taskFormSchema>;
 
-//3. TYPE FOR TaskService
+//3-API DTOs
+export const createTaskSchema = taskSchema.pick({
+  text: true,
+});
+
+export type CreateTaskInput = z.infer<typeof createTaskSchema>;
+
+export const toggleTaskSchema = taskSchema.pick({
+  id: true,
+  completed: true,
+});
+
+export type ToggleTaskInput = z.infer<typeof toggleTaskSchema>;
+
+export const deleteTaskSchema = taskSchema.pick({
+  id: true,
+});
+
+export type DeleteTaskInput = z.infer<typeof deleteTaskSchema>;
+
+//4. TYPE FOR TaskService
 export type TasksService = {
   tasks: Task[];
   loading: boolean;
