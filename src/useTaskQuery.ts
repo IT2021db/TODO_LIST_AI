@@ -31,9 +31,7 @@ export default function useTasksQuery(): TasksService {
 
   // TOGGLE
   const toggleTaskMutation = useMutation({
-    mutationFn: ({ id, isCompleted }: { id: [Task]; isCompleted: [Task] }) =>
-      toggleTaskInSupabase(id, isCompleted),
-
+    mutationFn: toggleTaskInSupabase,
     onSuccess: invalidate,
   });
 
@@ -53,10 +51,10 @@ export default function useTasksQuery(): TasksService {
     tasks,
     loading: isLoading,
     error: error?.message || null,
-    addTask: (text: AddTaskFormData) => addTaskMutation.mutate(text),
-    toggleTask: (id: [Task], isCompleted: [Task]) =>
-      toggleTaskMutation.mutate({ id, isCompleted }),
-    completeAllTasks: () => completeAllMutation.mutate(),
-    deleteTask: (id: [Task]) => deleteTaskMutation.mutate(id),
+    addTask: async (data: AddTaskFormData) => addTaskMutation.mutateAsync(data),
+    toggleTask: async (id: number, completed: boolean) =>
+      toggleTaskMutation.mutateAsync({ id, completed }),
+    completeAllTasks: async () => completeAllMutation.mutateAsync(),
+    deleteTask: async (id: number) => deleteTaskMutation.mutateAsync({id}),
   };
 }
