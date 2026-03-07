@@ -3,9 +3,12 @@ import { useState, useRef, useEffect } from "react";
 import { AddTaskFormData, Task, TasksService } from "./types";
 import spinner from "./assets/spinner.gif";
 import AddTaskForm from "./reactComponents/AddTaskForm";
-import { FormattedMessage } from "react-intl";
+import TaskItem from "./reactComponents/TaskItem";
 import LanguageSwitcher from "./reactComponents/LanguageSwitcher";
+import { FormattedMessage } from "react-intl";
+
 import { Locale } from "./i18n/messages";
+
 
 interface TasksUIProps {
   tasks: Task[];
@@ -107,34 +110,13 @@ export default function TasksUI({
           </div>
           <ul className="m-0 pl-3 px-3 pb-3 break-all">
             {visibleTasks.map((task) => (
-              <li
+              <TaskItem
                 key={task.id}
-                className="flex items-center justify-between text-blue-800 py-3 px-5 border-b border-gray-300"
-              >
-                <div className="flex gap-5 flex-start">
-                  <button
-                    onClick={() => {
-                      onTodoToggle(task.id, !task.completed);
-                      inputRef.current?.focus();
-                    }}
-                    className="cursor-pointer w-7 h-7 flex items-center justify-center
-                      bg-teal-500 text-white font-bold rounded-sm hover:brightness-110 transition"
-                  >
-                    {task.completed ? "✓" : ""}
-                  </button>
-                  <div className={`${task.completed ? "line-through" : ""}`}>
-                    {task.text}
-                  </div>
-                </div>
-                <button
-                  onClick={() => {
-                    (onTodoDelete(task.id), inputRef.current?.focus());
-                  }}
-                  className="rounded-sm cursor-pointer bg-red-400 ml-3 w-7 h-7 text-white flex items-center justify-center hover:brightness-110 transition"
-                >
-                  🗑
-                </button>
-              </li>
+                task={task}
+                onToggle={onTodoToggle}
+                onDelete={onTodoDelete}
+                inputRef={inputRef}
+              />
             ))}
           </ul>
         </div>
