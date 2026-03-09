@@ -67,10 +67,10 @@ export default function TasksUI({
         <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
       </h1>
       <main className="grid grid-cols-1 mx-auto p-5 max-w-4xl gap-5 max-[767px]:grid-cols-1 caret-transparent">
-        <h2 className="text-4xl font-bold">
+        <div className="text-4xl font-bold">
           <FormattedMessage id="title" />
-        </h2>
-        <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} />
+        </div>
+        <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} locale={locale}/>
         <div className="bg-gray-50 mb-2.5 ">
           <div className="grid gap-5 grid-cols-2 px-5 py-0 border-b border-gray-300 items-center ">
             <h2 className="text-2xl font-bold p-5">

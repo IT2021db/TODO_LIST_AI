@@ -1,19 +1,23 @@
 // AddTaskForm.tsx
+import { MutableRefObject } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { taskFormSchema, AddTaskFormData } from "../types";
 import { useIntl, FormattedMessage } from "react-intl";
 import { Tooltip } from "react-tooltip";
-import { RefObject } from "react";
 
 interface AddTaskFormProps {
-  onAdd: (text: AddTaskFormData) => void;
-  inputRef: RefObject<HTMLInputElement>; // <-- forward ref from parent
+  onAdd: (data: AddTaskFormData) => void;
+  inputRef: MutableRefObject<HTMLInputElement | null>; // <-- forward ref from parent
+  locale: string; //potrzebne do triggera useEffect po zmianie języka
 }
 
-export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
+export default function AddTaskForm({
+  onAdd,
+  inputRef,
+  locale,
+}: AddTaskFormProps) {
   const intl = useIntl(); // <-- hook for loading translations
-
   const {
     register,
     handleSubmit,
@@ -33,7 +37,6 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
 
   const onSubmit = (data: AddTaskFormData) => {
     onAdd(data);
-    console.log("dodany text w form: ", data.text);
     reset();
     inputRef.current?.focus();
   };
@@ -53,7 +56,6 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
             inputRef.current = el; // my focus
           }}
           id="taskInput" // <--joint with label
-          autoFocus
           type="text"
           placeholder={intl.formatMessage({ id: "placeholder" })}
           className="bg-gray-50 flex-1 border outline-none rounded-sm caret-teal-600 border-gray-300 pl-2.5"
