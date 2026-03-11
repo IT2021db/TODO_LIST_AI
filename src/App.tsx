@@ -1,6 +1,6 @@
-import TasksUI from "./TasksUI";
+import TasksUI from "./features/tasks/TasksUI";
 import type { Locale } from "./i18n/messages";
-import useTasksQuery from "./useTaskQuery";
+import useTasksQuery from "./features/tasks/useTaskQuery";
 
 // type of available languages
 type Props = {
@@ -20,18 +20,16 @@ export default function App({ locale, onLocaleChange }: Props) {
   } = useTasksQuery();
 
   return (
-    <div>
-      <TasksUI
-        tasks={tasks}
-        loading={loading}
-        error={error}
-        onTodoAdd={addTask}
-        onTodoToggle={toggleTask}
-        onTodoDelete={deleteTask}
-        onCompleteAll={completeAllTasks}
-        locale={locale} // forward current language
-        onLocaleChange={onLocaleChange} // forward callback 
-      />
-    </div>
+    <TasksUI
+      tasks={tasks}
+      loading={loading}
+      error={error}
+      onTodoAdd={addTask}
+      onTodoToggle={toggleTask}
+      onTodoDelete={deleteTask}
+      onCompleteAll={completeAllTasks}
+      locale={locale} // forward current language
+      onLocaleChange={onLocaleChange} // forward callback
+    />
   );
 }
