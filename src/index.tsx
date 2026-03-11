@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import App from "./App";
 import { messages } from "./i18n/messages";
 import "./index.css";
-import { useAppLocale } from "./useAppLocale";
+import { useAppLocale } from "./hooks/useAppLocale";
 
 const queryClient = new QueryClient();
 function Root() {
@@ -18,7 +18,7 @@ function Root() {
       <IntlProvider locale={locale} messages={messages[locale]}>
         <App locale={locale} onLocaleChange={onLocaleChange} />
       </IntlProvider>
-       {/* GLOBAL TOOLTIP */}
+      {/* GLOBAL TOOLTIP */}
       <Tooltip
         id="app-tooltip"
         place="top"

@@ -1,6 +1,6 @@
 import TasksUI from "./features/tasks/TasksUI";
 import type { Locale } from "./i18n/messages";
-import useTasksQuery from "./features/tasks/useTaskQuery";
+import useTasksQuery from "./features/hooks/useTaskQuery";
 
 // type of available languages
 type Props = {
