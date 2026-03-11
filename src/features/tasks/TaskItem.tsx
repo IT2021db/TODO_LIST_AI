@@ -1,5 +1,5 @@
-import type { Task, TasksService } from "../types";
-
+import type { Task, TasksService } from "./types";
+import { Button } from "../../design-system/Button";
 interface TaskItemProps {
   task: Task;
   onToggle: TasksService["toggleTask"];
@@ -16,7 +16,7 @@ export default function TaskItem({
   return (
     <li className="flex items-center justify-between text-blue-800 py-3 px-5 border-b border-gray-300">
       <div className="flex gap-5 flex-start">
-        <button
+        <Button
           onClick={() => {
             onToggle(task.id, !task.completed);
             inputRef.current?.focus();
@@ -25,7 +25,7 @@ export default function TaskItem({
             bg-teal-500 text-white font-bold rounded-sm hover:brightness-110 transition"
         >
           {task.completed ? "✓" : ""}
-        </button>
+        </Button>
         <div className={`${task.completed ? "line-through" : ""}`}>
           {task.text}
         </div>

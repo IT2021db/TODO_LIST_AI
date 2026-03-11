@@ -9,7 +9,7 @@ import {
   toggleTaskInSupabase,
   completeAllTasksInSupabase,
   deleteTaskFromSupabase,
-} from "./ApiTasksService";
+} from "../../lib/tasksApi";
 
 type TasksState =
   | { status: "idle" }
@@ -61,7 +61,7 @@ export default function useTasks() {
 
     try {
       await toggleTaskInSupabase(id, isCompleted);
-      console.log("toggle task - id,isCompleted", id, isCompleted);
+      console.log("toggle task - id, isCompleted", id, isCompleted);
       setState({
         status: "success",
         data: state.data.map((t) => (t.id === id ? { ...t, isCompleted } : t)),

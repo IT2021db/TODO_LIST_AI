@@ -1,12 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Task, AddTaskFormData, TasksService } from "./types";
+import { Task, AddTaskFormData, TasksService } from "../tasks/types";
 import {
   fetchTasksFromSupabase,
   addTaskToSupabase,
   toggleTaskInSupabase,
   completeAllTasksInSupabase,
   deleteTaskFromSupabase,
-} from "./ApiTasksService";
+} from "../../lib/tasksApi";
 
 export default function useTasksQuery(): TasksService {
   const queryClient = useQueryClient();
@@ -55,6 +55,6 @@ export default function useTasksQuery(): TasksService {
     toggleTask: async (id: number, completed: boolean) =>
       toggleTaskMutation.mutateAsync({ id, completed }),
     completeAllTasks: async () => completeAllMutation.mutateAsync(),
-    deleteTask: async (id: number) => deleteTaskMutation.mutateAsync({id}),
+    deleteTask: async (id: number) => deleteTaskMutation.mutateAsync({ id }),
   };
 }
