@@ -1,11 +1,11 @@
-import { supabase } from "./lib/supabase";
+import { supabase } from "./supabase";
 import {
   tasksSchema,
   Task,
   CreateTaskInput,
   ToggleTaskInput,
   DeleteTaskInput,
-} from "./types";
+} from "../features/tasks/types";
 
 // Fetch all tasks
 export async function fetchTasksFromSupabase(): Promise<Task[]> {
@@ -17,7 +17,7 @@ export async function fetchTasksFromSupabase(): Promise<Task[]> {
   if (error) throw new Error(error.message);
 
   const result = tasksSchema.safeParse(data);
-  console.log("result in TaskService: ", result);
+  console.log("result in AddTaskService: ", result);
   if (!result.success) throw new Error("Wrong data format from Supabase");
 
   return result.data;
@@ -28,8 +28,7 @@ export const addTaskToSupabase = async ({ text }: CreateTaskInput) => {
   const { error } = await supabase
     .from("tasks")
     .insert({ text, completed: false, created_at: new Date().toISOString() });
-    
-  console.log("dodany task w AddTasksService/addTask : ", { text });
+
   if (error) throw new Error(error.message);
 };
 
