@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { AddTaskFormData, Task, TasksService } from "./types";
-import spinner from "../../assets/spinner.gif";
 import AddTaskForm from "./AddTaskForm";
 import TaskItem from "./TaskItem";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
@@ -11,6 +10,7 @@ import { Button } from "../../design-system/Button";
 import PageHeader from "../../design-system/PageHeader";
 import ErrorMessage from "../../components/app-state/ErrorMessage";
 import LoadingScreen from "../../components/app-state/LoadingScreen";
+import AppState from "../../components/app-state/AppState";
 
 import { Locale } from "../../i18n/messages";
 
@@ -44,10 +44,6 @@ export default function TasksUI({
     inputRef.current?.focus();
   }, [locale]);
 
-  if (loading) return <LoadingScreen />;
-
-  if (error) return <ErrorMessage message={error} />;
-
   const visibleTasks = hideCompleted
     ? tasks.filter((t) => !t.completed)
     : tasks;
@@ -55,63 +51,69 @@ export default function TasksUI({
   const hasUncompleted = tasks.some((t) => !t.completed);
 
   return (
-    <main>
-      <TasksUILayout
-        header={
-          <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
-        }
-      >
-        <PageHeader title={<FormattedMessage id="title" />} />
-        <Panel title={<FormattedMessage id="addTask" />}>
-          <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} locale={locale} />
-        </Panel>
-        <Panel
-          title={<FormattedMessage id="title" />}
-          actions={
-            <>
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  setHideCompleted((prev) => !prev);
-                  inputRef.current?.focus();
-                }}
-              >
-                {hideCompleted ? (
-                  <FormattedMessage id="showCompleted" />
-                ) : (
-                  <FormattedMessage id="hideCompleted" />
-                )}
-              </Button>
-              <Button
-                variant={allCompleted ? "secondary" : "ghost"}
-                disabled={!hasUncompleted}
-                onClick={() => {
-                  onCompleteAll();
-                  inputRef.current?.focus();
-                }}
-              >
-                {allCompleted ? (
-                  <FormattedMessage id="allCompleted" />
-                ) : (
-                  <FormattedMessage id="completeAll" />
-                )}
-              </Button>
-            </>
+    <AppState loading={loading} error={error}>
+      <main>
+        <TasksUILayout
+          header={
+            <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
           }
         >
-          <ul>
-            {visibleTasks.map((task) => (
-              <TaskItem
-                key={task.id}
-                task={task}
-                onToggle={onTodoToggle}
-                onDelete={onTodoDelete}
-                inputRef={inputRef}
-              />
-            ))}
-          </ul>
-        </Panel>
-      </TasksUILayout>
-    </main>
+          <PageHeader title={<FormattedMessage id="title" />} />
+          <Panel title={<FormattedMessage id="addTask" />}>
+            <AddTaskForm
+              onAdd={onTodoAdd}
+              inputRef={inputRef}
+              locale={locale}
+            />
+          </Panel>
+          <Panel
+            title={<FormattedMessage id="title" />}
+            actions={
+              <>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    setHideCompleted((prev) => !prev);
+                    inputRef.current?.focus();
+                  }}
+                >
+                  {hideCompleted ? (
+                    <FormattedMessage id="showCompleted" />
+                  ) : (
+                    <FormattedMessage id="hideCompleted" />
+                  )}
+                </Button>
+                <Button
+                  variant={allCompleted ? "secondary" : "ghost"}
+                  disabled={!hasUncompleted}
+                  onClick={() => {
+                    onCompleteAll();
+                    inputRef.current?.focus();
+                  }}
+                >
+                  {allCompleted ? (
+                    <FormattedMessage id="allCompleted" />
+                  ) : (
+                    <FormattedMessage id="completeAll" />
+                  )}
+                </Button>
+              </>
+            }
+          >
+            <ul>
+              {visibleTasks.map((task) => (
+                <TaskItem
+                  key={task.id}
+                  task={task}
+                  onToggle={onTodoToggle}
+                  onDelete={onTodoDelete}
+                  inputRef={inputRef}
+                />
+              ))}
+            </ul>
+          </Panel>
+        </TasksUILayout>
+      </main>
+    </AppState>
   );
 }
