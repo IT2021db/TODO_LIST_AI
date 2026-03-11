@@ -1,7 +1,13 @@
 import { forwardRef } from "react";
 import clsx from "clsx";
 
-type ButtonVariant = "primary" | "secondary" | "danger" | "ghost" | "language";
+type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "danger"
+  | "ghost"
+  | "language"
+  | "squere";
 type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,9 +19,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const variantStyles: Record<ButtonVariant, string> = {
   primary: "text-white bg-teal-500 hover:brightness-110",
   secondary: "text-gray-400 bg-transparent hover:bg-gray-200",
-  danger: "text-white bg-red-500 hover:brightness-110",
+  danger: "text-white bg-red-500 hover:brightness-110 ",
   ghost: "text-teal-500 bg-transparent hover:bg-teal-50",
   language: "text-white hover:bg-teal-700",
+  squere:
+    "bg-teal-500 text-white font-bold rounded-sm hover:brightness-110 transition",
 };
 
 const activeStyles: Record<ButtonVariant, string> = {
@@ -24,6 +32,7 @@ const activeStyles: Record<ButtonVariant, string> = {
   danger: "bg-red-700 font-bold",
   ghost: "bg-teal-100 font-bold",
   language: "bg-red-900 text-white font-bold hover:bg-amber-800",
+  squere: "",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -34,7 +43,10 @@ const sizeStyles: Record<ButtonSize, string> = {
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button({ variant = "primary", size = "md", active = false, className, ...props }, ref) {
+  function Button(
+    { variant = "primary", size = "md", active = false, className, ...props },
+    ref,
+  ) {
     return (
       <button
         ref={ref}
@@ -43,10 +55,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           variantStyles[variant],
           sizeStyles[size],
           active && activeStyles[variant],
-          className
+          className,
         )}
         {...props}
       />
     );
-  }
+  },
 );

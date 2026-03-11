@@ -17,12 +17,13 @@ export default function TaskItem({
     <li className="flex items-center justify-between text-blue-800 py-3 px-5 border-b border-gray-300">
       <div className="flex gap-5 flex-start">
         <Button
+          variant="squere" // używa variantStyles + activeStyles
+          size="icon" // ustawia wymiary w sizeStyles
+          active={task.completed} // ustawia activeStyles
           onClick={() => {
             onToggle(task.id, !task.completed);
             inputRef.current?.focus();
           }}
-          className="cursor-pointer w-7 h-7 flex items-center justify-center
-            bg-teal-500 text-white font-bold rounded-sm hover:brightness-110 transition"
         >
           {task.completed ? "✓" : ""}
         </Button>
@@ -30,14 +31,16 @@ export default function TaskItem({
           {task.text}
         </div>
       </div>
-      <button
+      <Button
+        variant="danger"
+        size="icon"
         onClick={() => {
-          (onDelete(task.id), inputRef.current?.focus());
+          onDelete(task.id);
+          inputRef.current?.focus();
         }}
-        className="rounded-sm cursor-pointer bg-red-400 ml-3 w-7 h-7 text-white flex items-center justify-center hover:brightness-110 transition"
       >
         🗑
-      </button>
+      </Button>
     </li>
   );
 }
