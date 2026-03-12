@@ -44,11 +44,14 @@ export default function TasksUI({
     inputRef.current?.focus();
   }, [locale]);
 
+  const completedTasks = tasks.filter((t) => t.completed);
   const visibleTasks = hideCompleted
     ? tasks.filter((t) => !t.completed)
     : tasks;
-  const allCompleted = tasks.length > 0 && tasks.every((t) => t.completed);
-  const hasUncompleted = tasks.some((t) => !t.completed);
+
+  const allCompleted =
+    completedTasks.length === tasks.length && tasks.length > 0;
+  const hasUncompleted = completedTasks.length !== tasks.length;
 
   return (
     <AppState loading={loading} error={error}>
