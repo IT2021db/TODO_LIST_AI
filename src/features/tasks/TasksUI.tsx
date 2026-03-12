@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useTasksUI } from "./useTasksUI";
 import { FormattedMessage } from "react-intl";
 import { AddTaskFormData, Task, TasksService } from "./types";
 import AddTaskForm from "./AddTaskForm";
@@ -8,10 +9,7 @@ import TasksUILayout from "./TasksUILayout";
 import Panel from "../../design-system/Panel";
 import { Button } from "../../design-system/Button";
 import PageHeader from "../../design-system/PageHeader";
-import ErrorMessage from "../../components/app-state/ErrorMessage";
-import LoadingScreen from "../../components/app-state/LoadingScreen";
 import AppState from "../../components/app-state/AppState";
-
 import { Locale } from "../../i18n/messages";
 
 interface TasksUIProps {
@@ -37,21 +35,19 @@ export default function TasksUI({
   locale,
   onLocaleChange,
 }: TasksUIProps) {
-  const [hideCompleted, setHideCompleted] = useState(false);
-
   const inputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     inputRef.current?.focus();
   }, [locale]);
 
-  const completedTasks = tasks.filter((t) => t.completed);
-  const visibleTasks = hideCompleted
-    ? tasks.filter((t) => !t.completed)
-    : tasks;
-
-  const allCompleted =
-    completedTasks.length === tasks.length && tasks.length > 0;
-  const hasUncompleted = completedTasks.length !== tasks.length;
+  const {
+    hideCompleted,
+    setHideCompleted,
+    visibleTasks,
+    allCompleted,
+    hasUncompleted,
+  } = useTasksUI(tasks);
 
   return (
     <AppState loading={loading} error={error}>
