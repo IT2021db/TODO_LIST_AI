@@ -5,7 +5,7 @@ import { useTasksActions } from "./useTasksActions";
 import { AddTaskFormData, Task, TasksService } from "./types";
 import { Locale } from "../../i18n/messages";
 import AddTaskForm from "./AddTaskForm";
-import TaskItem from "./TaskItem";
+import TasksList from "./TasksList";
 import TasksPanelActions from "./TasksPanelActions";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import TasksUILayout from "./TasksUILayout";
@@ -85,15 +85,12 @@ export default function TasksUI({
             }
           >
             <ul>
-              {visibleTasks.map((task) => (
-                <TaskItem
-                  key={task.id}
-                  task={task}
-                  onToggle={onTodoToggle}
-                  onDelete={onTodoDelete}
-                  inputRef={inputRef}
-                />
-              ))}
+              <TasksList
+                tasks={visibleTasks}
+                onToggle={onTodoToggle}
+                onDelete={onTodoDelete}
+                inputRef={inputRef}
+              />
             </ul>
           </Panel>
         </TasksUILayout>
