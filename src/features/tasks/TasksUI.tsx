@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useTasksUI } from "./useTasksUI";
 import { FormattedMessage } from "react-intl";
+import { useTasksActions } from "./useTasksActions";
 import { AddTaskFormData, Task, TasksService } from "./types";
 import AddTaskForm from "./AddTaskForm";
 import TaskItem from "./TaskItem";
@@ -49,6 +50,12 @@ export default function TasksUI({
     hasUncompleted,
   } = useTasksUI(tasks);
 
+  const { toggleHideCompleted, completeAll } = useTasksActions({
+    inputRef,
+    onCompleteAll,
+    setHideCompleted,
+  });
+
   return (
     <AppState loading={loading} error={error}>
       <main>
@@ -69,13 +76,7 @@ export default function TasksUI({
             title={<FormattedMessage id="title" />}
             actions={
               <>
-                <Button
-                  variant="ghost"
-                  onClick={() => {
-                    setHideCompleted((prev) => !prev);
-                    inputRef.current?.focus();
-                  }}
-                >
+                <Button variant="ghost" onClick={toggleHideCompleted}>
                   {hideCompleted ? (
                     <FormattedMessage id="showCompleted" />
                   ) : (
@@ -85,10 +86,7 @@ export default function TasksUI({
                 <Button
                   variant={allCompleted ? "secondary" : "ghost"}
                   disabled={!hasUncompleted}
-                  onClick={() => {
-                    onCompleteAll();
-                    inputRef.current?.focus();
-                  }}
+                  onClick={completeAll}
                 >
                   {allCompleted ? (
                     <FormattedMessage id="allCompleted" />
