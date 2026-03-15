@@ -1,6 +1,7 @@
 // AddTaskForm.tsx
 import { MutableRefObject } from "react";
 import { useForm } from "react-hook-form";
+import mergeRefs from 'merge-refs';
 import { useIntl, FormattedMessage } from "react-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { taskFormSchema, AddTaskFormData } from "./types";
@@ -49,10 +50,7 @@ export default function AddTaskForm({
       <div className="flex flex-col flex-1">
         <Input
           {...rest}
-          ref={(el) => {
-            registerRef(el);
-            inputRef.current = el;
-          }}
+          ref={mergeRefs(registerRef, inputRef)}
           id="taskInput" // <--joint with label
           type="text"
           placeholder={intl.formatMessage({ id: "placeholder" })}
