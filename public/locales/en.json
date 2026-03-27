@@ -1,0 +1,13 @@
+{
+  "title": "Task list",
+  "addTask": "Add new task",
+  "placeholder": "What needs to be done?",
+  "writeTask": "Add task",
+  "loading": "Loading data...",
+  "showCompleted": "Show completed",
+  "hideCompleted": "Hide completed",
+  "completeAll": "Complete all",
+  "allCompleted": "All completed ✓",
+  "taskRequired": "Enter a task",
+  "tasksFetchError": "Error fetching tasks"
+}
