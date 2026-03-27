@@ -1,14 +1,7 @@
 import TasksUI from "./features/tasks/TasksUI";
-import type { Locale } from "./i18n/messages";
 import useTasksQuery from "./features/hooks/useTaskQuery";
 
-// type of available languages
-type Props = {
-  locale: Locale; // <-- define prop - locale
-  onLocaleChange: (locale: Locale) => void; // <--  prop - setLocale
-};
-
-export default function App({ locale, onLocaleChange }: Props) {
+export default function App() {
   const {
     tasks,
     loading,
@@ -28,8 +21,6 @@ export default function App({ locale, onLocaleChange }: Props) {
       onTodoToggle={toggleTask}
       onTodoDelete={deleteTask}
       onCompleteAll={completeAllTasks}
-      locale={locale} // forward current language
-      onLocaleChange={onLocaleChange} // forward callback
     />
   );
 }
