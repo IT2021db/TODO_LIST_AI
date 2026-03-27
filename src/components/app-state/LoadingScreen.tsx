@@ -1,17 +1,14 @@
 import spinner from "../../assets/spinner.gif";
-import { FormattedMessage } from "react-intl";
+import { useTranslation } from "react-i18next";
 
-interface LoadingScreenProps {
-  messageId?: string;
-}
-
-export default function LoadingScreen({ messageId = "loading" }: LoadingScreenProps) {
+export default function LoadingScreen() {
+  const {t, i18n}=useTranslation();
   return (
     <div className="caret-transparent flex flex-col items-center justify-center min-h-screen">
       <img src={spinner} alt="Loading..." className="w-80 h-80 mb-4" />
 
       <p className="text-xl">
-        <FormattedMessage id={messageId} />
+       {t("loading")}
       </p>
     </div>
   );

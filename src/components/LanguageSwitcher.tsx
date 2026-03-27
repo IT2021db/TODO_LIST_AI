@@ -1,13 +1,15 @@
-import type { Locale } from "../i18n/messages";
+import { useTranslation } from "react-i18next";
 import { Button } from "../design-system/Button";
 
-type Props = {
-  locale: Locale;
-  onLocaleChange: (locale: Locale) => void;
-};
+export default function LanguageSwitcher() {
+  const { i18n } = useTranslation();
 
-export default function LanguageSwitcher({ locale, onLocaleChange }: Props) {
-  const languages: Locale[] = ["en", "pl", "es"];
+  const languages = ["en", "pl", "es"];
+  const currentLanguage = i18n.resolvedLanguage;
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("language", lang);
+  };
 
   return (
     <div className="flex gap-2 mb-4">
@@ -15,8 +17,8 @@ export default function LanguageSwitcher({ locale, onLocaleChange }: Props) {
         <Button
           key={lang}
           variant="language"
-          active={locale === lang}
-          onClick={() => onLocaleChange(lang)}
+          active={currentLanguage === lang}
+          onClick={() => changeLanguage(lang)}
         >
           {lang.toUpperCase()}
         </Button>

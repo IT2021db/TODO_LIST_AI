@@ -1,6 +1,5 @@
-import { FormattedMessage } from "react-intl";
+import { useTranslation } from "react-i18next";
 import { Button } from "../../design-system/Button";
-
 interface TasksPanelActionsProps {
   hideCompleted: boolean;
   allCompleted: boolean;
@@ -16,14 +15,11 @@ export default function TasksPanelActions({
   onToggleHide,
   onCompleteAll,
 }: TasksPanelActionsProps) {
+  const { t } = useTranslation();
   return (
     <>
       <Button variant="ghost" onClick={onToggleHide}>
-        {hideCompleted ? (
-          <FormattedMessage id="showCompleted" />
-        ) : (
-          <FormattedMessage id="hideCompleted" />
-        )}
+        {hideCompleted ? t("writeTask") : t("hideCompleted")}
       </Button>
 
       <Button
@@ -31,11 +27,7 @@ export default function TasksPanelActions({
         disabled={!hasUncompleted}
         onClick={onCompleteAll}
       >
-        {allCompleted ? (
-          <FormattedMessage id="allCompleted" />
-        ) : (
-          <FormattedMessage id="completeAll" />
-        )}
+        {allCompleted ? t("allCompleted") : t("completeAll")}
       </Button>
     </>
   );

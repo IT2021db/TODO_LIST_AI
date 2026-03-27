@@ -1,8 +1,8 @@
 // AddTaskForm.tsx
+import { useTranslation } from "react-i18next";
 import { MutableRefObject } from "react";
 import { useForm } from "react-hook-form";
-import mergeRefs from 'merge-refs';
-import { useIntl, FormattedMessage } from "react-intl";
+import mergeRefs from "merge-refs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { taskFormSchema, AddTaskFormData } from "./types";
 import { Button } from "../../design-system/Button";
@@ -12,15 +12,10 @@ import FormError from "../../design-system/FormError";
 interface AddTaskFormProps {
   onAdd: (data: AddTaskFormData) => void;
   inputRef: MutableRefObject<HTMLInputElement | null>; // <-- forward ref from parent
-  locale: string; //for useEffect after switch language
 }
 
-export default function AddTaskForm({
-  onAdd,
-  inputRef,
-  locale,
-}: AddTaskFormProps) {
-  const intl = useIntl(); // <-- hook for loading translations
+export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -53,7 +48,7 @@ export default function AddTaskForm({
           ref={mergeRefs(registerRef, inputRef)}
           id="taskInput" // <--joint with label
           type="text"
-          placeholder={intl.formatMessage({ id: "placeholder" })}
+          placeholder={t("placeholder")}
           autoFocus
           className="flex-1"
         />
@@ -63,10 +58,10 @@ export default function AddTaskForm({
         type="submit"
         disabled={isDisabled}
         data-tooltip-id="app-tooltip"
-        data-tooltip-content={intl.formatMessage({ id: "taskRequired" })}
+        data-tooltip-content={t("taskRequired")}
         variant="primary"
       >
-        <FormattedMessage id="writeTask" />
+        {t("writeTask")}
       </Button>
     </form>
   );

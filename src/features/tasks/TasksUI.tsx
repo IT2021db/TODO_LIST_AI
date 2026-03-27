@@ -1,9 +1,8 @@
 import { useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useTasksUI } from "./useTasksUI";
-import { FormattedMessage } from "react-intl";
 import { useTasksActions } from "./useTasksActions";
 import { AddTaskFormData, Task, TasksService } from "./types";
-import { Locale } from "../../i18n/messages";
 import AddTaskForm from "./AddTaskForm";
 import TasksList from "./TasksList";
 import TasksPanelActions from "./TasksPanelActions";
@@ -21,8 +20,6 @@ interface TasksUIProps {
   onTodoToggle: TasksService["toggleTask"];
   onTodoDelete: TasksService["deleteTask"];
   onCompleteAll: TasksService["completeAllTasks"];
-  locale: Locale;
-  onLocaleChange: (locale: Locale) => void;
 }
 
 export default function TasksUI({
@@ -33,14 +30,17 @@ export default function TasksUI({
   onTodoToggle,
   onTodoDelete,
   onCompleteAll,
-  locale,
-  onLocaleChange,
 }: TasksUIProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const { t, i18n } = useTranslation();
   useEffect(() => {
-    inputRef.current?.focus();
-  }, [locale]);
+  const el = inputRef.current;
+  if (!el) return;
+
+  requestAnimationFrame(() => {
+    el.focus();
+  });
+}, [i18n.language]);
 
   const {
     hideCompleted,
@@ -59,21 +59,13 @@ export default function TasksUI({
   return (
     <AppState loading={loading} error={error}>
       <main>
-        <TasksUILayout
-          header={
-            <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
-          }
-        >
-          <PageHeader title={<FormattedMessage id="title" />} />
-          <Panel title={<FormattedMessage id="addTask" />}>
-            <AddTaskForm
-              onAdd={onTodoAdd}
-              inputRef={inputRef}
-              locale={locale}
-            />
+        <TasksUILayout header={<LanguageSwitcher />}>
+          <PageHeader title={t("title")} />
+          <Panel title={t("addTask")}>
+            <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} />
           </Panel>
           <Panel
-            title={<FormattedMessage id="title" />}
+            title={t("title")}
             actions={
               <TasksPanelActions
                 hideCompleted={hideCompleted}
