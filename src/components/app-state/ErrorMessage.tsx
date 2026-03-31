@@ -1,5 +1,6 @@
+import { ReactNode } from "react";
 interface ErrorMessageProps {
-  message: string;
+  message: ReactNode;
 }
 
 export default function ErrorMessage({ message }: ErrorMessageProps) {
