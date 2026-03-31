@@ -14,8 +14,8 @@ import AppState from "../../components/app-state/AppState";
 
 interface TasksUIProps {
   tasks: Task[];
-  loading?: boolean;
-  error?: string | null;
+  loading: TasksService["loading"];
+  error: TasksService["error"];
   onTodoAdd: (text: AddTaskFormData) => void;
   onTodoToggle: TasksService["toggleTask"];
   onTodoDelete: TasksService["deleteTask"];
