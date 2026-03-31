@@ -1,11 +1,10 @@
 import React from "react";
 import LoadingScreen from "./LoadingScreen";
-import ErrorScreen from "./ErrorMessage";
 import ErrorMessage from "./ErrorMessage";
 
 interface AppStateProps {
-  loading?: boolean;
-  error?: string | null;
+  loading: boolean;
+  error: string | null;
   children: React.ReactNode;
 }
 
