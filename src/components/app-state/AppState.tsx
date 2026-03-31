@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import LoadingScreen from "./LoadingScreen";
 import ErrorMessage from "./ErrorMessage";
 
@@ -9,7 +10,9 @@ interface AppStateProps {
 }
 
 export default function AppState({ loading, error, children }: AppStateProps) {
-  if (loading) return <LoadingScreen />;
+const {t}=useTranslation();
+
+  if (loading) return <LoadingScreen message={t("loading")}/>;
   if (error) return <ErrorMessage message={error} />;
 
   return <>{children}</>;
