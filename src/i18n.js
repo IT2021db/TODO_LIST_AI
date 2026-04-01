@@ -1,29 +1,26 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { messages } from './locales';
 
-import en from "../public/locales/en.json";
-import pl from "../public/locales/pl.json";
-import es from "../public/locales/es.json";
-
+// resources in format demanded by i18next
 const resources = {
-  en: { translation: en },
-  pl: { translation: pl },
-  es: { translation: es },
+  en: { translation: messages.en },
+  pl: { translation: messages.pl },
+  es: { translation: messages.es },
 };
 
-const getSavedLanguage = () => {
-  const saved = localStorage.getItem("language");
-  return saved || "pl";
-};
+// load language from localStorage
+const getSavedLanguage = () => localStorage.getItem("language") || "pl";
 
+// inicjalization i18next
 i18n
   .use(initReactI18next)
   .init({
-    lng: getSavedLanguage(),
     resources,
+    lng: getSavedLanguage(),
     fallbackLng: 'en',
     interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
+      escapeValue: false,
     },
   });
 

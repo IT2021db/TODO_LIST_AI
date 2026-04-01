@@ -1,26 +1,26 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "../design-system/Button";
+import { availableLocales } from "../locales";
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
 
-  const languages = ["en", "pl", "es"];
   const currentLanguage = i18n.resolvedLanguage;
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-    localStorage.setItem("language", lang);
+  const changeLanguage = (locale: string) => {
+    i18n.changeLanguage(locale);
+    localStorage.setItem("language", locale);
   };
 
   return (
     <div className="flex gap-2 mb-4">
-      {languages.map((lang) => (
+      {availableLocales.map((locale) => (
         <Button
-          key={lang}
+          key={locale}
           variant="language"
-          active={currentLanguage === lang}
-          onClick={() => changeLanguage(lang)}
+          active={currentLanguage === locale}
+          onClick={() => changeLanguage(locale)}
         >
-          {lang.toUpperCase()}
+          {locale.toUpperCase()}
         </Button>
       ))}
     </div>
