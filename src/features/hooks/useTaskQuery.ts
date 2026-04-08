@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Task, AddTaskFormData, TasksService } from "../tasks/types";
+import { rd, RemoteData } from "../../lib/remoteData";
 import {
   fetchTasksFromSupabase,
   addTaskToSupabase,
@@ -12,14 +13,11 @@ export default function useTasksQuery(): TasksService {
   const queryClient = useQueryClient();
 
   // FETCH
-  const {
-    data: tasks = [],
-    isLoading,
-    error,
-  } = useQuery<Task[], Error>({
+  const { data, isLoading, error } = useQuery<Task[], Error>({
     queryKey: ["tasks"],
     queryFn: fetchTasksFromSupabase,
   });
+
   const invalidate = () =>
     queryClient.invalidateQueries({ queryKey: ["tasks"] });
 
@@ -47,10 +45,18 @@ export default function useTasksQuery(): TasksService {
     onSuccess: invalidate,
   });
 
+  let tasks: RemoteData<Task[]>;
+
+  if (isLoading) {
+    tasks = rd.ofPending();
+  } else if (error) {
+    tasks = rd.ofError(error.message);
+  } else {
+    tasks = rd.of(data ?? []);
+  }
+
   return {
     tasks,
-    loading: isLoading,
-    error: error?.message || null,
     addTask: async (data: AddTaskFormData) => addTaskMutation.mutateAsync(data),
     toggleTask: async (id: number, completed: boolean) =>
       toggleTaskMutation.mutateAsync({ id, completed }),
