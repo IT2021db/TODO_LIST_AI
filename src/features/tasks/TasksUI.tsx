@@ -10,12 +10,11 @@ import LanguageSwitcher from "../../components/LanguageSwitcher";
 import TasksUILayout from "./TasksUILayout";
 import Panel from "../../design-system/Panel";
 import PageHeader from "../../design-system/PageHeader";
-import AppState from "../../components/app-state/AppState";
-
+import { rd, RemoteData } from "../../lib/remoteData";
+import LoadingScreen from "../../components/app-state/LoadingScreen";
+import ErrorMessage from "../../components/app-state/ErrorMessage";
 interface TasksUIProps {
-  tasks: Task[];
-  loading: TasksService["loading"];
-  error: TasksService["error"];
+  tasks: RemoteData<Task[]>;
   onTodoAdd: (text: AddTaskFormData) => void;
   onTodoToggle: TasksService["toggleTask"];
   onTodoDelete: TasksService["deleteTask"];
@@ -24,8 +23,6 @@ interface TasksUIProps {
 
 export default function TasksUI({
   tasks,
-  loading,
-  error,
   onTodoAdd,
   onTodoToggle,
   onTodoDelete,
@@ -33,14 +30,17 @@ export default function TasksUI({
 }: TasksUIProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-  const el = inputRef.current;
-  if (!el) return;
 
-  requestAnimationFrame(() => {
-    el.focus();
-  });
-}, [i18n.language]);
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    requestAnimationFrame(() => {
+      el.focus();
+    });
+  }, [i18n.language]);
+
+  // 🔥 drawing data if success
+  const tasksData = tasks.type === "success" ? tasks.data : [];
 
   const {
     hideCompleted,
@@ -48,7 +48,7 @@ export default function TasksUI({
     visibleTasks,
     allCompleted,
     hasUncompleted,
-  } = useTasksUI(tasks);
+  } = useTasksUI(tasksData);
 
   const { toggleHideCompleted, completeAll } = useTasksActions({
     inputRef,
@@ -56,8 +56,11 @@ export default function TasksUI({
     setHideCompleted,
   });
 
-  return (
-    <AppState loading={loading} error={error}>
+  return rd
+    .journey(tasks)
+    .wait(<LoadingScreen message={t("loading")} />)
+    .catch((error) => <ErrorMessage message={error} />)
+    .done(() => (
       <main>
         <TasksUILayout header={<LanguageSwitcher />}>
           <PageHeader title={t("title")} />
@@ -87,6 +90,5 @@ export default function TasksUI({
           </Panel>
         </TasksUILayout>
       </main>
-    </AppState>
-  );
+    ));
 }
