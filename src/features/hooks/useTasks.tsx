@@ -1,6 +1,6 @@
 // useTasks.ts
 import { useState, useEffect } from "react";
-import { Task, AddTaskFormData } from "./types";
+import { Task, AddTaskFormData } from "../tasks/types";
 import { useIntl } from "react-intl";
 
 import {
