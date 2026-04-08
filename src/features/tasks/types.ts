@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { RemoteData } from "../../lib/remoteData";
 
 //1- ZOD SCHEMA FOR TASK
 export const taskSchema = z.object({
@@ -46,9 +47,7 @@ export type DeleteTaskInput = z.infer<typeof deleteTaskSchema>;
 
 //4. TYPE FOR TaskService
 export type TasksService = {
-  tasks: Task[];
-  loading: boolean;
-  error: string | null;
+  tasks: RemoteData<Task[]>;
   addTask: (text: AddTaskFormData) => Promise<void>;
   toggleTask: (id: number, isCompleted: boolean) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;

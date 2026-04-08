@@ -1,19 +1,19 @@
-import React from "react";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "./LoadingScreen";
 import ErrorMessage from "./ErrorMessage";
+import { rd, RemoteData } from "../../lib/remoteData";
 
-interface AppStateProps {
-  loading: boolean;
-  error: string | null;
-  children: React.ReactNode;
+interface AppStateProps<T> {
+  data: RemoteData<T>;
+  children: (data: T) => ReactNode;
 }
+export default function AppState<T>({ data, children }: AppStateProps<T>) {
+  const { t } = useTranslation();
 
-export default function AppState({ loading, error, children }: AppStateProps) {
-const {t}=useTranslation();
-
-  if (loading) return <LoadingScreen message={t("loading")}/>;
-  if (error) return <ErrorMessage message={error} />;
-
-  return <>{children}</>;
+  return rd
+    .journey(data)
+    .wait(<LoadingScreen message={t("loading")} />)
+    .catch((error) => <ErrorMessage message={error} />)
+    .done(children);
 }

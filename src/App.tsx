@@ -4,8 +4,6 @@ import useTasksQuery from "./features/hooks/useTaskQuery";
 export default function App() {
   const {
     tasks,
-    loading,
-    error,
     addTask,
     toggleTask,
     deleteTask,
@@ -15,8 +13,6 @@ export default function App() {
   return (
     <TasksUI
       tasks={tasks}
-      loading={loading}
-      error={error}
       onTodoAdd={addTask}
       onTodoToggle={toggleTask}
       onTodoDelete={deleteTask}
