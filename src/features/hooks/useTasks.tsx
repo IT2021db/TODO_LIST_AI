@@ -1,6 +1,6 @@
 // useTasks.ts
 import { useState, useEffect } from "react";
-import { Task } from "./utils";
+import { Task, AddTaskFormData } from "../tasks/types";
 import { useIntl } from "react-intl";
 
 import {
@@ -9,7 +9,7 @@ import {
   toggleTaskInSupabase,
   completeAllTasksInSupabase,
   deleteTaskFromSupabase,
-} from "./tasksService";
+} from "../../lib/tasksApi";
 
 type TasksState =
   | { status: "idle" }
@@ -27,7 +27,11 @@ export default function useTasks() {
     try {
       const data = await fetchTasksFromSupabase();
       setState({ status: "success", data });
-      console.log("data w useTasks - zadania przekazane z tasksService", data, state);
+      console.log(
+        "data w useTasks - zadania przekazane z ApiTasksService",
+        data,
+        state,
+      );
     } catch (err: any) {
       setState({
         status: "error",
@@ -40,7 +44,7 @@ export default function useTasks() {
     fetchTasks();
   }, []);
 
-  const addTask = async (task: string) => {
+  const addTask = async (task: AddTaskFormData) => {
     setState({ status: "loading" });
 
     try {
@@ -52,15 +56,15 @@ export default function useTasks() {
     }
   };
 
-  const toggleTask = async (id: number, completed: boolean) => {
+  const toggleTask = async (id: number, isCompleted: boolean) => {
     if (state.status !== "success") return;
 
     try {
-      await toggleTaskInSupabase(id, completed);
-      console.log("toggle task - id, completed", id, completed);
+      await toggleTaskInSupabase(id, isCompleted);
+      console.log("toggle task - id, isCompleted", id, isCompleted);
       setState({
         status: "success",
-        data: state.data.map((t) => (t.id === id ? { ...t, completed } : t)),
+        data: state.data.map((t) => (t.id === id ? { ...t, isCompleted } : t)),
       });
     } catch (err: any) {
       setState({ status: "error", error: err.message });
@@ -74,7 +78,7 @@ export default function useTasks() {
       await completeAllTasksInSupabase();
       setState({
         status: "success",
-        data: state.data.map((t) => ({ ...t, completed: true })),
+        data: state.data.map((t) => ({ ...t, isCompleted: true })),
       });
     } catch (err: any) {
       setState({ status: "error", error: err.message });

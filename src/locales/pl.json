@@ -1,0 +1,13 @@
+{
+  "title": "Lista zadań",
+  "addTask": "Dodaj nowe zadanie",
+  "placeholder": "Co jest do zrobienia?",
+  "writeTask": "Dodaj zadanie",
+  "loading": "Ładuję dane",
+  "showCompleted": "Pokaż ukończone",
+  "hideCompleted": "Ukryj ukończone",
+  "completeAll": "Ukończ wszystkie",
+  "allCompleted": "Wszystkie ukończone ✓",
+  "taskRequired": "Wpisz treść zadania",
+  "tasksFetchError": "Błąd przy pobieraniu zadań"
+}
