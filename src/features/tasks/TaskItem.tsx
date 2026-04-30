@@ -17,7 +17,7 @@ export default function TaskItem({
     <li className="flex items-center justify-between text-blue-800 py-3 px-5 border-b border-gray-300">
       <div className="flex gap-5 flex-start">
         <Button
-          variant="squere" // używa variantStyles + activeStyles
+          variant="primary" // używa variantStyles + activeStyles
           size="icon" // ustawia wymiary w sizeStyles
           active={task.completed} // ustawia activeStyles
           onClick={() => {

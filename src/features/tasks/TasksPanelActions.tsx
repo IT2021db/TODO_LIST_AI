@@ -18,12 +18,12 @@ export default function TasksPanelActions({
   const { t } = useTranslation();
   return (
     <>
-      <Button variant="ghost" onClick={onToggleHide}>
-        {hideCompleted ? t("writeTask") : t("hideCompleted")}
+      <Button variant="secondary" onClick={onToggleHide}>
+        {hideCompleted ? t("showwCompleted") : t("hideCompleted")}
       </Button>
 
       <Button
-        variant={allCompleted ? "secondary" : "ghost"}
+        variant={allCompleted ? "ghost" : "secondary"}
         disabled={!hasUncompleted}
         onClick={onCompleteAll}
       >
