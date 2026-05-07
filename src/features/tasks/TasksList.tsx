@@ -15,7 +15,7 @@ export default function TasksList({
   inputRef,
 }: TasksListProps) {
   return (
-    <ul>
+  <ul className="space-y-2">
       {tasks.map((task) => (
         <TaskItem
           key={task.id}

@@ -13,6 +13,7 @@ import PageHeader from "../../design-system/PageHeader";
 import { rd, RemoteData } from "../../lib/remoteData";
 import LoadingScreen from "../../components/app-state/LoadingScreen";
 import ErrorMessage from "../../components/app-state/ErrorMessage";
+import StatTile from "../../components/StatTile";
 interface TasksUIProps {
   tasks: RemoteData<Task[]>;
   onTodoAdd: (text: AddTaskFormData) => void;
@@ -48,6 +49,11 @@ export default function TasksUI({
     visibleTasks,
     allCompleted,
     hasUncompleted,
+    completedCount,
+    unCompletedCount,
+    inProgress,
+    completedProgress,
+    totalCount,
   } = useTasksUI(tasksData);
 
   const { toggleHideCompleted, completeAll } = useTasksActions({
@@ -55,6 +61,13 @@ export default function TasksUI({
     onCompleteAll,
     setHideCompleted,
   });
+
+//   const completedCount = tasksData.filter((t) => t.completed).length;
+// const unCompletedCount=tasksData.filter((t) => !t.completed).length;
+//   const total = tasksData.length;
+
+//   const completedProgress = total === 0 ? 0 : (completedCount / total) * 100;
+//   const inProgress= total === 0 ? 0 : (unCompletedCount / total) * 100;
 
   return rd
     .journey(tasks)
@@ -64,11 +77,43 @@ export default function TasksUI({
       <main>
         <TasksUILayout header={<LanguageSwitcher />}>
           <PageHeader title={t("title")} />
-          <Panel title={t("addTask")}>
-            <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} />
-          </Panel>
+          <div className="mb-4">
+            <div className="text-lg text-gray-400">
+              {" "}
+              {t("greeting")}, Alex 👋
+            </div>
+            <div className="text-sm text-gray-500">
+              {new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+            <StatTile
+              label="Completed"
+              value={completedCount}
+              color="green"
+              progress={completedProgress}
+            />
+
+            <StatTile
+              label="In Progress"
+              value={unCompletedCount}
+              color="blue"
+              progress={inProgress}
+            />
+
+            <StatTile
+              label="Scheduled"
+              value={totalCount}
+              color="purple"
+            />
+
+            <StatTile label="High Priority" value={0} color="red" />
+          </div>
           <Panel
-            title={t("title")}
+            // title={t("title")}
             actions={
               <TasksPanelActions
                 hideCompleted={hideCompleted}
@@ -87,6 +132,9 @@ export default function TasksUI({
                 inputRef={inputRef}
               />
             </ul>
+          </Panel>
+          <Panel title={t("addTask")}>
+            <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} />
           </Panel>
         </TasksUILayout>
       </main>

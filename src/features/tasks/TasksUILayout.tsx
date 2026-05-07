@@ -8,13 +8,13 @@ export default function TasksUILayout({
   children,
 }: TasksUILayoutProps) {
   return (
-    <div>
-      <header className="bg-teal-500 text-white p-8 w-full h-24">
-        {header}
-      </header>
-      <main className="grid grid-cols-1 mx-auto p-5 max-w-4xl gap-5 caret-transparent">
+    <div className="min-h-screen bg-[#0F1115] text-white">
+      <div className="max-w-md mx-auto px-4 py-6 space-y-4">
+        <div className="flex justify-between items-center">
+          {header}
+        </div>
         {children}
-      </main>
+      </div>
     </div>
   );
 }

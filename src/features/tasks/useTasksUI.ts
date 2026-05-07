@@ -14,12 +14,23 @@ export function useTasksUI(tasks: Task[]) {
     tasks.length > 0 && completedTasks.length === tasks.length;
 
   const hasUncompleted = completedTasks.length !== tasks.length;
-
+  const completedCount = completedTasks.length;
+  const unCompletedCount = tasks.filter((t) => !t.completed).length;
+  const totalCount = tasks.length;
+  const completedProgress =
+    totalCount === 0 ? 0 : (completedCount / totalCount) * 100;
+  const inProgress =
+    totalCount === 0 ? 0 : (unCompletedCount / totalCount) * 100;
   return {
     hideCompleted,
     setHideCompleted,
     visibleTasks,
     allCompleted,
     hasUncompleted,
+    completedCount,
+    unCompletedCount,
+    inProgress,
+    completedProgress,
+    totalCount,
   };
 }

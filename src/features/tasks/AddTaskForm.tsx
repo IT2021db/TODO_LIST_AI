@@ -41,7 +41,7 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex gap-5 p-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2 p-2">
       <div className="flex flex-col flex-1">
         <Input
           {...rest}
@@ -50,7 +50,7 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
           type="text"
           placeholder={t("placeholder")}
           autoFocus
-          className="flex-1"
+          className="flex-1 bg-[#1A1D24] px-4 py-3 rounded-xl outline-none"
         />
         <FormError message={errors.text?.message} />
       </div>
@@ -59,9 +59,25 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
         disabled={isDisabled}
         data-tooltip-id="app-tooltip"
         data-tooltip-content={t("taskRequired")}
-        variant="primary"
+        variant="addTask"
+        // size="full"
       >
-        {t("writeTask")}
+        <span
+          className="
+    text-[30px]
+    leading-none
+    font-light
+
+    flex
+    items-center
+    justify-center
+
+    relative
+    -top-[3px]
+  "
+        >
+          +
+        </span>
       </Button>
     </form>
   );

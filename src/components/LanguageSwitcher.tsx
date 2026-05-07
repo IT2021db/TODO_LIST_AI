@@ -12,16 +12,20 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex gap-2 mb-4">
-      {availableLocales.map((locale) => (
-        <Button
+      <div className="flex gap-2">
+      {availableLocales.map((locale: string) => (
+        <button
           key={locale}
-          variant="language"
-          active={currentLanguage === locale}
           onClick={() => changeLanguage(locale)}
+          className={
+            "px-3 py-1 rounded-lg text-xs transition " +
+            (currentLanguage === locale
+              ? "bg-white/10 text-white"
+              : "text-gray-400 hover:text-white hover:bg-white/5")
+          }
         >
           {locale.toUpperCase()}
-        </Button>
+        </button>
       ))}
     </div>
   );

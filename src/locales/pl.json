@@ -9,5 +9,6 @@
   "completeAll": "Ukończ wszystkie",
   "allCompleted": "Wszystkie ukończone ✓",
   "taskRequired": "Wpisz treść zadania",
-  "tasksFetchError": "Błąd przy pobieraniu zadań"
+  "tasksFetchError": "Błąd przy pobieraniu zadań",
+  "greeting": "Witam Cię"
 }

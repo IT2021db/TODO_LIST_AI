@@ -9,5 +9,6 @@
   "completeAll": "Complete all",
   "allCompleted": "All completed ✓",
   "taskRequired": "Enter a task",
-  "tasksFetchError": "Error fetching tasks"
+  "tasksFetchError": "Error fetching tasks",
+   "greeting": "Hallo"
 }

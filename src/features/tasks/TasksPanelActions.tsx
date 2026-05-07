@@ -19,7 +19,7 @@ export default function TasksPanelActions({
   return (
     <>
       <Button variant="secondary" onClick={onToggleHide}>
-        {hideCompleted ? t("showwCompleted") : t("hideCompleted")}
+        {hideCompleted ? t("showCompleted") : t("hideCompleted")}
       </Button>
 
       <Button

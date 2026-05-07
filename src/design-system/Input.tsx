@@ -7,7 +7,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         ref={ref}
-        className={`bg-gray-50 flex-1 w-full border outline-none rounded-sm caret-teal-600 border-gray-300 pl-2.5`}
+        className={`bg-[#1A1D24] hover:bg-[#22262f] flex-1 w-full border-3 outline-none rounded-xl border-indigo-500 caret-teal-600  pl-2.5`}
         {...props}
       />
     );
