@@ -10,5 +10,6 @@
   "allCompleted": "Todas completadas ✓",
   "taskRequired": "Escribe una tarea",
   "tasksFetchError": "Error al obtener tareas",
-   "greeting": "Hola"
+  "greeting": "Hola {{name}} 👋",
+  "welcome": "Bienvenido 👋 "
 }

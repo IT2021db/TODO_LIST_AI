@@ -10,5 +10,6 @@
   "allCompleted": "All completed ✓",
   "taskRequired": "Enter a task",
   "tasksFetchError": "Error fetching tasks",
-   "greeting": "Hallo"
+  "greeting": "Hello {{name}} 👋",
+  "welcome": "Welcome 👋 "
 }

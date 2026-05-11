@@ -10,15 +10,16 @@ const buttonStyles = cva(
   {
     variants: {
       variant: {
-        primary: "text-white bg-indigo-500 hover:brightness-120 rounded",
+        primary: "text-white bg-indigo-500 hover:brightness-120 rounded-2xl",
         secondary: "text-teal-500 bg-transparent hover:bg-teal-50 rounded-3xl",
         ghost: "text-gray-400 bg-transparent hover:bg-gray-200",
         danger:
           "rounded-full border bg-transparent transition-all duration-200 border-gray-500 text-gray-400 hover:border-red-400 hover:text-red-400",
         language: "text-white hover:bg-teal-700",
+        transparent: "text-2xl transition",
         round:
           "h-14 min-h-[56px] px-6 rounded-full bg-indigo-500 hover:bg-blue-600 text-white font-medium  text-sm flex items-center justify-center justify-center gap-3  transition-all duration-200 disabled:!opacity-50",
-addTask: `
+        addTask: `
   h-14
   px-5
    bg-indigo-500
@@ -35,7 +36,6 @@ addTask: `
 `,
         // round:"bg-indigo-500 rounded-full text-white text-sm font-medium"
       },
-
 
       size: {
         sm: "px-2 py-1 text-sm rounded-xl",

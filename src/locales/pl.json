@@ -10,5 +10,6 @@
   "allCompleted": "Wszystkie ukończone ✓",
   "taskRequired": "Wpisz treść zadania",
   "tasksFetchError": "Błąd przy pobieraniu zadań",
-  "greeting": "Witam Cię"
+  "greeting": "Witam Cię, {{name}} 👋",
+  "welcome": "Witaj 👋 "
 }
