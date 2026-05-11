@@ -1,9 +1,6 @@
 // AddTaskForm.tsx
 import { useTranslation } from "react-i18next";
 import { MutableRefObject, useEffect } from "react";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
 import { useForm } from "react-hook-form";
 import mergeRefs from "merge-refs";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +8,9 @@ import { taskFormSchema, AddTaskFormData } from "./types";
 import { Button } from "../../design-system/Button";
 import { Input } from "../../design-system/Input";
 import FormError from "../../design-system/FormError";
+import VoiceButton from "./VoiceButton";
+import ClearInputButton from "../../components/ClearInputButton";
+import { useVoiceInput } from "../hooks/useVoiceInput";
 
 interface AddTaskFormProps {
   onAdd: (data: AddTaskFormData) => void;
@@ -34,48 +34,27 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
     },
   });
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  const watchText = watch("text");
 
-  useEffect(() => {
-    if (!transcript) return;
-
-    setValue("text", transcript, {
+  const clearInput = () => {
+    setValue("text", "", {
       shouldDirty: true,
       shouldValidate: true,
     });
-  }, [transcript, setValue]);
 
-  const clearInput = () => {
-  setValue("text", "", {
-    shouldDirty: true,
-    shouldValidate: true,
-  });
-  
-
- 
-
-  inputRef.current?.focus();
-};
- const watchText = watch("text");
-  const speechLanguages: Record<string, string> = {
-    pl: "pl-PL",
-    en: "en-US",
-    es: "es-ES",
+    inputRef.current?.focus();
   };
 
-  const handleVoiceInput = async () => {
-    resetTranscript();
-
-    await SpeechRecognition.startListening({
-      continuous: false,
-      language: speechLanguages[i18n.language] || "pl-PL",
+  const { listening, browserSupportsSpeechRecognition, handleVoiceInput } =
+    useVoiceInput({
+      language: i18n.language,
+      onTranscript: (text) => {
+        setValue("text", text, {
+          shouldDirty: true,
+          shouldValidate: true,
+        });
+      },
     });
-  };
 
   const isDisabled = !isDirty || isSubmitting;
 
@@ -84,7 +63,13 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
 
   const onSubmit = (data: AddTaskFormData) => {
     onAdd(data);
-    reset();
+    setValue("text", "", {
+      shouldDirty: false,
+      shouldValidate: false,
+    });
+    reset({
+      text: "",
+    });
     inputRef.current?.focus();
   };
 
@@ -99,39 +84,13 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
           placeholder={t("placeholder")}
           autoFocus
           className="flex-1 bg-[#1A1D24] px-4 py-3 rounded-xl outline-none pr-10"
-          
         />
-          {watchText && watchText.length > 0 && (
-    <button
-      type="button"
-      onClick={clearInput}
-      className="
-        absolute
-        right-3
-        top-1/2
-        -translate-y-1/2
-        text-gray-400
-        hover:text-white
-        hover:scale-110
-        transition
-      "
-    >
-     ×
-    </button>
-  )}
-        <FormError  message={errors.text?.message}  />
+        <ClearInputButton visible={!!watchText} onClick={clearInput} />
+        <FormError message={errors.text?.message} />
       </div>
 
       {browserSupportsSpeechRecognition && (
-        <Button type="button" onClick={handleVoiceInput} variant="transparent">
-          <span
-            className={`
-      ${listening ? "animate-pulse scale-110" : ""}
-  `}
-          >
-            {listening ? "🔴" : "🎤"}
-          </span>
-        </Button>
+        <VoiceButton listening={listening} onClick={handleVoiceInput} />
       )}
 
       <Button
