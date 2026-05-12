@@ -37,3 +37,46 @@ export const statusTile = cva(
     },
   }
 );
+
+export const categoryBadge = cva(
+  `
+    px-3
+    py-1
+    rounded-full
+
+    text-[11px]
+    font-medium
+    tracking-wide
+
+    w-fit
+  `,
+  {
+    variants: {
+      category: {
+        work: `
+          bg-blue-500/15
+          text-blue-300
+        `,
+
+        personal: `
+          bg-purple-500/15
+          text-purple-300
+        `,
+
+        health: `
+          bg-green-500/15
+          text-green-300
+        `,
+
+        priority: `
+          bg-red-500/15
+          text-red-300
+        `,
+      },
+    },
+
+    defaultVariants: {
+      category: "work",
+    },
+  }
+);
