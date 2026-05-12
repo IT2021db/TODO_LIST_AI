@@ -26,11 +26,12 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
     setValue,
     watch,
     formState: { errors, isDirty, isSubmitting },
-  } = useForm({
+  } = useForm<AddTaskFormData>({
     resolver: zodResolver(taskFormSchema),
     mode: "onChange",
     defaultValues: {
       text: "",
+      category: "work",
     },
   });
 
@@ -62,62 +63,85 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
   const { ref: registerRef, ...rest } = register("text");
 
   const onSubmit = (data: AddTaskFormData) => {
+    console.log("FORM DATA:", data);
     onAdd(data);
-    setValue("text", "", {
-      shouldDirty: false,
-      shouldValidate: false,
-    });
+
     reset({
       text: "",
+      category: "work",
     });
     inputRef.current?.focus();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2 p-2">
-      <div className="flex flex-col flex-1 relative">
-        <Input
-          {...rest}
-          ref={mergeRefs(registerRef, inputRef)}
-          id="taskInput" // <--joint with label
-          type="text"
-          placeholder={t("placeholder")}
-          autoFocus
-          className="flex-1 bg-[#1A1D24] px-4 py-3 rounded-xl outline-none pr-10"
-        />
-        <ClearInputButton visible={!!watchText} onClick={clearInput} />
-        <FormError message={errors.text?.message} />
-      </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 p-2">
+      {/* pierwszy rząd: input + mikrofon + plus */}
+      <div className="flex items-center gap-2">
+        <div className="flex flex-col flex-1">
+          <div className="relative">
+            <Input
+              {...rest}
+              ref={mergeRefs(registerRef, inputRef)}
+              id="taskInput" // <--joint with label
+              type="text"
+              placeholder={t("placeholder")}
+              autoFocus
+            />
 
-      {browserSupportsSpeechRecognition && (
-        <VoiceButton listening={listening} onClick={handleVoiceInput} />
-      )}
-
-      <Button
-        type="submit"
-        disabled={isDisabled}
-        data-tooltip-id="app-tooltip"
-        data-tooltip-content={t("taskRequired")}
-        variant="addTask"
-        // size="full"
-      >
-        <span
-          className="
+            <ClearInputButton visible={!!watchText} onClick={clearInput} />
+          </div>
+          <FormError message={errors.text?.message} />
+        </div>
+        {browserSupportsSpeechRecognition && (
+          <VoiceButton listening={listening} onClick={handleVoiceInput} />
+        )}
+        <Button
+          type="submit"
+          disabled={isDisabled}
+          data-tooltip-id="app-tooltip"
+          data-tooltip-content={t("taskRequired")}
+          variant="addTask"
+          // size="full"
+        >
+          <span
+            className="
     text-[30px]
     leading-none
     font-light
-
     flex
     items-center
     justify-center
-
     relative
     -top-[3px]
   "
-        >
-          +
-        </span>
-      </Button>
+          >
+            +
+          </span>
+        </Button>
+      </div>
+      {/* drugi rząd: select category */}
+      <select
+        {...register("category")}
+        className="
+        shrink-0
+      h-12
+      shrink-0
+      rounded-xl
+      bg-[#1A1D24]
+      border
+      border-white/5
+      px-3
+      text-sm
+      text-gray-400
+      outline-none
+      cursor-pointer
+    "
+      >
+        <option value="work">Work</option>
+        <option value="personal">Personal</option>
+        <option value="health">Health</option>
+        <option value="priority">Priority</option>
+      </select>
     </form>
   );
 }
