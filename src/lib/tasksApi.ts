@@ -11,7 +11,7 @@ import {
 export async function fetchTasksFromSupabase(): Promise<Task[]> {
   const { data, error } = await supabase
     .from("tasks")
-    .select("id, text, completed")
+    .select("id, text, completed, category")
     .order("created_at", { ascending: true });
 
   if (error) throw new Error(error.message);
@@ -19,15 +19,20 @@ export async function fetchTasksFromSupabase(): Promise<Task[]> {
   const result = tasksSchema.safeParse(data);
   console.log("result in AddTaskService: ", result);
   if (!result.success) throw new Error("Wrong data format from Supabase");
-
+  console.log("result.error:" ,result.error);
   return result.data;
 }
 
 // Add new task
-export const addTaskToSupabase = async ({ text }: CreateTaskInput) => {
+export const addTaskToSupabase = async ({ text, category }: CreateTaskInput) => {
   const { error } = await supabase
     .from("tasks")
-    .insert({ text, completed: false, created_at: new Date().toISOString() });
+    .insert({
+      text,
+      completed: false,
+      created_at: new Date().toISOString(),
+      category,
+    });
 
   if (error) throw new Error(error.message);
 };
