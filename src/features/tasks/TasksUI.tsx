@@ -13,8 +13,6 @@ import PageHeader from "../../design-system/PageHeader";
 import { rd, RemoteData } from "../../lib/remoteData";
 import LoadingScreen from "../../components/app-state/LoadingScreen";
 import ErrorMessage from "../../components/app-state/ErrorMessage";
-import StatTile from "../../components/StatTile";
-import { useAuth } from "../auth/useAuth";
 import AuthPanelContainer from "../auth/AuthPanelContainer";
 import TasksStats from "./TasksStats";
 interface TasksUIProps {
