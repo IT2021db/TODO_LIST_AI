@@ -31,7 +31,7 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
     mode: "onChange",
     defaultValues: {
       text: "",
-      category: "work",
+      category: "other",
     },
   });
 
@@ -68,7 +68,7 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
 
     reset({
       text: "",
-      category: "work",
+      category: "other",
     });
     inputRef.current?.focus();
   };
@@ -77,8 +77,8 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 p-2">
       {/* pierwszy rząd: input + mikrofon + plus */}
       <div className="flex items-center gap-2">
-        <div className="flex flex-col flex-1">
-          <div className="relative">
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="relative w-full min-w-0">
             <Input
               {...rest}
               ref={mergeRefs(registerRef, inputRef)}
