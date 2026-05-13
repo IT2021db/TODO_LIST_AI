@@ -23,6 +23,7 @@ export default function ClearInputButton({
         transition
         opacity-70
         hover:opacity-100
+        shrink-0
       "
     >
        ×
