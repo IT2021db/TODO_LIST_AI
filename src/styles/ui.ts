@@ -39,6 +39,7 @@ export const categoryBadge = cva(
   `
     px-3
     py-1
+    mr-3
     rounded-full
 
     text-[11px]
