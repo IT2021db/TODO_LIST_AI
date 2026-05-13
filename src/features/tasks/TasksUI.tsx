@@ -16,6 +16,7 @@ import ErrorMessage from "../../components/app-state/ErrorMessage";
 import StatTile from "../../components/StatTile";
 import { useAuth } from "../auth/useAuth";
 import AuthPanelContainer from "../auth/AuthPanelContainer";
+import TasksStats from "./TasksStats";
 interface TasksUIProps {
   tasks: RemoteData<Task[]>;
   onTodoAdd: (text: AddTaskFormData) => void;
@@ -72,31 +73,15 @@ export default function TasksUI({
       <main>
         <TasksUILayout header={<LanguageSwitcher />}>
           <PageHeader title={t("title")} />
-          <AuthPanelContainer/>
+          <AuthPanelContainer />
+          <TasksStats
+            completedCount={completedCount}
+            unCompletedCount={unCompletedCount}
+            totalCount={totalCount}
+            completedProgress={completedProgress}
+            inProgress={inProgress}
+          />
         
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-            <StatTile
-              label="Completed"
-              value={completedCount}
-              color="green"
-              progress={completedProgress}
-            />
-
-            <StatTile
-              label="In Progress"
-              value={unCompletedCount}
-              color="blue"
-              progress={inProgress}
-            />
-
-            <StatTile
-              label="Scheduled"
-              value={totalCount}
-              color="purple"
-            />
-
-            <StatTile label="High Priority" value={0} color="red" />
-          </div>
           <Panel
             // title={t("title")}
             actions={
