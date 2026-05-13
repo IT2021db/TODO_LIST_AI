@@ -14,8 +14,8 @@ import { rd, RemoteData } from "../../lib/remoteData";
 import LoadingScreen from "../../components/app-state/LoadingScreen";
 import ErrorMessage from "../../components/app-state/ErrorMessage";
 import StatTile from "../../components/StatTile";
-import AuthPanel from "../auth/AuthPanel";
 import { useAuth } from "../auth/useAuth";
+import AuthPanelContainer from "../auth/AuthPanelContainer";
 interface TasksUIProps {
   tasks: RemoteData<Task[]>;
   onTodoAdd: (text: AddTaskFormData) => void;
@@ -64,15 +64,6 @@ export default function TasksUI({
     setHideCompleted,
   });
 
-const {
-  name,
-  input,
-  setInput,
-  login,
-  logout,
-  isLoggedIn,
-} = useAuth();
-
   return rd
     .journey(tasks)
     .wait(<LoadingScreen message={t("loading")} />)
@@ -81,14 +72,8 @@ const {
       <main>
         <TasksUILayout header={<LanguageSwitcher />}>
           <PageHeader title={t("title")} />
-          <AuthPanel
-  name={name}
-  input={input}
-  setInput={setInput}
-  login={login}
-  logout={logout}
-  isLoggedIn={isLoggedIn}
-/>
+          <AuthPanelContainer/>
+        
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
             <StatTile
               label="Completed"
