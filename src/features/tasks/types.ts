@@ -6,6 +6,7 @@ export const taskCategorySchema = z.enum([
   "personal",
   "health",
   "priority",
+  "other",
 ]);
 
 export type TaskCategory =

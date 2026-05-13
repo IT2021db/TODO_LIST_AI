@@ -132,11 +132,12 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
       border-white/5
       px-3
       text-sm
-      text-gray-400
+      text-gray-4400
       outline-none
       cursor-pointer
     "
       >
+        <option value="other">Other</option>
         <option value="work">Work</option>
         <option value="personal">Personal</option>
         <option value="health">Health</option>
