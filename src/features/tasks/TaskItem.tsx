@@ -1,7 +1,8 @@
 import type { Task, TasksService } from "./types";
 import { Button } from "../../design-system/Button";
-import { taskItem, taskText } from "../../styles/ui";
+import { taskItem } from "../../styles/ui";
 import CategoryBadge from "../../components/CategoryBadge";
+
 interface TaskItemProps {
   task: Task;
   onToggle: TasksService["toggleTask"];
@@ -21,23 +22,26 @@ export default function TaskItem({
         state: task.completed ? "completed" : "default",
       })}
     >
-      <div className="flex gap-3 items-center">
+      <div className="flex items-center gap-3 min-w-0 flex-1">
         <Button
-          variant="primary" // używa variantStyles + activeStyles
-          size="icon" // ustawia wymiary w sizeStyles
-          active={task.completed} // ustawia activeStyles
-           className={`
-    w-6 !h-6! min-w-0! min-h-0!
-    !p-0
-    !rounded-full
-    !flex !items-center !justify-center
-    !border-3
-    !transition-all !duration-200
+          variant="primary"
+          size="icon"
+          active={task.completed}
+          className={`
+            w-6 !h-6 !min-w-6 !min-h-6
+            !p-0
+            !rounded-full
+            !flex !items-center !justify-center
+            !border-3
+            !transition-all !duration-200
+            shrink-0
 
-    ${task.completed
-      ? "bg-green-500! border-green-500! text-white!"
-      : "!bg-transparent !border-purple-500 !text-transparent hover:!border-blue-400"}
-  `}
+            ${
+              task.completed
+                ? "!bg-green-500 !border-green-500 !text-white"
+                : "!bg-transparent !border-purple-500 !text-transparent hover:!border-blue-400"
+            }
+          `}
           onClick={() => {
             onToggle(task.id, !task.completed);
             inputRef.current?.focus();
@@ -45,21 +49,34 @@ export default function TaskItem({
         >
           {task.completed ? "✓" : ""}
         </Button>
-      <div className="flex gap-2  ">
-  <div
-    className={`
-      ${task.completed ? "line-through opacity-50" : ""}
-    `}
-  >
-    {task.text}
-  </div>
 
-  <CategoryBadge category={task.category} />
-</div>
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <div
+            className={`
+              min-w-0
+              flex-1
+              text-sm
+              text-gray-200
+              whitespace-normal
+              break-word: break-all
+              line-clamp-2
+
+              ${task.completed ? "line-through opacity-50" : ""}
+            `}
+          >
+            {task.text}
+          </div>
+
+          <div className="shrink-0">
+            <CategoryBadge category={task.category} />
+          </div>
+        </div>
       </div>
+
       <Button
         variant="danger"
         size="icon"
+        className="shrink-0"
         onClick={() => {
           onDelete(task.id);
           inputRef.current?.focus();
