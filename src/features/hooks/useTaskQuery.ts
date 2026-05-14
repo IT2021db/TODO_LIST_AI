@@ -9,40 +9,39 @@ import {
   deleteTaskFromSupabase,
 } from "../../lib/tasksApi";
 
-export default function useTasksQuery(): TasksService {
+export default function useTasksQuery(
+  userId: string | undefined,
+): TasksService {
   const queryClient = useQueryClient();
 
-  // FETCH
   const { data, isLoading, error } = useQuery<Task[], Error>({
-    queryKey: ["tasks"],
+    queryKey: ["tasks", userId],
     queryFn: fetchTasksFromSupabase,
+    enabled: !!userId,
   });
 
-  const invalidate = () =>
+  const invalidateTasks = () => {
     queryClient.invalidateQueries({ queryKey: ["tasks"] });
+  };
 
-  // ADD
   const addTaskMutation = useMutation({
     mutationFn: addTaskToSupabase,
-    onSuccess: invalidate,
+    onSuccess: invalidateTasks,
   });
 
-  // TOGGLE
   const toggleTaskMutation = useMutation({
     mutationFn: toggleTaskInSupabase,
-    onSuccess: invalidate,
+    onSuccess: invalidateTasks,
   });
 
-  // COMPLETE ALL
   const completeAllMutation = useMutation({
     mutationFn: completeAllTasksInSupabase,
-    onSuccess: invalidate,
+    onSuccess: invalidateTasks,
   });
 
-  // DELETE
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTaskFromSupabase,
-    onSuccess: invalidate,
+    onSuccess: invalidateTasks,
   });
 
   let tasks: RemoteData<Task[]>;
@@ -57,10 +56,21 @@ export default function useTasksQuery(): TasksService {
 
   return {
     tasks,
-    addTask: async (data: AddTaskFormData) => addTaskMutation.mutateAsync(data),
-    toggleTask: async (id: number, completed: boolean) =>
-      toggleTaskMutation.mutateAsync({ id, completed }),
-    completeAllTasks: async () => completeAllMutation.mutateAsync(),
-    deleteTask: async (id: number) => deleteTaskMutation.mutateAsync({ id }),
+
+    addTask: async (data: AddTaskFormData) => {
+      await addTaskMutation.mutateAsync(data);
+    },
+
+    toggleTask: async (id: number, completed: boolean) => {
+      await toggleTaskMutation.mutateAsync({ id, completed });
+    },
+
+    completeAllTasks: async () => {
+      await completeAllMutation.mutateAsync();
+    },
+
+    deleteTask: async (id: number) => {
+      await deleteTaskMutation.mutateAsync({ id });
+    },
   };
 }

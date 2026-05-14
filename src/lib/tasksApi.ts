@@ -7,58 +7,92 @@ import {
   DeleteTaskInput,
 } from "../features/tasks/types";
 
-// Fetch all tasks
+async function getCurrentUserId(): Promise<string> {
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error) throw new Error(error.message);
+  if (!user) throw new Error("User is not logged in");
+
+  return user.id;
+}
+
 export async function fetchTasksFromSupabase(): Promise<Task[]> {
+  const userId = await getCurrentUserId();
+
   const { data, error } = await supabase
     .from("tasks")
-    .select("id, text, completed, category")
+    .select("id, text, completed, category, user_id")
+    .eq("user_id", userId)
     .order("created_at", { ascending: true });
 
   if (error) throw new Error(error.message);
 
   const result = tasksSchema.safeParse(data);
-  console.log("result in AddTaskService: ", result);
-  if (!result.success) throw new Error("Wrong data format from Supabase");
-  console.log("result.error:" ,result.error);
+
+  if (!result.success) {
+    console.log("Zod error:", result.error);
+    throw new Error("Wrong data format from Supabase");
+  }
+
   return result.data;
 }
 
-// Add new task
-export const addTaskToSupabase = async ({ text, category }: CreateTaskInput) => {
-  const { error } = await supabase
-    .from("tasks")
-    .insert({
-      text,
-      completed: false,
-      created_at: new Date().toISOString(),
-      category,
-    });
+export async function addTaskToSupabase({
+  text,
+  category,
+}: CreateTaskInput): Promise<void> {
+  const userId = await getCurrentUserId();
+
+  const { error } = await supabase.from("tasks").insert({
+    text,
+    completed: false,
+    created_at: new Date().toISOString(),
+    category,
+    user_id: userId,
+  });
 
   if (error) throw new Error(error.message);
-};
+}
 
-// Toggle task
-export async function toggleTaskInSupabase(data: ToggleTaskInput) {
+export async function toggleTaskInSupabase(
+  data: ToggleTaskInput,
+): Promise<void> {
+  const userId = await getCurrentUserId();
+
   const { error } = await supabase
     .from("tasks")
     .update({ completed: data.completed })
-    .eq("id", data.id);
+    .eq("id", data.id)
+    .eq("user_id", userId);
 
   if (error) throw new Error(error.message);
 }
 
-// Complete all tasks
-export async function completeAllTasksInSupabase() {
+export async function completeAllTasksInSupabase(): Promise<void> {
+  const userId = await getCurrentUserId();
+
   const { error } = await supabase
     .from("tasks")
     .update({ completed: true })
-    .eq("completed", false);
+    .eq("completed", false)
+    .eq("user_id", userId);
 
   if (error) throw new Error(error.message);
 }
 
-// Delete task
-export async function deleteTaskFromSupabase(data: DeleteTaskInput) {
-  const { error } = await supabase.from("tasks").delete().eq("id", data.id);
+export async function deleteTaskFromSupabase(
+  data: DeleteTaskInput,
+): Promise<void> {
+  const userId = await getCurrentUserId();
+
+  const { error } = await supabase
+    .from("tasks")
+    .delete()
+    .eq("id", data.id)
+    .eq("user_id", userId);
+
   if (error) throw new Error(error.message);
 }
