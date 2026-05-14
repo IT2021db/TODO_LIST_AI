@@ -8,8 +8,8 @@ export default function TasksUILayout({
   children,
 }: TasksUILayoutProps) {
   return (
-    <div className="min-h-screen bg-[#0F1115] text-white">
-      <div className="max-w-md mx-auto px-4 py-6 space-y-4">
+    <div className="min-h-screen bg-gray-950 text-white">
+      <div className="max-w-md mx-auto px-4 py-6 space-y-4 rounded-2xl bg-[#0F1115]">
         <div className="flex justify-between items-center">
           {header}
         </div>

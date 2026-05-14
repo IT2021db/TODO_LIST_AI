@@ -35,6 +35,24 @@ export const statusTile = cva("p-4 rounded-2xl flex flex-col gap-1", {
   },
 });
 
+export const authInput = cva(
+  `
+    h-11
+    w-full
+    min-w-0
+    px-4
+    rounded-full
+    bg-[#0F1115]
+    border
+    border-white/10
+    text-white
+    outline-none
+    placeholder:text-gray-500
+    focus:border-purple-500
+    transition
+  `,
+);
+
 export const categoryBadge = cva(
   `
     px-3

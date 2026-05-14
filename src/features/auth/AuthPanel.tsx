@@ -2,6 +2,7 @@
 
 import { Button } from "../../design-system/Button";
 import { useTranslation } from "react-i18next";
+import { authInput } from "../../styles/ui";
 
 interface AuthPanelProps {
   userEmail?: string;
@@ -35,24 +36,17 @@ export default function AuthPanel({
   const { t } = useTranslation();
 
   if (loading) {
-    return (
-      <div className="mb-6 text-sm text-gray-500">
-        Loading user...
-      </div>
-    );
+    return <div className="mb-6 text-sm text-gray-500">Loading user...</div>;
   }
 
   return (
     <div className="mb-6">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <div className="text-lg text-white font-semibold">
-            {isLoggedIn
-              ? t("greeting", { name: userEmail })
-              : t("welcome")}
-          </div>
-
-          <div className="text-sm text-gray-500">
+      <div className="flex flex-col items-start gap-4">
+        <div className="flex flex-col items-start justify-start">
+          <span className="text-lg text-white font-semibold">
+            {isLoggedIn ? t("greeting", { name: userEmail }) : t("welcome")}
+          </span>
+          <div className="text-3xl text-gray-500">
             {new Date().toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
@@ -65,22 +59,13 @@ export default function AuthPanel({
             Logout
           </Button>
         ) : (
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-3 w-full">
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               type="email"
-              className="
-                h-10
-                px-4
-                rounded-full
-                bg-[#1A1D24]
-                border
-                border-white/5
-                text-white
-                outline-none
-              "
+              className={authInput()}
             />
 
             <input
@@ -88,19 +73,15 @@ export default function AuthPanel({
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               type="password"
-              className="
-                h-10
-                px-4
-                rounded-full
-                bg-[#1A1D24]
-                border
-                border-white/5
-                text-white
-                outline-none
-              "
+              className={authInput()}
             />
 
-            <Button type="button" variant="primary" onClick={login}>
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full"
+              onClick={login}
+            >
               Login
             </Button>
 
@@ -111,16 +92,10 @@ export default function AuthPanel({
         )}
       </div>
 
-      {authError && (
-        <p className="mt-2 text-sm text-red-400">
-          {authError}
-        </p>
-      )}
+      {authError && <p className="mt-2 text-sm text-red-400">{authError}</p>}
 
       {authMessage && (
-        <p className="mt-2 text-sm text-emerald-400">
-          {authMessage}
-        </p>
+        <p className="mt-2 text-sm text-gray-400">{authMessage}</p>
       )}
     </div>
   );
