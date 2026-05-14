@@ -13,7 +13,8 @@ import PageHeader from "../../design-system/PageHeader";
 import { rd, RemoteData } from "../../lib/remoteData";
 import LoadingScreen from "../../components/app-state/LoadingScreen";
 import ErrorMessage from "../../components/app-state/ErrorMessage";
-import AuthPanelContainer from "../auth/AuthPanelContainer";
+import AuthPanel from "../auth/AuthPanel";
+import { useAuth } from "../auth/useAuth";
 import TasksStats from "./TasksStats";
 interface TasksUIProps {
   tasks: RemoteData<Task[]>;
@@ -21,6 +22,7 @@ interface TasksUIProps {
   onTodoToggle: TasksService["toggleTask"];
   onTodoDelete: TasksService["deleteTask"];
   onCompleteAll: TasksService["completeAllTasks"];
+  auth: ReturnType<typeof useAuth>;
 }
 
 export default function TasksUI({
@@ -29,6 +31,7 @@ export default function TasksUI({
   onTodoToggle,
   onTodoDelete,
   onCompleteAll,
+  auth,
 }: TasksUIProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { t, i18n } = useTranslation();
@@ -63,24 +66,41 @@ export default function TasksUI({
     setHideCompleted,
   });
 
-  return rd
-    .journey(tasks)
-    .wait(<LoadingScreen message={t("loading")} />)
-    .catch((error) => <ErrorMessage message={error} />)
-    .done(() => (
-      <main>
-        <TasksUILayout header={<LanguageSwitcher />}>
-          <PageHeader title={t("title")} />
-          <AuthPanelContainer />
-          <TasksStats
+  return (
+  <main>
+    <TasksUILayout header={<LanguageSwitcher />}>
+      <PageHeader title={t("title")} />
+
+    <AuthPanel
+            userEmail={auth.user?.email}
+            email={auth.email}
+            password={auth.password}
+            setEmail={auth.setEmail}
+            setPassword={auth.setPassword}
+            login={auth.login}
+            register={auth.register}
+            logout={auth.logout}
+            isLoggedIn={auth.isLoggedIn}
+            loading={auth.loading}
+            authError={auth.authError}
+            authMessage={auth.authMessage}
+          />
+
+      {auth.isLoggedIn ? (
+        rd
+          .journey(tasks)
+          .wait(<LoadingScreen message={t("loading")} />)
+          .catch((error) => <ErrorMessage message={error} />)
+          .done(() => (
+            <>
+              <TasksStats
             completedCount={completedCount}
             unCompletedCount={unCompletedCount}
             totalCount={totalCount}
             completedProgress={completedProgress}
             inProgress={inProgress}
           />
-        
-          <Panel
+                     <Panel
             // title={t("title")}
             actions={
               <TasksPanelActions
@@ -92,19 +112,30 @@ export default function TasksUI({
               />
             }
           >
-            <ul>
-              <TasksList
-                tasks={visibleTasks}
-                onToggle={onTodoToggle}
-                onDelete={onTodoDelete}
-                inputRef={inputRef}
-              />
-            </ul>
+            <TasksList
+              tasks={visibleTasks}
+              onToggle={onTodoToggle}
+              onDelete={onTodoDelete}
+              inputRef={inputRef}
+            />
           </Panel>
-          <Panel title={t("addTask")}>
+                   <Panel title={t("addTask")}>
             <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} />
           </Panel>
-        </TasksUILayout>
-      </main>
-    ));
+            </>
+          ))
+      ) : (
+        <Panel title="Login required">
+          <p className="text-sm text-gray-400">
+            Log in to see and manage your tasks.
+          </p>
+        </Panel>
+      )}
+    </TasksUILayout>
+  </main>
+);
 }
+
+
+
+ 
