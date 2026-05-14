@@ -63,7 +63,7 @@ export type DeleteTaskInput = z.infer<typeof deleteTaskSchema>;
 export type TasksService = {
   tasks: RemoteData<Task[]>;
   addTask: (text: AddTaskFormData) => Promise<void>;
-  toggleTask: (id: number, isCompleted: boolean) => Promise<void>;
+  toggleTask: (id: number, completed: boolean) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;
   completeAllTasks: () => Promise<void>;
 };
