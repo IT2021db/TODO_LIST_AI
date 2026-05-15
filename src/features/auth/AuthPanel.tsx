@@ -56,10 +56,16 @@ export default function AuthPanel({
 
         {isLoggedIn ? (
           <Button variant="secondary" onClick={logout}>
-         {t("logOut")}
+            {t("logOut")}
           </Button>
         ) : (
-          <div className="flex flex-col gap-3 w-full">
+          <form
+            className="flex flex-col gap-3 w-full"
+            onSubmit={(e) => {
+              e.preventDefault();
+              login();
+            }}
+          >
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -76,26 +82,26 @@ export default function AuthPanel({
               className={authInput()}
             />
 
+            <Button type="submit" variant="secondary" className="w-full">
+              {t("login")}
+            </Button>
+
             <Button
               type="button"
               variant="secondary"
               className="w-full"
-              onClick={login}
+              onClick={register}
             >
-            {t("login")}
-            </Button>
-
-            <Button type="button" variant="secondary" onClick={register}>
               {t("register")}
             </Button>
-          </div>
+          </form>
         )}
       </div>
 
       {authError && <p className="mt-2 text-sm text-red-400">{authError}</p>}
 
       {authMessage && (
-        <p className="mt-2 text-sm text-gray-400">{authMessage}</p>
+        <p className="mt-2 text-sm text-orange-400">{authMessage}</p>
       )}
     </div>
   );
