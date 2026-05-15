@@ -15,5 +15,10 @@
   "completed": "Ukończone",
   "inProgress": "W trakcie",
   "scheduled": "Zaplanowane",
-  "highPriority": "Wysoki priorytet"
+  "highPriority": "Wysoki priorytet",
+  "logOut": "Wyloguj",
+  "login": "Zaloguj",
+  "register": "Zarejestruj się",
+  "pleaseLog": "Zaloguj się, aby zobaczyć i zarządzać swoimi zadaniami.",
+  "logggediSuccessfully": "Zalogowano pomyślnie"
 }

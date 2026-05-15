@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import type { User } from "@supabase/supabase-js";
+import { useTranslation } from "react-i18next";
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -11,6 +12,8 @@ export function useAuth() {
 
   const [authError, setAuthError] = useState<string | null>(null);
   const [authMessage, setAuthMessage] = useState<string | null>(null);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const loadSession = async () => {
@@ -50,7 +53,10 @@ export function useAuth() {
       return;
     }
 
-    setAuthMessage("Logged in successfully");
+    setAuthMessage(t("loggedinSuccessfully"));
+    setTimeout(() => {
+      setAuthMessage(null);
+    }, 3000);
   };
 
   const register = async () => {

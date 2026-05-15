@@ -15,5 +15,10 @@
   "completed": "Completed",
   "inProgress": "In Progress",
   "scheduled": "Scheduled",
-  "highPriority": "High Priority"
+  "highPriority": "High Priority",
+  "logOut": "log out",
+  "login": "Log in",
+  "register": "Register",
+  "pleaseLog": " Log in to see and manage your tasks.",
+  "loggedinSuccessfully": "Logged in successfully"
 }

@@ -15,5 +15,10 @@
   "completed": "Completedas",
   "inProgress": "En progreso",
   "scheduled": "Programadas",
-  "highPriority": "Alta prioridad"
+  "highPriority": "Alta prioridad",
+  "logOut": "Cerrar sesión",
+  "login": "Iniciar sesión",
+  "register": "Registrarse",
+  "pleaseLog": "Inicia sesión para ver y gestionar tus tareas.",
+  "loggedinSuccessfully": "Sesión iniciada correctamente"
 }

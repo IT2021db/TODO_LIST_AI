@@ -56,7 +56,7 @@ export default function AuthPanel({
 
         {isLoggedIn ? (
           <Button variant="secondary" onClick={logout}>
-            Logout
+         {t("logOut")}
           </Button>
         ) : (
           <div className="flex flex-col gap-3 w-full">
@@ -82,11 +82,11 @@ export default function AuthPanel({
               className="w-full"
               onClick={login}
             >
-              Login
+            {t("login")}
             </Button>
 
             <Button type="button" variant="secondary" onClick={register}>
-              Register
+              {t("register")}
             </Button>
           </div>
         )}

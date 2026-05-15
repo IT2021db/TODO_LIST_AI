@@ -67,75 +67,71 @@ export default function TasksUI({
   });
 
   return (
-  <main>
-    <TasksUILayout header={<LanguageSwitcher />}>
-      <PageHeader title={t("title")} />
+    <main>
+      <TasksUILayout header={<LanguageSwitcher />}>
+        <PageHeader title={t("title")} />
 
-    <AuthPanel
-            userEmail={auth.user?.email}
-            email={auth.email}
-            password={auth.password}
-            setEmail={auth.setEmail}
-            setPassword={auth.setPassword}
-            login={auth.login}
-            register={auth.register}
-            logout={auth.logout}
-            isLoggedIn={auth.isLoggedIn}
-            loading={auth.loading}
-            authError={auth.authError}
-            authMessage={auth.authMessage}
-          />
+        <AuthPanel
+          userEmail={auth.user?.email}
+          email={auth.email}
+          password={auth.password}
+          setEmail={auth.setEmail}
+          setPassword={auth.setPassword}
+          login={auth.login}
+          register={auth.register}
+          logout={auth.logout}
+          isLoggedIn={auth.isLoggedIn}
+          loading={auth.loading}
+          authError={auth.authError}
+          authMessage={auth.authMessage}
+        />
 
-      {auth.isLoggedIn ? (
-        rd
-          .journey(tasks)
-          .wait(<LoadingScreen message={t("loading")} />)
-          .catch((error) => <ErrorMessage message={error} />)
-          .done(() => (
-            <>
-              <TasksStats
-            completedCount={completedCount}
-            unCompletedCount={unCompletedCount}
-            totalCount={totalCount}
-            completedProgress={completedProgress}
-            inProgress={inProgress}
-          />
-                     <Panel
-            // title={t("title")}
-            actions={
-              <TasksPanelActions
-                hideCompleted={hideCompleted}
-                allCompleted={allCompleted}
-                hasUncompleted={hasUncompleted}
-                onToggleHide={toggleHideCompleted}
-                onCompleteAll={completeAll}
-              />
-            }
-          >
-            <TasksList
-              tasks={visibleTasks}
-              onToggle={onTodoToggle}
-              onDelete={onTodoDelete}
-              inputRef={inputRef}
-            />
+        {auth.isLoggedIn ? (
+          rd
+            .journey(tasks)
+            .wait(<LoadingScreen message={t("loading")} />)
+            .catch((error) => <ErrorMessage message={error} />)
+            .done(() => (
+              <>
+                <TasksStats
+                  completedCount={completedCount}
+                  unCompletedCount={unCompletedCount}
+                  totalCount={totalCount}
+                  completedProgress={completedProgress}
+                  inProgress={inProgress}
+                />
+                <Panel
+                  // title={t("title")}
+                  actions={
+                    <TasksPanelActions
+                      hideCompleted={hideCompleted}
+                      allCompleted={allCompleted}
+                      hasUncompleted={hasUncompleted}
+                      onToggleHide={toggleHideCompleted}
+                      onCompleteAll={completeAll}
+                    />
+                  }
+                >
+                  <TasksList
+                    tasks={visibleTasks}
+                    onToggle={onTodoToggle}
+                    onDelete={onTodoDelete}
+                    inputRef={inputRef}
+                  />
+                </Panel>
+                <Panel title={t("addTask")}>
+                  <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} />
+                </Panel>
+              </>
+            ))
+        ) : (
+          <Panel>
+            <p className="text-md text-purple-500 flex items-center justify-center">
+              {t("pleaseLog")}
+            </p>
           </Panel>
-                   <Panel title={t("addTask")}>
-            <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} />
-          </Panel>
-            </>
-          ))
-      ) : (
-        <Panel title="Login required">
-          <p className="text-sm text-gray-400">
-            Log in to see and manage your tasks.
-          </p>
-        </Panel>
-      )}
-    </TasksUILayout>
-  </main>
-);
+        )}
+      </TasksUILayout>
+    </main>
+  );
 }
-
-
-
- 
