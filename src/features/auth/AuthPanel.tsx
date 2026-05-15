@@ -3,7 +3,8 @@
 import { Button } from "../../design-system/Button";
 import { useTranslation } from "react-i18next";
 import { authInput } from "../../styles/ui";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 interface AuthPanelProps {
   userEmail?: string;
@@ -35,6 +36,7 @@ export default function AuthPanel({
   logout,
 }: AuthPanelProps) {
   const { t } = useTranslation();
+  const [showPassword, setShowPassword] = useState(false);
   const emailInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -85,13 +87,24 @@ export default function AuthPanel({
               className={authInput()}
             />
 
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              type="password"
-              className={authInput()}
-            />
+            <div className="relative w-full">
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                type={showPassword ? "text" : "password"}
+                className={`${authInput()} pr-12`}
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
 
             <Button type="submit" variant="secondary" className="w-full">
               {t("login")}
