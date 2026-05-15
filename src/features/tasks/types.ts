@@ -3,9 +3,11 @@ import { RemoteData } from "../../lib/remoteData";
 
 export const taskCategorySchema = z.enum([
   "work",
-  "personal",
+  "home",
   "health",
-  "priority",
+  "shopping",
+  "garden",
+  "urgent",
   "other",
 ]);
 

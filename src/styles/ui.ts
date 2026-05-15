@@ -68,29 +68,14 @@ export const categoryBadge = cva(
   `,
   {
     variants: {
-      category: {
-        work: `
-          bg-blue-500/15
-          text-blue-300
-        `,
-
-        personal: `
-          bg-purple-500/15
-          text-purple-300
-        `,
-
-        health: `
-          bg-green-500/15
-          text-green-300
-        `,
-
-        priority: `
-          bg-red-500/15
-          text-red-300
-        `,
-
-        other: `bg-orange-500/15
-        text-orange-500`,
+        category: {
+        work: "bg-blue-500/20 text-blue-300",
+        home: "bg-purple-500/20 text-purple-300",
+        health: "bg-green-500/20 text-green-300",
+        shopping: "bg-yellow-500/20 text-yellow-300",
+        garden: "bg-emerald-500/20 text-emerald-300",
+        urgent: "bg-red-500/20 text-red-300",
+        other: "bg-gray-500/20 text-gray-300",
       },
     },
 

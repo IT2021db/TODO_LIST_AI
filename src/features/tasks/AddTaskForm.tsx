@@ -140,9 +140,11 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
       >
         <option value="other">Other</option>
         <option value="work">Work</option>
-        <option value="personal">Personal</option>
+        <option value="home">Home</option>
         <option value="health">Health</option>
-        <option value="priority">Priority</option>
+        <option value="shopping">Shopping</option>
+        <option value="garden">Garden</option>
+        <option value="urgent">Urgent</option>
       </select>
     </form>
   );

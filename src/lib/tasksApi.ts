@@ -29,6 +29,8 @@ export async function fetchTasksFromSupabase(): Promise<Task[]> {
     .order("created_at", { ascending: true });
 
   if (error) throw new Error(error.message);
+  //------------------------------------
+  console.log("DATA FROM SUPABASE:", data);
 
   const result = tasksSchema.safeParse(data);
 
