@@ -38,6 +38,7 @@ export default function AuthPanel({
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const emailInputRef = useRef<HTMLInputElement | null>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!loading && !isLoggedIn) {
@@ -89,6 +90,7 @@ export default function AuthPanel({
 
             <div className="relative w-full">
               <input
+                ref={passwordInputRef}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
@@ -98,7 +100,10 @@ export default function AuthPanel({
 
               <button
                 type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
+                onClick={() => {
+                  setShowPassword((prev) => !prev);
+                  passwordInputRef.current?.focus();
+                }}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
