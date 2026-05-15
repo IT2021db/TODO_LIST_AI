@@ -2,9 +2,9 @@ import { supabase } from "./supabase";
 import {
   tasksSchema,
   Task,
-  CreateTaskInput,
   ToggleTaskInput,
   DeleteTaskInput,
+  AddTaskFormData,
 } from "../features/tasks/types";
 
 async function getCurrentUserId(): Promise<string> {
@@ -44,15 +44,14 @@ export async function fetchTasksFromSupabase(): Promise<Task[]> {
 
 export async function addTaskToSupabase({
   text,
-  category,
-}: CreateTaskInput): Promise<void> {
+}: AddTaskFormData): Promise<void> {
   const userId = await getCurrentUserId();
 
   const { error } = await supabase.from("tasks").insert({
     text,
     completed: false,
     created_at: new Date().toISOString(),
-    category,
+    category: "other",
     user_id: userId,
   });
 

@@ -11,8 +11,7 @@ export const taskCategorySchema = z.enum([
   "other",
 ]);
 
-export type TaskCategory =
-  z.infer<typeof taskCategorySchema>;
+export type TaskCategory = z.infer<typeof taskCategorySchema>;
 
 //1- ZOD SCHEMA FOR TASK
 export const taskSchema = z.object({
@@ -33,9 +32,8 @@ export type Task = z.infer<typeof taskSchema>;
 // };
 
 //2- ZOD SCHEMA FOR FORM
-export const taskFormSchema = taskSchema.pick({
-  text: true,
-  category: true,
+export const taskFormSchema = z.object({
+  text: z.string().min(1, "Task is required"),
 });
 
 export type AddTaskFormData = z.infer<typeof taskFormSchema>;

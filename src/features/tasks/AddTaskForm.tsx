@@ -13,8 +13,8 @@ import ClearInputButton from "../../components/ClearInputButton";
 import { useVoiceInput } from "../hooks/useVoiceInput";
 
 interface AddTaskFormProps {
-  onAdd: (data: AddTaskFormData) => void;
-  inputRef: MutableRefObject<HTMLInputElement | null>; // <-- forward ref from parent
+  onAdd: (data: AddTaskFormData) => Promise<void>;
+  inputRef: MutableRefObject<HTMLInputElement | null>;
 }
 
 export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
@@ -31,7 +31,6 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
     mode: "onChange",
     defaultValues: {
       text: "",
-      category: "other",
     },
   });
 
@@ -62,13 +61,12 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
   // -fix conflict ref - react-hook-form
   const { ref: registerRef, ...rest } = register("text");
 
-  const onSubmit = (data: AddTaskFormData) => {
+  const onSubmit = async (data: AddTaskFormData) => {
     console.log("FORM DATA:", data);
-    onAdd(data);
+    await onAdd(data);
 
     reset({
       text: "",
-      category: "other",
     });
     inputRef.current?.focus();
   };
@@ -120,7 +118,7 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
         </Button>
       </div>
       {/* drugi rząd: select category */}
-      <select
+      {/* <select
         {...register("category")}
         className="
       shrink-0
@@ -145,7 +143,7 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
         <option value="shopping">Shopping</option>
         <option value="garden">Garden</option>
         <option value="urgent">Urgent</option>
-      </select>
+      </select> */}
     </form>
   );
 }
