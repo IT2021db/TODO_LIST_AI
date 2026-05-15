@@ -1,18 +1,13 @@
 import { categoryBadge } from "../styles/ui";
-
-type Category = "work" | "personal" | "health" | "priority" | "other";
+import type { TaskCategory } from "../features/tasks/types";
 
 interface CategoryBadgeProps {
-  category: Category;
+  category: TaskCategory;
 }
 
 export default function CategoryBadge({ category }: CategoryBadgeProps) {
   return (
-    <div
-      className={categoryBadge({
-        category,
-      })}
-    >
+    <div className={categoryBadge({ category })}>
       {category.toLowerCase()}
     </div>
   );
