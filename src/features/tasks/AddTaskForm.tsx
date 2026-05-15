@@ -123,7 +123,7 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
       <select
         {...register("category")}
         className="
-        shrink-0
+      shrink-0
       h-12
       shrink-0
       rounded-xl
@@ -132,10 +132,11 @@ export default function AddTaskForm({ onAdd, inputRef }: AddTaskFormProps) {
       border-white/5
       px-3
       text-sm
-      text-gray-4400
+      text-gray-400
       outline-none
       cursor-pointer
-    "
+      font-bold
+      "
       >
         <option value="other">Other</option>
         <option value="work">Work</option>
