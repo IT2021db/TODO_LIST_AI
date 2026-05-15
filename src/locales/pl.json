@@ -11,5 +11,9 @@
   "taskRequired": "Wpisz treść zadania",
   "tasksFetchError": "Błąd przy pobieraniu zadań",
   "greeting": "Witam Cię, {{name}} 👋",
-  "welcome": "Witaj 👋 "
+  "welcome": "Witaj 👋 ",
+  "completed": "Ukończone",
+  "inProgress": "W trakcie",
+  "scheduled": "Zaplanowane",
+  "highPriority": "Wysoki priorytet"
 }

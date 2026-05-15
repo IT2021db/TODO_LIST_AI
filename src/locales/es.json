@@ -11,5 +11,9 @@
   "taskRequired": "Escribe una tarea",
   "tasksFetchError": "Error al obtener tareas",
   "greeting": "Hola {{name}} 👋",
-  "welcome": "Bienvenido 👋 "
+  "welcome": "Bienvenido 👋 ",
+  "completed": "Completedas",
+  "inProgress": "En progreso",
+  "scheduled": "Programadas",
+  "highPriority": "Alta prioridad"
 }
