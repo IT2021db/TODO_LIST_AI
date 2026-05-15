@@ -3,6 +3,7 @@
 import { Button } from "../../design-system/Button";
 import { useTranslation } from "react-i18next";
 import { authInput } from "../../styles/ui";
+import { useEffect, useRef } from "react";
 
 interface AuthPanelProps {
   userEmail?: string;
@@ -34,6 +35,15 @@ export default function AuthPanel({
   logout,
 }: AuthPanelProps) {
   const { t } = useTranslation();
+  const emailInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      setTimeout(() => {
+        emailInputRef.current?.focus();
+      }, 0);
+    }
+  }, [loading, isLoggedIn]);
 
   if (loading) {
     return <div className="mb-6 text-sm text-gray-500">Loading user...</div>;
@@ -67,6 +77,7 @@ export default function AuthPanel({
             }}
           >
             <input
+              ref={emailInputRef}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
