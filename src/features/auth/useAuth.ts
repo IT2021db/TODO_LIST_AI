@@ -85,6 +85,8 @@ export function useAuth() {
     if (error) {
       setAuthError(error.message);
     }
+    setEmail("");
+    setPassword("");
   };
 
   return {
