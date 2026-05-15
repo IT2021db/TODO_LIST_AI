@@ -15,7 +15,7 @@ import LoadingScreen from "../../components/app-state/LoadingScreen";
 import ErrorMessage from "../../components/app-state/ErrorMessage";
 import AuthPanel from "../auth/AuthPanel";
 import { useAuth } from "../auth/useAuth";
-import TasksStats from "./TasksStats";
+import TasksStats from "./TasksStatsPanel";
 interface TasksUIProps {
   tasks: RemoteData<Task[]>;
   onTodoAdd: (text: AddTaskFormData) => void;
