@@ -1,11 +1,12 @@
 import { supabase } from "./supabase";
-import { classifyTaskCategory } from "./clasifyTaskCategory";
+import { getTaskCategory } from "./getTaskCategory";
 import {
   tasksSchema,
   Task,
   ToggleTaskInput,
   DeleteTaskInput,
   AddTaskFormData,
+  CreateTaskInput,
 } from "../features/tasks/types";
 
 async function getCurrentUserId(): Promise<string> {
@@ -45,10 +46,10 @@ export async function fetchTasksFromSupabase(): Promise<Task[]> {
 
 export async function addTaskToSupabase({
   text,
-}: AddTaskFormData): Promise<void> {
+}: CreateTaskInput): Promise<void> {
   const userId = await getCurrentUserId();
 
-  const category = classifyTaskCategory(text); // dodano
+  const category = await getTaskCategory(text); // dodano-----------React->getTaskCategory->backend/OpenAI----!
 
   const { error } = await supabase.from("tasks").insert({
     text,
