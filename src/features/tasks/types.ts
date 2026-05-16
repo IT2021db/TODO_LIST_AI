@@ -41,7 +41,6 @@ export type AddTaskFormData = z.infer<typeof taskFormSchema>;
 //3-API DTOs
 export const createTaskSchema = taskSchema.pick({
   text: true,
-  category: true,
 });
 
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;

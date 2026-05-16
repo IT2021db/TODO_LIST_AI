@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import { classifyTaskCategory } from "./clasifyTaskCategory";
 import {
   tasksSchema,
   Task,
@@ -47,11 +48,13 @@ export async function addTaskToSupabase({
 }: AddTaskFormData): Promise<void> {
   const userId = await getCurrentUserId();
 
+  const category = classifyTaskCategory(text); // dodano
+
   const { error } = await supabase.from("tasks").insert({
     text,
     completed: false,
     created_at: new Date().toISOString(),
-    category: "other",
+    category,
     user_id: userId,
   });
 
