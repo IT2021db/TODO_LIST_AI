@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { getTaskCategory } from "./getTaskCategory";
+import { getTaskCategory } from "../features/ai/getTaskCategory";
 import {
   tasksSchema,
   Task,

@@ -1,4 +1,4 @@
-import type { TaskCategory } from "../features/tasks/types";
+import type { TaskCategory } from "../tasks/types";
 
 export function classifyTaskCategory(text: string): TaskCategory {
   const lowerText = text.toLowerCase();
