@@ -20,5 +20,15 @@
   "login": "Iniciar sesión",
   "register": "Registrarse",
   "pleaseLog": "Inicia sesión para ver y gestionar tus tareas.",
-  "loggedinSuccessfully": "Sesión iniciada correctamente"
+  "loggedinSuccessfully": "Sesión iniciada correctamente",
+
+  "categories": {
+    "work": "Trabajo",
+    "home": "Casa",
+    "health": "Salud",
+    "shopping": "Compras",
+    "garden": "Jardín",
+    "urgent": "Urgente",
+    "other": "Otros"
+  }
 }

@@ -20,5 +20,15 @@
   "login": "Zaloguj",
   "register": "Zarejestruj się",
   "pleaseLog": "Zaloguj się, aby zobaczyć i zarządzać swoimi zadaniami.",
-  "loggedinSuccessfully": "Zalogowano pomyślnie"
+  "loggedinSuccessfully": "Zalogowano pomyślnie",
+
+   "categories": {
+    "work": "Praca",
+    "home": "Dom",
+    "health": "Zdrowie",
+    "shopping": "Zakupy",
+    "garden": "Ogród",
+    "urgent": "Pilne",
+    "other": "Inne"
+  }
 }

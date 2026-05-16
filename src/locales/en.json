@@ -20,5 +20,15 @@
   "login": "Log in",
   "register": "Register",
   "pleaseLog": " Log in to see and manage your tasks.",
-  "loggedinSuccessfully": "Logged in successfully"
+  "loggedinSuccessfully": "Logged in successfully",
+
+  "categories": {
+    "work": "Work",
+    "home": "Home",
+    "health": "Health",
+    "shopping": "Shopping",
+    "garden": "Garden",
+    "urgent": "Urgent",
+    "other": "Other"
+  }
 }
