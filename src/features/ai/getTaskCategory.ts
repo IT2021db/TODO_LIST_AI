@@ -1,6 +1,8 @@
 import type { TaskCategory } from "../tasks/types";
-import { classifyTaskCategory } from "./classifyTaskCategory";
+import { mockTaskCategoryClassifier } from "./mockTaskCategoryClassifier";
+
+const classifier = mockTaskCategoryClassifier;
 
 export async function getTaskCategory(text: string): Promise<TaskCategory> {
-  return classifyTaskCategory(text);
+  return classifier.classify(text);
 }
