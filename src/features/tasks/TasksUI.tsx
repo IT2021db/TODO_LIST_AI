@@ -21,6 +21,7 @@ interface TasksUIProps {
   onTodoAdd: (text: AddTaskFormData) => void;
   onTodoToggle: TasksService["toggleTask"];
   onTodoDelete: TasksService["deleteTask"];
+  onTodoUpdateCategory: TasksService["updateTaskCategory"];
   onCompleteAll: TasksService["completeAllTasks"];
   auth: ReturnType<typeof useAuth>;
 }
@@ -30,6 +31,7 @@ export default function TasksUI({
   onTodoAdd,
   onTodoToggle,
   onTodoDelete,
+  onTodoUpdateCategory,
   onCompleteAll,
   auth,
 }: TasksUIProps) {
@@ -116,6 +118,7 @@ export default function TasksUI({
                     tasks={visibleTasks}
                     onToggle={onTodoToggle}
                     onDelete={onTodoDelete}
+                    onUpdateCategory={onTodoUpdateCategory}
                     inputRef={inputRef}
                   />
                 </Panel>

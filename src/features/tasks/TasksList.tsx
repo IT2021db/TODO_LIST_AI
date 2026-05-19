@@ -12,16 +12,18 @@ export default function TasksList({
   tasks,
   onToggle,
   onDelete,
+  onUpdateCategory,
   inputRef,
 }: TasksListProps) {
   return (
-  <ul className="space-y-2">
+    <ul className="space-y-2">
       {tasks.map((task) => (
         <TaskItem
           key={task.id}
           task={task}
           onToggle={onToggle}
           onDelete={onDelete}
+          onUpdateCategory={onUpdateCategory}
           inputRef={inputRef}
         />
       ))}

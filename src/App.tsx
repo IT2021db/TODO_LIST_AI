@@ -5,13 +5,8 @@ import { useAuth } from "./features/auth/useAuth";
 export default function App() {
   const auth = useAuth();
 
-  const {
-    tasks,
-    addTask,
-    toggleTask,
-    deleteTask,
-    completeAllTasks,
-  } = useTasksQuery(auth.user?.id);
+  const { tasks, addTask, toggleTask, deleteTask,updateTaskCategory, completeAllTasks } =
+    useTasksQuery(auth.user?.id);
 
   return (
     <TasksUI
@@ -19,6 +14,7 @@ export default function App() {
       onTodoAdd={addTask}
       onTodoToggle={toggleTask}
       onTodoDelete={deleteTask}
+      onTodoUpdateCategory={updateTaskCategory}
       onCompleteAll={completeAllTasks}
       auth={auth}
     />

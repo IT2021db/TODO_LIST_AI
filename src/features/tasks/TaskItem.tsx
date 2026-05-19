@@ -7,6 +7,7 @@ interface TaskItemProps {
   task: Task;
   onToggle: TasksService["toggleTask"];
   onDelete: TasksService["deleteTask"];
+  onUpdateCategory: TasksService["updateTaskCategory"];
   inputRef: React.RefObject<HTMLInputElement>;
 }
 
@@ -14,6 +15,7 @@ export default function TaskItem({
   task,
   onToggle,
   onDelete,
+  onUpdateCategory,
   inputRef,
 }: TaskItemProps) {
   return (
@@ -67,9 +69,16 @@ export default function TaskItem({
             {task.text}
           </div>
 
-          <div className="shrink-0">
+          <button
+            type="button"
+            className="shrink-0"
+            onClick={() => {
+              onUpdateCategory(task.id, "other");
+              inputRef.current?.focus();
+            }}
+          >
             <CategoryBadge category={task.category} />
-          </div>
+          </button>
         </div>
       </div>
 
