@@ -21,6 +21,7 @@
   "register": "Zarejestruj się",
   "pleaseLog": "Zaloguj się, aby zobaczyć i zarządzać swoimi zadaniami.",
   "loggedinSuccessfully": "Zalogowano pomyślnie",
+  "categoryAssignedAutomatically": "Kategoria przypisana automatycznie",
 
    "categories": {
     "work": "Praca",

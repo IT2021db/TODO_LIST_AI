@@ -21,6 +21,7 @@
   "register": "Register",
   "pleaseLog": " Log in to see and manage your tasks.",
   "loggedinSuccessfully": "Logged in successfully",
+  "categoryAssignedAutomatically": "Category assigned automatically",
 
   "categories": {
     "work": "Work",

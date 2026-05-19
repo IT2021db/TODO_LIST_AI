@@ -21,6 +21,7 @@
   "register": "Registrarse",
   "pleaseLog": "Inicia sesión para ver y gestionar tus tareas.",
   "loggedinSuccessfully": "Sesión iniciada correctamente",
+  "categoryAssignedAutomatically": "Categoría asignada automáticamente",
 
   "categories": {
     "work": "Trabajo",
