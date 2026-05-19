@@ -3,10 +3,10 @@ import { getTaskCategory } from "../features/ai/getTaskCategory";
 import {
   tasksSchema,
   Task,
+  CreateTaskInput,
   ToggleTaskInput,
   DeleteTaskInput,
-  AddTaskFormData,
-  CreateTaskInput,
+  UpdateTaskCategoryInput,
 } from "../features/tasks/types";
 
 async function getCurrentUserId(): Promise<string> {
@@ -70,6 +70,20 @@ export async function toggleTaskInSupabase(
   const { error } = await supabase
     .from("tasks")
     .update({ completed: data.completed })
+    .eq("id", data.id)
+    .eq("user_id", userId);
+
+  if (error) throw new Error(error.message);
+}
+
+export async function updateTaskCategoryInSupabase(
+  data: UpdateTaskCategoryInput,
+): Promise<void> {
+  const userId = await getCurrentUserId();
+
+  const { error } = await supabase
+    .from("tasks")
+    .update({ category: data.category })
     .eq("id", data.id)
     .eq("user_id", userId);
 

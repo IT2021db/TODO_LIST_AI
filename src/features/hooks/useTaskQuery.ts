@@ -5,6 +5,7 @@ import {
   fetchTasksFromSupabase,
   addTaskToSupabase,
   toggleTaskInSupabase,
+  updateTaskCategoryInSupabase,
   completeAllTasksInSupabase,
   deleteTaskFromSupabase,
 } from "../../lib/tasksApi";
@@ -31,6 +32,11 @@ export default function useTasksQuery(
 
   const toggleTaskMutation = useMutation({
     mutationFn: toggleTaskInSupabase,
+    onSuccess: invalidateTasks,
+  });
+
+  const updateTaskCategoryMutation = useMutation({
+    mutationFn: updateTaskCategoryInSupabase,
     onSuccess: invalidateTasks,
   });
 
@@ -63,6 +69,10 @@ export default function useTasksQuery(
 
     toggleTask: async (id: number, completed: boolean) => {
       await toggleTaskMutation.mutateAsync({ id, completed });
+    },
+
+    updateTaskCategory: async (id, category) => {
+      await updateTaskCategoryMutation.mutateAsync({ id, category });
     },
 
     completeAllTasks: async () => {
