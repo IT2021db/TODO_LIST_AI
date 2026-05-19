@@ -25,6 +25,7 @@
   "changeCategory": "Change category",
   "allCategories": "All categories",
   "categoryHint": "Categories are assigned automatically. You can adjust them manually.",
+  "noTasksInCategory": "No tasks in this category",
 
   "categories": {
     "work": "Work",

@@ -25,6 +25,7 @@
   "changeCategory": "Cambiar categoría",
   "allCategories": "Todas las categorías",
   "categoryHint": "Las categorías se asignan automáticamente. Puedes ajustarlas manualmente.",
+  "noTasksInCategory": "No hay tareas en esta categoría",
 
   "categories": {
     "work": "Trabajo",

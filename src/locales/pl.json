@@ -25,6 +25,7 @@
   "changeCategory": "Zmień kategorię",
   "allCategories": "Wszystkie kategorie",
   "categoryHint": "Kategorie są nadawane automatycznie. Możesz je poprawić ręcznie.",
+  "noTasksInCategory": "Brak tasków w tej kategorii",
 
    "categories": {
     "work": "Praca",

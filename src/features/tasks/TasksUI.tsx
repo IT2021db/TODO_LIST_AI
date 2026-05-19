@@ -134,13 +134,19 @@ export default function TasksUI({
                     value={categoryFilter}
                     onChange={setCategoryFilter}
                   />
-                  <TasksList
-                    tasks={categoryFilteredTasks}
-                    onToggle={onTodoToggle}
-                    onDelete={onTodoDelete}
-                    onUpdateCategory={onTodoUpdateCategory}
-                    inputRef={inputRef}
-                  />
+                  {categoryFilteredTasks.length === 0 ? (
+                    <p className="py-6 text-center text-sm text-gray-500">
+                      {t("noTasksInCategory")}
+                    </p>
+                  ) : (
+                    <TasksList
+                      tasks={categoryFilteredTasks}
+                      onToggle={onTodoToggle}
+                      onDelete={onTodoDelete}
+                      onUpdateCategory={onTodoUpdateCategory}
+                      inputRef={inputRef}
+                    />
+                  )}
                 </Panel>
                 <Panel title={t("addTask")}>
                   <AddTaskForm onAdd={onTodoAdd} inputRef={inputRef} />
