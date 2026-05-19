@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { taskCategories } from "./types";
 import type { Task, TasksService, TaskCategory } from "./types";
 import { Button } from "../../design-system/Button";
 import { taskItem } from "../../styles/ui";
@@ -11,16 +12,6 @@ interface TaskItemProps {
   onUpdateCategory: TasksService["updateTaskCategory"];
   inputRef: React.RefObject<HTMLInputElement>;
 }
-
-const taskCategories: TaskCategory[] = [
-  "work",
-  "home",
-  "health",
-  "shopping",
-  "garden",
-  "urgent",
-  "other",
-];
 
 export default function TaskItem({
   task,

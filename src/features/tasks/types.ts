@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { RemoteData } from "../../lib/remoteData";
 
-export const taskCategorySchema = z.enum([
+export const taskCategories = [
   "work",
   "home",
   "health",
@@ -9,7 +9,9 @@ export const taskCategorySchema = z.enum([
   "garden",
   "urgent",
   "other",
-]);
+] as const;
+
+export const taskCategorySchema = z.enum(taskCategories);
 
 export type TaskCategory = z.infer<typeof taskCategorySchema>;
 
@@ -63,9 +65,7 @@ export const updateTaskCategorySchema = taskSchema.pick({
   category: true,
 });
 
-export type UpdateTaskCategoryInput = z.infer<
-  typeof updateTaskCategorySchema
->;
+export type UpdateTaskCategoryInput = z.infer<typeof updateTaskCategorySchema>;
 
 //4. TYPE FOR TaskService
 export type TasksService = {

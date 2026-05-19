@@ -1,14 +1,4 @@
-import type { TaskCategory } from "../tasks/types";
-
-export const taskCategories: TaskCategory[] = [
-  "work",
-  "home",
-  "health",
-  "shopping",
-  "garden",
-  "urgent",
-  "other",
-];
+import { taskCategories } from "../tasks/types";
 
 export const taskCategoryPrompt = `
 You are a task category classifier.
