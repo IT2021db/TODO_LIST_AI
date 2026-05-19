@@ -196,8 +196,12 @@ export default function TasksUI({
                       </option>
                     </select>
                   </div>
+                  <p className="mb-3 text-xs font-bold text-gray-500">
+                    {t("categoryHint")}
+                  </p>
+
                   <TasksList
-                    tasks={categoryFilteredTasks}
+                    tasks={visibleTasks}
                     onToggle={onTodoToggle}
                     onDelete={onTodoDelete}
                     onUpdateCategory={onTodoUpdateCategory}

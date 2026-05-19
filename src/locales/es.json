@@ -24,6 +24,7 @@
   "categoryAssignedAutomatically": "Categoría asignada automáticamente",
   "changeCategory": "Cambiar categoría",
   "allCategories": "Todas las categorías",
+  "categoryHint": "Las categorías se asignan automáticamente. Puedes ajustarlas manualmente.",
 
   "categories": {
     "work": "Trabajo",

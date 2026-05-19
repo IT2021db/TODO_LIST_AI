@@ -24,6 +24,7 @@
   "categoryAssignedAutomatically": "Category assigned automatically",
   "changeCategory": "Change category",
   "allCategories": "All categories",
+  "categoryHint": "Categories are assigned automatically. You can adjust them manually.",
 
   "categories": {
     "work": "Work",
