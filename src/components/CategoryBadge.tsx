@@ -10,7 +10,10 @@ export default function CategoryBadge({ category }: CategoryBadgeProps) {
   const { t } = useTranslation();
 
   return (
-    <div className={categoryBadge({ category })}>
+    <div
+      className={categoryBadge({ category })}
+      title={t("categoryAssignedAutomatically")}
+    >
       {t(`categories.${category}`)}
     </div>
   );
