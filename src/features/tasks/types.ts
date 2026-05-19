@@ -58,11 +58,21 @@ export const deleteTaskSchema = taskSchema.pick({
 
 export type DeleteTaskInput = z.infer<typeof deleteTaskSchema>;
 
+export const updateTaskCategorySchema = taskSchema.pick({
+  id: true,
+  category: true,
+});
+
+export type UpdateTaskCategoryInput = z.infer<
+  typeof updateTaskCategorySchema
+>;
+
 //4. TYPE FOR TaskService
 export type TasksService = {
   tasks: RemoteData<Task[]>;
   addTask: (text: AddTaskFormData) => Promise<void>;
   toggleTask: (id: number, completed: boolean) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;
+  updateTaskCategory: (id: number, category: TaskCategory) => Promise<void>;
   completeAllTasks: () => Promise<void>;
 };
