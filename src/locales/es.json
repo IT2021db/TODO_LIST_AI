@@ -22,6 +22,7 @@
   "pleaseLog": "Inicia sesión para ver y gestionar tus tareas.",
   "loggedinSuccessfully": "Sesión iniciada correctamente",
   "categoryAssignedAutomatically": "Categoría asignada automáticamente",
+  "changeCategory": "Cambiar categoría",
 
   "categories": {
     "work": "Trabajo",

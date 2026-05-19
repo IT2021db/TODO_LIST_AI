@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { Task, TasksService, TaskCategory } from "./types";
 import { Button } from "../../design-system/Button";
 import { taskItem } from "../../styles/ui";
@@ -28,6 +29,7 @@ export default function TaskItem({
   onUpdateCategory,
   inputRef,
 }: TaskItemProps) {
+  const { t } = useTranslation();
   return (
     <li
       className={taskItem({
@@ -99,7 +101,7 @@ export default function TaskItem({
                 value={category}
                 className="bg-[#1A1D24] text-gray-100"
               >
-                {category}
+                {t(`categories.${category}`)}
               </option>
             ))}
           </select>

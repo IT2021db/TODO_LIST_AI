@@ -22,6 +22,7 @@
   "pleaseLog": " Log in to see and manage your tasks.",
   "loggedinSuccessfully": "Logged in successfully",
   "categoryAssignedAutomatically": "Category assigned automatically",
+  "changeCategory": "Change category",
 
   "categories": {
     "work": "Work",
