@@ -6,8 +6,10 @@ import { AddTaskFormData, Task, TasksService, TaskCategory } from "./types";
 import AddTaskForm from "./AddTaskForm";
 import TasksList from "./TasksList";
 import TasksPanelActions from "./TasksPanelActions";
+import TaskCategoryFilter from "./TaskCategoryFilter";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import TasksUILayout from "./TasksUILayout";
+import TasksStats from "./TasksStatsPanel";
 import Panel from "../../design-system/Panel";
 import PageHeader from "../../design-system/PageHeader";
 import { rd, RemoteData } from "../../lib/remoteData";
@@ -15,7 +17,7 @@ import LoadingScreen from "../../components/app-state/LoadingScreen";
 import ErrorMessage from "../../components/app-state/ErrorMessage";
 import AuthPanel from "../auth/AuthPanel";
 import { useAuth } from "../auth/useAuth";
-import TasksStats from "./TasksStatsPanel";
+
 interface TasksUIProps {
   tasks: RemoteData<Task[]>;
   onTodoAdd: (text: AddTaskFormData) => void;
@@ -125,81 +127,13 @@ export default function TasksUI({
                     />
                   }
                 >
-                  <div className="mb-3 flex justify-end">
-                    <select
-                      value={categoryFilter}
-                      onChange={(event) =>
-                        setCategoryFilter(
-                          event.target.value as TaskCategory | "all",
-                        )
-                      }
-                      className="
-      rounded-xl
-      bg-[#1A1D24]
-      border
-      border-white/10
-      px-3
-      py-2
-      text-sm
-      text-gray-100
-      outline-none
-      cursor-pointer
-    "
-                    >
-                      <option
-                        value="all"
-                        className="bg-[#1A1D24] text-gray-100"
-                      >
-                        {t("allCategories")}
-                      </option>
-                      <option
-                        value="work"
-                        className="bg-[#1A1D24] text-gray-100"
-                      >
-                        {t("categories.work")}
-                      </option>
-                      <option
-                        value="home"
-                        className="bg-[#1A1D24] text-gray-100"
-                      >
-                        {t("categories.home")}
-                      </option>
-                      <option
-                        value="health"
-                        className="bg-[#1A1D24] text-gray-100"
-                      >
-                        {t("categories.health")}
-                      </option>
-                      <option
-                        value="shopping"
-                        className="bg-[#1A1D24] text-gray-100"
-                      >
-                        {t("categories.shopping")}
-                      </option>
-                      <option
-                        value="garden"
-                        className="bg-[#1A1D24] text-gray-100"
-                      >
-                        {t("categories.garden")}
-                      </option>
-                      <option
-                        value="urgent"
-                        className="bg-[#1A1D24] text-gray-100"
-                      >
-                        {t("categories.urgent")}
-                      </option>
-                      <option
-                        value="other"
-                        className="bg-[#1A1D24] text-gray-100"
-                      >
-                        {t("categories.other")}
-                      </option>
-                    </select>
-                  </div>
                   <p className="mb-3 text-xs font-bold text-gray-500">
                     {t("categoryHint")}
                   </p>
-
+                  <TaskCategoryFilter
+                    value={categoryFilter}
+                    onChange={setCategoryFilter}
+                  />
                   <TasksList
                     tasks={categoryFilteredTasks}
                     onToggle={onTodoToggle}
