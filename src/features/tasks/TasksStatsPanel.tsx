@@ -7,6 +7,7 @@ interface TasksStatsProps {
   totalCount: number;
   completedProgress: number;
   inProgress: number;
+  urgentCount: number;
 }
 
 export default function TasksStats({
@@ -15,6 +16,7 @@ export default function TasksStats({
   totalCount,
   completedProgress,
   inProgress,
+  urgentCount,
 }: TasksStatsProps){
   const { t, i18n } = useTranslation();
 
@@ -40,7 +42,7 @@ return(
               color="purple"
             />
 
-            <StatTile label={t("highPriority")} value={0} color="red" />
+            <StatTile label={t("highPriority")} value={urgentCount} color="red" />
           </div>
 );
 }

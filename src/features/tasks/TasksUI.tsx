@@ -49,6 +49,10 @@ export default function TasksUI({
   // 🔥 drawing data if success
   const tasksData = tasks.type === "success" ? tasks.data : [];
 
+  const urgentCount = tasksData.filter(
+    (task) => task.category === "urgent",
+  ).length;
+
   const {
     hideCompleted,
     setHideCompleted,
@@ -101,6 +105,7 @@ export default function TasksUI({
                   totalCount={totalCount}
                   completedProgress={completedProgress}
                   inProgress={inProgress}
+                  urgentCount={urgentCount}
                 />
                 <Panel
                   // title={t("title")}
