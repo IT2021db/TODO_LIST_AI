@@ -1,8 +1,8 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useTasksUI } from "./useTasksUI";
 import { useTasksActions } from "./useTasksActions";
-import { AddTaskFormData, Task, TasksService } from "./types";
+import { AddTaskFormData, Task, TasksService, TaskCategory } from "./types";
 import AddTaskForm from "./AddTaskForm";
 import TasksList from "./TasksList";
 import TasksPanelActions from "./TasksPanelActions";
@@ -37,7 +37,9 @@ export default function TasksUI({
 }: TasksUIProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { t, i18n } = useTranslation();
-
+  const [categoryFilter, setCategoryFilter] = useState<TaskCategory | "all">(
+    "all",
+  );
   useEffect(() => {
     const el = inputRef.current;
     if (!el) return;
@@ -65,6 +67,11 @@ export default function TasksUI({
     completedProgress,
     totalCount,
   } = useTasksUI(tasksData);
+
+  const categoryFilteredTasks =
+    categoryFilter === "all"
+      ? visibleTasks
+      : visibleTasks.filter((task) => task.category === categoryFilter);
 
   const { toggleHideCompleted, completeAll } = useTasksActions({
     inputRef,
@@ -108,7 +115,6 @@ export default function TasksUI({
                   urgentCount={urgentCount}
                 />
                 <Panel
-                  // title={t("title")}
                   actions={
                     <TasksPanelActions
                       hideCompleted={hideCompleted}
@@ -119,8 +125,79 @@ export default function TasksUI({
                     />
                   }
                 >
+                  <div className="mb-3 flex justify-end">
+                    <select
+                      value={categoryFilter}
+                      onChange={(event) =>
+                        setCategoryFilter(
+                          event.target.value as TaskCategory | "all",
+                        )
+                      }
+                      className="
+      rounded-xl
+      bg-[#1A1D24]
+      border
+      border-white/10
+      px-3
+      py-2
+      text-sm
+      text-gray-100
+      outline-none
+      cursor-pointer
+    "
+                    >
+                      <option
+                        value="all"
+                        className="bg-[#1A1D24] text-gray-100"
+                      >
+                        {t("allCategories")}
+                      </option>
+                      <option
+                        value="work"
+                        className="bg-[#1A1D24] text-gray-100"
+                      >
+                        {t("categories.work")}
+                      </option>
+                      <option
+                        value="home"
+                        className="bg-[#1A1D24] text-gray-100"
+                      >
+                        {t("categories.home")}
+                      </option>
+                      <option
+                        value="health"
+                        className="bg-[#1A1D24] text-gray-100"
+                      >
+                        {t("categories.health")}
+                      </option>
+                      <option
+                        value="shopping"
+                        className="bg-[#1A1D24] text-gray-100"
+                      >
+                        {t("categories.shopping")}
+                      </option>
+                      <option
+                        value="garden"
+                        className="bg-[#1A1D24] text-gray-100"
+                      >
+                        {t("categories.garden")}
+                      </option>
+                      <option
+                        value="urgent"
+                        className="bg-[#1A1D24] text-gray-100"
+                      >
+                        {t("categories.urgent")}
+                      </option>
+                      <option
+                        value="other"
+                        className="bg-[#1A1D24] text-gray-100"
+                      >
+                        {t("categories.other")}
+                      </option>
+                    </select>
+                  </div>
                   <TasksList
-                    tasks={visibleTasks}
+                    tasks={categoryFilteredTasks}
                     onToggle={onTodoToggle}
                     onDelete={onTodoDelete}
                     onUpdateCategory={onTodoUpdateCategory}

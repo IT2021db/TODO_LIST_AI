@@ -23,6 +23,7 @@
   "loggedinSuccessfully": "Sesión iniciada correctamente",
   "categoryAssignedAutomatically": "Categoría asignada automáticamente",
   "changeCategory": "Cambiar categoría",
+  "allCategories": "Todas las categorías",
 
   "categories": {
     "work": "Trabajo",

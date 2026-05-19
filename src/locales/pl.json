@@ -23,6 +23,7 @@
   "loggedinSuccessfully": "Zalogowano pomyślnie",
   "categoryAssignedAutomatically": "Kategoria przypisana automatycznie",
   "changeCategory": "Zmień kategorię",
+  "allCategories": "Wszystkie kategorie",
 
    "categories": {
     "work": "Praca",

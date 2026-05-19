@@ -23,6 +23,7 @@
   "loggedinSuccessfully": "Logged in successfully",
   "categoryAssignedAutomatically": "Category assigned automatically",
   "changeCategory": "Change category",
+  "allCategories": "All categories",
 
   "categories": {
     "work": "Work",
