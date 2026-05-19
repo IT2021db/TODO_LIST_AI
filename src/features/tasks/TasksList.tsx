@@ -5,6 +5,7 @@ interface TasksListProps {
   tasks: Task[];
   onToggle: TasksService["toggleTask"];
   onDelete: TasksService["deleteTask"];
+  onUpdateCategory: TasksService["updateTaskCategory"];
   inputRef: React.RefObject<HTMLInputElement>;
 }
 

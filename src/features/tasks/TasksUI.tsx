@@ -201,7 +201,7 @@ export default function TasksUI({
                   </p>
 
                   <TasksList
-                    tasks={visibleTasks}
+                    tasks={categoryFilteredTasks}
                     onToggle={onTodoToggle}
                     onDelete={onTodoDelete}
                     onUpdateCategory={onTodoUpdateCategory}

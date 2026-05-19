@@ -1,10 +1,7 @@
-import { useTranslation } from "react-i18next";
-import { taskCategories } from "./types";
-import type { Task, TasksService, TaskCategory } from "./types";
+import type { Task, TasksService } from "./types";
 import { Button } from "../../design-system/Button";
 import { taskItem } from "../../styles/ui";
-import { categoryBadge } from "../../styles/ui";
-
+import TaskCategorySelect from "./TaskCategorySelect";
 interface TaskItemProps {
   task: Task;
   onToggle: TasksService["toggleTask"];
@@ -20,7 +17,7 @@ export default function TaskItem({
   onUpdateCategory,
   inputRef,
 }: TaskItemProps) {
-  const { t } = useTranslation();
+ 
   return (
     <li
       className={taskItem({
@@ -71,31 +68,15 @@ export default function TaskItem({
           >
             {task.text}
           </div>
-
-          <select
-            value={task.category}
-            onChange={(event) => {
-              onUpdateCategory(task.id, event.target.value as TaskCategory);
-              inputRef.current?.focus();
-            }}
-            className={`
-    ${categoryBadge({ category: task.category })}
-    border-none
-    outline-none
-    cursor-pointer
-    `}
-            title="Change category"
-          >
-            {taskCategories.map((category) => (
-              <option
-                key={category}
-                value={category}
-                className="bg-[#1A1D24] text-gray-100"
-              >
-                {t(`categories.${category}`)}
-              </option>
-            ))}
-          </select>
+          <div className="shrink-0">
+            <TaskCategorySelect
+              category={task.category}
+              onChange={(category) => {
+                onUpdateCategory(task.id, category);
+                inputRef.current?.focus();
+              }}
+            />
+          </div>
         </div>
       </div>
 
