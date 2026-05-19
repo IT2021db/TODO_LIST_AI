@@ -1,7 +1,7 @@
-import type { Task, TasksService } from "./types";
+import type { Task, TasksService, TaskCategory } from "./types";
 import { Button } from "../../design-system/Button";
 import { taskItem } from "../../styles/ui";
-import CategoryBadge from "../../components/CategoryBadge";
+import { categoryBadge } from "../../styles/ui";
 
 interface TaskItemProps {
   task: Task;
@@ -10,6 +10,16 @@ interface TaskItemProps {
   onUpdateCategory: TasksService["updateTaskCategory"];
   inputRef: React.RefObject<HTMLInputElement>;
 }
+
+const taskCategories: TaskCategory[] = [
+  "work",
+  "home",
+  "health",
+  "shopping",
+  "garden",
+  "urgent",
+  "other",
+];
 
 export default function TaskItem({
   task,
@@ -69,16 +79,30 @@ export default function TaskItem({
             {task.text}
           </div>
 
-          <button
-            type="button"
-            className="shrink-0"
-            onClick={() => {
-              onUpdateCategory(task.id, "other");
+          <select
+            value={task.category}
+            onChange={(event) => {
+              onUpdateCategory(task.id, event.target.value as TaskCategory);
               inputRef.current?.focus();
             }}
+            className={`
+    ${categoryBadge({ category: task.category })}
+    border-none
+    outline-none
+    cursor-pointer
+    `}
+            title="Change category"
           >
-            <CategoryBadge category={task.category} />
-          </button>
+            {taskCategories.map((category) => (
+              <option
+                key={category}
+                value={category}
+                className="bg-[#1A1D24] text-gray-100"
+              >
+                {category}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
