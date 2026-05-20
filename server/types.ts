@@ -9,3 +9,7 @@ export const taskCategories = [
 ] as const;
 
 export type TaskCategory = (typeof taskCategories)[number];
+
+export type TaskCategoryClassifier = {
+  classify: (text: string) => Promise<TaskCategory>;
+};

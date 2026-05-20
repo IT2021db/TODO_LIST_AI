@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { classifyTaskCategory } from "./classifyTaskCategory";
+import { mockTaskCategoryClassifier } from "./mockTaskCategoryClassifier";
 import {
   classifyTaskCategoryRequestSchema,
   classifyTaskCategoryResponseSchema,
@@ -18,7 +18,7 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.post("/api/classify-task-category", (req, res) => {
+app.post("/api/classify-task-category",async(req, res) => {
   const requestResult = classifyTaskCategoryRequestSchema.safeParse(req.body);
 
   if (!requestResult.success) {
@@ -27,7 +27,9 @@ app.post("/api/classify-task-category", (req, res) => {
     });
   }
 
-  const category = classifyTaskCategory(requestResult.data.text);
+ const category = await mockTaskCategoryClassifier.classify(
+  requestResult.data.text,
+);
 
   const responseResult = classifyTaskCategoryResponseSchema.safeParse({
     category,
