@@ -1,15 +1,4 @@
-const taskCategories = [
-  "work",
-  "home",
-  "health",
-  "shopping",
-  "garden",
-  "urgent",
-  "other",
-] as const;
-
-export type TaskCategory = (typeof taskCategories)[number];
-
+import type { TaskCategory } from "./types";
 export function classifyTaskCategory(text: string): TaskCategory {
   const lowerText = text.toLowerCase();
 
