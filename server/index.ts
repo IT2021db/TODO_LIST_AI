@@ -1,6 +1,10 @@
 import express from "express";
 import cors from "cors";
 import { classifyTaskCategory } from "./classifyTaskCategory";
+import {
+  classifyTaskCategoryRequestSchema,
+  classifyTaskCategoryResponseSchema,
+} from "./schemas";
 
 const app = express();
 const PORT = 3001;
@@ -15,21 +19,27 @@ app.get("/", (_req, res) => {
 });
 
 app.post("/api/classify-task-category", (req, res) => {
-  const { text } = req.body;
+  const requestResult = classifyTaskCategoryRequestSchema.safeParse(req.body);
 
-  if (typeof text !== "string" || text.trim().length === 0) {
+  if (!requestResult.success) {
     return res.status(400).json({
-      error: "Text is required",
+      error: "Invalid request body",
     });
   }
 
-  const category = classifyTaskCategory(text);
+  const category = classifyTaskCategory(requestResult.data.text);
 
-   console.log("BACKEND CATEGORY:", category);
-
-  return res.json({
+  const responseResult = classifyTaskCategoryResponseSchema.safeParse({
     category,
   });
+
+  if (!responseResult.success) {
+    return res.status(500).json({
+      error: "Invalid category response",
+    });
+  }
+
+  return res.json(responseResult.data);
 });
 
 app.listen(PORT, () => {
