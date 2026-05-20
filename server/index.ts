@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { mockTaskCategoryClassifier } from "./mockTaskCategoryClassifier";
+import { getTaskCategory } from "./getTaskCategory";
 import {
   classifyTaskCategoryRequestSchema,
   classifyTaskCategoryResponseSchema,
@@ -27,9 +27,7 @@ app.post("/api/classify-task-category",async(req, res) => {
     });
   }
 
- const category = await mockTaskCategoryClassifier.classify(
-  requestResult.data.text,
-);
+const category = await getTaskCategory(requestResult.data.text);
 
   const responseResult = classifyTaskCategoryResponseSchema.safeParse({
     category,
