@@ -7,6 +7,8 @@ import { apiTaskCategoryClassifier } from "./apiTasksCategoryClassifier";
 const classifier =
   aiProvider === "api" ? apiTaskCategoryClassifier : mockTaskCategoryClassifier;
 
+  console.log("AI PROVIDER:", aiProvider);
+
 export async function getTaskCategory(text: string): Promise<TaskCategory> {
   try {
     const category = await classifier.classify(text);

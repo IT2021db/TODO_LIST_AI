@@ -3,7 +3,9 @@ import { classifyTaskCategoryResponseSchema } from "./schemas";
 
 export const apiTaskCategoryClassifier: TaskCategoryClassifier = {
   classify: async (text) => {
-    const response = await fetch("/api/classify-task-category", {
+    console.log("CALLING BACKEND API WITH:", text);
+
+    const response = await fetch("http://localhost:3001/api/classify-task-category", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
