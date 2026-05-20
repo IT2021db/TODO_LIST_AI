@@ -2,21 +2,24 @@ import type { TaskCategory } from "../tasks/types";
 import { taskCategorySchema } from "../tasks/types";
 import { aiProvider } from "./config";
 import { mockTaskCategoryClassifier } from "./mockTaskCategoryClassifier";
-import { openAITaskCategoryClassifier } from "./openAITaskCategoryClassifier";
+import { apiTaskCategoryClassifier } from "./apiTasksCategoryClassifier";
 
 const classifier =
-  aiProvider === "openai"
-    ? openAITaskCategoryClassifier
-    : mockTaskCategoryClassifier;
+  aiProvider === "api" ? apiTaskCategoryClassifier : mockTaskCategoryClassifier;
 
 export async function getTaskCategory(text: string): Promise<TaskCategory> {
-  const category = await classifier.classify(text);
+  try {
+    const category = await classifier.classify(text);
 
-  const result = taskCategorySchema.safeParse(category);
+    const result = taskCategorySchema.safeParse(category);
 
-  if (!result.success) {
+    if (!result.success) {
+      return "other";
+    }
+
+    return result.data;
+  } catch (error) {
+    console.error("Task category classification failed:", error);
     return "other";
   }
-
-  return result.data;
 }

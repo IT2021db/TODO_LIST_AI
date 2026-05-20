@@ -1,4 +1,4 @@
-export type AIProvider = "mock" | "openai";
+export type AIProvider = "mock" | "api";
 
 export const aiProvider: AIProvider =
-  import.meta.env.VITE_AI_PROVIDER === "openai" ? "openai" : "mock";
+  import.meta.env.VITE_AI_PROVIDER === "api" ? "api" : "mock";
