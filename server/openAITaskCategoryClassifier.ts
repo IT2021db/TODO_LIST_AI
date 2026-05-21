@@ -32,6 +32,8 @@ export const openAITaskCategoryClassifier: TaskCategoryClassifier = {
 
     const category = response.choices[0]?.message?.content?.trim();
 
+    console.log("RAW OPENAI CATEGORY:", category);
+
     const result = taskCategorySchema.safeParse(category);
 
     if (!result.success) {

@@ -9,8 +9,13 @@ const classifier =
     ? openAITaskCategoryClassifier
     : mockTaskCategoryClassifier;
 
+console.log("SERVER AI PROVIDER:", serverAIProvider);
+
 export async function getTaskCategory(text: string): Promise<TaskCategory> {
   try {
+    console.log("SERVER AI PROVIDER:", serverAIProvider);
+    console.log("TEXT TO CLASSIFY:", text);
+
     const category = await classifier.classify(text);
 
     const result = taskCategorySchema.safeParse(category);
